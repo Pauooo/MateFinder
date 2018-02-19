@@ -1,19 +1,27 @@
 /*
  * Initial State
  */
-const initialState = {};
+const initialState = {
+  view: 'login',
+};
 
 
-const SOMETHING_DO = 'SOMETHING_DO';
-
+const CHANGE_VIEW = 'CHANGE_VIEW';
+const INPUT_CHANGE = 'INPUT_CHANGE';
 /*
  * Reducer
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case SOMETHING_DO:
+    case 'CHANGE_VIEW':
       return {
         ...state,
+        view: action.view,
+      };
+    case INPUT_CHANGE:
+      return {
+        ...state,
+        [action.name]: action.value,
       };
 
     default:
@@ -24,6 +32,13 @@ export default (state = initialState, action = {}) => {
 /*
  * Action creators
  */
-export const doSomething = () => ({
-  type: SOMETHING_DO,
+export const changeView = view => ({
+  type: CHANGE_VIEW,
+  view,
+});
+
+export const changeInput = ({ name, value }) => ({
+  type: INPUT_CHANGE,
+  value,
+  name,
 });

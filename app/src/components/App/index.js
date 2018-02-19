@@ -6,15 +6,16 @@ import React from 'react';
 /**
  * Local import
  */
-import Example from 'src/containers/Example';
 
+import Login from 'src/components/Login';
+import SignUp from 'src/components/SignUp';
 /**
  * Code
  */
 const App = () => (
   <div id="app">
-    <p>Hello World !</p>
-    <Example />
+    <Login />
+    <SignUp />
   </div>
 );
 

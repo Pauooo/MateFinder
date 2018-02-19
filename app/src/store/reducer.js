@@ -5,10 +5,13 @@ const initialState = {
   team: false,
   teamCount: 2,
   selectsMatching: {
-    game: 'test',
-    lang: 'test',
-    format: 'test',
+    game: 'CS:GO',
+    lang: 'Français',
+    format: '2 vs 2',
   },
+  gameList: ['CS:GO', 'Battlerite', 'Brawlhalla', 'Monster hunter: World'],
+  langList: ['Français', 'English'],
+  formatList: ['2 vs 2', '5 vs 5'],
 };
 
 

@@ -19,9 +19,12 @@ import { changeMatchingSelect, changeTeamStatus, changeTeamCount } from 'src/sto
 // Si je ne veux pas renvoyer de props
 // `const mapStateToProps = null;`
 const mapStateToProps = state => ({
-  game: state.selectsMatching.game,
-  lang: state.selectsMatching.lang,
-  format: state.selectsMatching.format,
+  gameSelected: state.selectsMatching.game,
+  langSelected: state.selectsMatching.lang,
+  formatSelected: state.selectsMatching.format,
+  gameList: state.gameList,
+  langList: state.langList,
+  formatList: state.formatList,
   team: state.team,
   teamCount: state.teamCount,
 });

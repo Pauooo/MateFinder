@@ -15,9 +15,12 @@ import classNames from 'classnames';
 class Matching extends React.Component {
   static propTypes = {
     team: PropTypes.bool.isRequired,
-    game: PropTypes.string.isRequired,
-    lang: PropTypes.string.isRequired,
-    format: PropTypes.string.isRequired,
+    gameSelected: PropTypes.string.isRequired,
+    langSelected: PropTypes.string.isRequired,
+    formatSelected: PropTypes.string.isRequired,
+    gameList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    langList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    formatList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     teamCount: PropTypes.number.isRequired,
     changeMatchingSelect: PropTypes.func.isRequired,
     changeTeamStatus: PropTypes.func.isRequired,
@@ -40,7 +43,7 @@ class Matching extends React.Component {
 
   render() {
     const {
-      team, game, lang, format, changeTeamStatus, teamCount,
+      team, gameSelected, langSelected, formatSelected, changeTeamStatus, teamCount, gameList, langList, formatList,
     } = this.props;
     return (
       <form id="matchingform" onSubmit={this.handleSubmit}>
@@ -72,11 +75,8 @@ class Matching extends React.Component {
         <label htmlFor="game">
           <p className="label">Jeu :</p>
           <div className="test">
-            <select id="game" value={game} onChange={this.handleChange}>
-              <option value="test">test</option>
-              <option value="test2">test2</option>
-              <option value="test3">test3</option>
-              <option value="test4">test4</option>
+            <select id="game" value={gameSelected} onChange={this.handleChange}>
+              {gameList.map(game => <option value={game}>{game}</option>)}
             </select>
           </div>
         </label>
@@ -84,11 +84,8 @@ class Matching extends React.Component {
         <label htmlFor="lang">
           <p className="label">Langue :</p>
           <div className="test">
-            <select id="lang" value={lang} onChange={this.handleChange}>
-              <option value="test">test</option>
-              <option value="test2">test2</option>
-              <option value="test3">test3</option>
-              <option value="test4">test4</option>
+            <select id="lang" value={langSelected} onChange={this.handleChange}>
+              {langList.map(lang => <option value={lang}>{lang}</option>)}
             </select>
           </div>
         </label>
@@ -96,11 +93,8 @@ class Matching extends React.Component {
         <label htmlFor="format">
           <p className="label">Format :</p>
           <div className="test">
-            <select id="format" value={format} onChange={this.handleChange}>
-              <option value="test">test</option>
-              <option value="test2">test2</option>
-              <option value="test3">test3</option>
-              <option value="test4">test4</option>
+            <select id="format" value={formatSelected} onChange={this.handleChange}>
+              {formatList.map(format => <option value={format}>{format}</option>)}
             </select>
           </div>
         </label>

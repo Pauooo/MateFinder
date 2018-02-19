@@ -6,7 +6,7 @@ import React from 'react';
 /**
  * Local import
  */
-import Matching from 'src/components/Matching';
+import Matching from 'src/containers/Matching';
 
 /**
  * Code

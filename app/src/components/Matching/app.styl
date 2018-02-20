@@ -1,36 +1,66 @@
+$yellow = rgb(233, 203, 2)
+$bg-color = rgb(61, 82, 135)
+
 #matchingform
-	margin-top: 5em
+	width: 50%
+	margin: 5em auto
 	display: flex
 	flex-direction: column
 	align-items: center
+	padding: 1em
+	background-color: rgb(61, 82, 135)
+	color: white
+	font-size: 2em
 
 	label
-		display: inherit
-		margin-bottom: .2em
+		display: flex
+		justify-content: center
+		width: 100%
 
 	.test
+		width: 30%
 		margin-left: 1em
+		margin-bottom: 1em
 
 		select
-			width: 10rem
+			width: 100%
+			height: 1.5em
 			text-align: center
 			text-align-last: center
+			border: 0
+			color: $bg-color
+			border: .15em solid $yellow
+			border-radius: 1em
+			-webkit-appearance: none
+			-moz-appearance: none
+			text-indent: 1px
+			text-overflow: ""
+			font-size: .6em
+
+			&::-ms-expand
+				display: none
 
 	.label
 		text-align: right
-		width: 5em
+		width: 30%
 
 	#labelswitch
-		display: flex
-		align-items: center
-		justify-content: space-between
+		width: 40%
+		margin-bottom: 1em
 
 		.switch
-			margin-left: 1em
-			width: 10rem
+			margin: auto
 
 		#team
-			margin-left: .5em
+			margin-left: .2em
 
 		.nochoice
 			opacity: .3
+
+	button
+		width: 30%
+		font-size: 1em
+		background-color: $yellow
+		color: $bg-color
+		border: 0
+		border-radius: 1em

@@ -1,7 +1,13 @@
+$yellow = rgb(233, 203, 2)
+$bg-color = rgb(61, 82, 135)
+
 .switch
 	display: flex
 	justify-content: space-between
 	align-items: center
+	margin-bottom: 1em
+	color: $yellow
+	font-weight: bold
 
 	// #team
 	// 	margin-left: .5em
@@ -14,30 +20,28 @@
 	label
 		cursor: pointer
 		text-indent: -9999px
-		width: 2.5em
-		height: 1.5em
-		background: grey
+		width: 3.5em
+		height: .6em
+		background: white
 		display: block
 		border-radius: 100px
 		position: relative
 
-	label:after
+	label:before
 		content: ""
 		position: absolute
-		top: .3em
-		left: .3em
-		width: .9em
-		height: .9em
-		background: #fff
+		top: -.30em
+		left: .15em
+		width: 1.2em
+		height: 1.2em
+		background: $bg-color
 		border-radius: 90px
 		transition: 0.3s
+		border: .2em solid $yellow
 
-	input:checked + label
-		background: #bada55
-
-	input:checked + label:after
+	input:checked + label:before
 		left: calc(100% - 5px)
 		transform: translateX(-100%)
 
-	label:active:after
+	label:active:before
 		width: 1.5em

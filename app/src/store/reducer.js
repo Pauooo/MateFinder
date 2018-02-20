@@ -9,9 +9,29 @@ const initialState = {
     lang: 'Français',
     format: '2 vs 2',
   },
-  gameList: ['CS:GO', 'Battlerite', 'Brawlhalla', 'Monster hunter: World'],
+  gameList: [
+    {
+      name: 'CS:GO',
+      playerMax: 5,
+      formats: ['2 vs 2', '5 vs 5'],
+    },
+    {
+      name: 'Battlerite',
+      playerMax: 3,
+      formats: ['2 vs 2', '3 vs 3'],
+    },
+    {
+      name: 'League of Legends',
+      playerMax: 5,
+      formats: ['5 vs 5'],
+    },
+    {
+      name: 'DOTA 2',
+      playerMax: 5,
+      formats: ['5 vs 5'],
+    },
+  ],
   langList: ['Français', 'English'],
-  formatList: ['2 vs 2', '5 vs 5'],
 };
 
 

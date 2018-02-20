@@ -18,9 +18,8 @@ class Matching extends React.Component {
     gameSelected: PropTypes.string.isRequired,
     langSelected: PropTypes.string.isRequired,
     formatSelected: PropTypes.string.isRequired,
-    gameList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    gameList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     langList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-    formatList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     teamCount: PropTypes.number.isRequired,
     changeMatchingSelect: PropTypes.func.isRequired,
     changeTeamStatus: PropTypes.func.isRequired,
@@ -43,46 +42,47 @@ class Matching extends React.Component {
 
   render() {
     const {
-      team, gameSelected, langSelected, formatSelected, changeTeamStatus, teamCount, gameList, langList, formatList,
+      team, gameSelected, langSelected, formatSelected, changeTeamStatus, teamCount, gameList, langList,
     } = this.props;
+    const { formats, playerMax } = gameList.filter(game => game.name === gameSelected)[0];
+    const GameTeamCount = [];
+    for (let i = 2; i < playerMax; i++) {
+      GameTeamCount.push(<option value={i}>{i} joueurs</option>);
+    }
     return (
       <form id="matchingform" onSubmit={this.handleSubmit}>
 
         <div id="labelswitch">
-          <p className="label">Tu es :</p>
           <div className="switch">
-            <span className={classNames({ nochoice: team })}>Seul</span>
+            <span className={classNames({ nochoice: team })}>SOLO</span>
             <input type="checkbox" id="switch" defaultChecked={team} onChange={changeTeamStatus} />
-            <label htmlFor="switch">Toggle</label>
-            <span className={classNames({ nochoice: !team })} id="team">En équipe</span>
+            <label htmlFor="switch" />
+            <span className={classNames({ nochoice: !team })} id="team">TEAM</span>
           </div>
         </div>
 
         {(team &&
           <label htmlFor="game">
-            <p className="label">Vous êtes :</p>
+            <p className="label">Nous sommes</p>
             <div className="test">
               <select id="game" value={teamCount} onChange={this.handleTeamCountChange}>
-                <option value="2">2 joueurs</option>
-                <option value="3">3 joueurs</option>
-                <option value="4">4 joueurs</option>
-                <option value="5">5 joueurs</option>
+                {GameTeamCount}
               </select>
             </div>
           </label>
         )}
 
         <label htmlFor="game">
-          <p className="label">Jeu :</p>
+          <p className="label">{(team && 'Nous jouons à')}{(!team && 'Je veux jouer à')}</p>
           <div className="test">
             <select id="game" value={gameSelected} onChange={this.handleChange}>
-              {gameList.map(game => <option value={game}>{game}</option>)}
+              {gameList.map(game => <option value={game.name}>{game.name}</option>)}
             </select>
           </div>
         </label>
 
         <label htmlFor="lang">
-          <p className="label">Langue :</p>
+          <p className="label">En</p>
           <div className="test">
             <select id="lang" value={langSelected} onChange={this.handleChange}>
               {langList.map(lang => <option value={lang}>{lang}</option>)}
@@ -91,15 +91,15 @@ class Matching extends React.Component {
         </label>
 
         <label htmlFor="format">
-          <p className="label">Format :</p>
+          <p className="label">Dans ce format</p>
           <div className="test">
             <select id="format" value={formatSelected} onChange={this.handleChange}>
-              {formatList.map(format => <option value={format}>{format}</option>)}
+              {formats.map(format => <option value={format}>{format}</option>)}
             </select>
           </div>
         </label>
 
-        <button>Valider</button>
+        <button>BOOM! <i className="fas fa-bomb" /></button>
       </form>
     );
   }

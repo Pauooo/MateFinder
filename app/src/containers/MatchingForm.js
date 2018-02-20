@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 /**
  * Local import
  */
-import Matching from 'src/components/Matching';
+import Matching from 'src/components/MatchingForm';
 
 // Action creators
-import { changeMatchingSelect, changeTeamStatus, changeTeamCount } from 'src/store/reducer';
+import { changeMatchingSelect, changeTeamStatus, changeTeamCount, startMatch } from 'src/store/reducer';
 
 /**
  * Code
@@ -27,6 +27,7 @@ const mapStateToProps = state => ({
   formatList: state.formatList,
   team: state.team,
   teamCount: state.teamCount,
+  matchingLoading: state.matchingLoading,
 });
 
 // Actions
@@ -42,6 +43,9 @@ const mapDispatchToProps = dispatch => ({
   },
   changeTeamCount: (value) => {
     dispatch(changeTeamCount(value));
+  },
+  startMatch: () => {
+    dispatch(startMatch());
   },
 });
 

@@ -2,18 +2,23 @@
  * Npm import
  */
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 /**
  * Local import
  */
-import Matching from 'src/containers/Matching';
+import MatchingForm from 'src/containers/MatchingForm';
 
 /**
  * Code
  */
 const App = () => (
   <div id="app">
-    <Matching />
+    <Route
+      path="/"
+      exact
+      component={MatchingForm}
+    />
   </div>
 );
 

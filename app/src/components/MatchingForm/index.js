@@ -17,19 +17,23 @@ class Matching extends React.Component {
     team: PropTypes.bool.isRequired,
     gameSelected: PropTypes.string.isRequired,
     langSelected: PropTypes.string.isRequired,
-    formatSelected: PropTypes.string.isRequired,
+    formatSelected: PropTypes.number.isRequired,
     gameList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     langList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     teamCount: PropTypes.number.isRequired,
     changeMatchingSelect: PropTypes.func.isRequired,
     changeTeamStatus: PropTypes.func.isRequired,
     changeTeamCount: PropTypes.func.isRequired,
+    startMatch: PropTypes.func.isRequired,
+    matchingLoading: PropTypes.bool.isRequired,
   }
 
   state = {}
 
   handleSubmit = (evt) => {
     evt.preventDefault();
+    this.props.startMatch();
+    console.log('Submit du match');
   }
 
   handleChange = (evt) => {
@@ -42,12 +46,46 @@ class Matching extends React.Component {
 
   render() {
     const {
-      team, gameSelected, langSelected, formatSelected, changeTeamStatus, teamCount, gameList, langList,
+      team,
+      gameSelected,
+      langSelected,
+      formatSelected,
+      changeTeamStatus,
+      teamCount,
+      gameList,
+      langList,
+      matchingLoading,
     } = this.props;
     const { formats, playerMax } = gameList.filter(game => game.name === gameSelected)[0];
     const GameTeamCount = [];
-    for (let i = 2; i < playerMax; i++) {
-      GameTeamCount.push(<option value={i}>{i} joueurs</option>);
+    for (let i = 2; i < playerMax; i += 1) {
+      GameTeamCount.push(<option key={i} value={i}>{i} joueurs</option>);
+    }
+    if (matchingLoading) {
+      return (
+        <div id="matchingloading" >
+          <div className="cssload-bell">
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+          </div>
+          <div className="typewriter">
+            <h1>Recherche en cours</h1>
+          </div>
+        </div>
+      );
     }
     return (
       <form id="matchingform" onSubmit={this.handleSubmit}>
@@ -76,7 +114,7 @@ class Matching extends React.Component {
           <p className="label">{(team && 'Nous jouons à')}{(!team && 'Je veux jouer à')}</p>
           <div className="test">
             <select id="game" value={gameSelected} onChange={this.handleChange}>
-              {gameList.map(game => <option value={game.name}>{game.name}</option>)}
+              {gameList.map(game => <option key={game.name} value={game.name}>{game.name}</option>)}
             </select>
           </div>
         </label>
@@ -85,7 +123,7 @@ class Matching extends React.Component {
           <p className="label">En</p>
           <div className="test">
             <select id="lang" value={langSelected} onChange={this.handleChange}>
-              {langList.map(lang => <option value={lang}>{lang}</option>)}
+              {langList.map(lang => <option key={lang} value={lang}>{lang}</option>)}
             </select>
           </div>
         </label>
@@ -94,12 +132,15 @@ class Matching extends React.Component {
           <p className="label">Dans ce format</p>
           <div className="test">
             <select id="format" value={formatSelected} onChange={this.handleChange}>
-              {formats.map(format => <option value={format}>{format}</option>)}
+              {formats.map((format, index) => <option key={index} value={format.value}>{format.name}</option>)}
             </select>
           </div>
         </label>
 
-        <button>BOOM! <i className="fas fa-bomb" /></button>
+        <button>
+          BOOM!
+          <i className="fas fa-bomb" />
+        </button>
       </form>
     );
   }

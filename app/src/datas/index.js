@@ -1,13 +1,13 @@
 export default {
   login: {
     title: 'Connexion',
-    desc: 'Renseignez votre adresse e-mail et votre mot de passe pour accéder à votre compte',
+    desc: 'Renseignez votre nom d\'utilisateur et votre mot de passe pour accéder à votre compte',
     link: 'Mot de passe oublié ?',
     fields: [
       {
         type: 'text',
         name: 'username',
-        placeholder: 'Pseudo',
+        placeholder: 'Nom d\'utilisateur',
       },
       {
         type: 'password',

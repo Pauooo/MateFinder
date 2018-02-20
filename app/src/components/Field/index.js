@@ -64,6 +64,7 @@ handleChange = (evt) => {
  */
 render() {
   const { error } = this.state;
+
   const {
     name, placeholder, value, type,
   } = this.props;

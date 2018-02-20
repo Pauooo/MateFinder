@@ -8,14 +8,13 @@ import React from 'react';
  */
 
 import Login from 'src/components/Login';
-import SignUp from 'src/components/SignUp';
+// import SignUp from 'src/components/SignUp';
 /**
  * Code
  */
 const App = () => (
   <div id="app">
     <Login />
-    <SignUp />
   </div>
 );
 

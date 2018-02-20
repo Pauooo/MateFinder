@@ -89,12 +89,6 @@ render() {
         value={value}
         onChange={this.handleChange}
       />
-      {/* <label
-        className="field-label"
-        htmlFor={id}
-      >
-        {placeholder}
-      </label> */}
     </div>
   );
 }

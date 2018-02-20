@@ -7,7 +7,7 @@ export default {
       {
         type: 'text',
         name: 'username',
-        placeholder: 'Nom d\'utilisateur',
+        placeholder: 'Pseudo',
       },
       {
         type: 'password',

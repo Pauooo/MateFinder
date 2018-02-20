@@ -11,7 +11,7 @@ import data from 'src/datas';
 /**
  * Code
  */
-class Login extends React.Component {
+class Password extends React.Component {
   handleSubmit = (evt) => {
     evt.preventDefault();
   }
@@ -19,17 +19,17 @@ class Login extends React.Component {
   render() {
     return (
       <div id="login">
-        <Headline data={data.login} />
+        <Headline data={data.password} />
         <form className="form" onSubmit={this.handleSubmit}>
-          {data.login.fields.map(field => <Field key={field.name} {...field} />)}
+          {data.password.fields.map(field => <Field key={field.name} {...field} />)}
           <button
-            id="login-submit"
-            className={data.login.submit.className}
+            id="password-submit"
+            className={data.password.submit.className}
           >
-            {data.login.submit.label}
+            {data.password.submit.label}
           </button>
         </form>
-        <a>J'ai oublié mon mot de passe</a>
+        <a>Annuler</a>
       </div>
     );
   }
@@ -38,4 +38,4 @@ class Login extends React.Component {
 /**
  * Export
  */
-export default Login;
+export default Password;

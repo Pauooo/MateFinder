@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
  */
 const Headline = ({ data }) => (
   <div id="headline">
-    <h1 id="headline-title">{data.title}</h1>
+    <h2 id="headline-title">{data.title}</h2>
     <div id="headline-desc">{data.desc}</div>
   </div>
 );

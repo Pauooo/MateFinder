@@ -61,6 +61,9 @@ const initialState = {
   ],
   langList: ['Français', 'English'],
   matchingLoading: false,
+  matchingFound: false,
+  matchingAccepted: false,
+  numberOfAcceptedUsers: 0,
 };
 
 
@@ -70,7 +73,10 @@ const SOMETHING_DO = 'SOMETHING_DO';
 const SELECT_MATCHING_CHANGE = 'SELECT_MATCHING_CHANGE';
 const TEAM_STATUS_CHANGE = 'TEAM_STATUS_CHANGE';
 const TEAM_COUNT_CHANGE = 'TEAM_COUNT_CHANGE';
-const MATCHING_STATUS_CHANGE = 'MATCHING_STATUS_CHANGE';
+const MATCHING_LOADING_STATUS_CHANGE = 'MATCHING_LOADING_STATUS_CHANGE';
+const MATCHING_FOUND_STATUS_CHANGE = 'MATCHING_FOUND_STATUS_CHANGE';
+const MATCHING_ACCEPTED_STATUS_CHANGE = 'MATCHING_ACCEPTED_STATUS_CHANGE';
+const NUMBER_ACCEPTED_USER_UPDATE = 'NUMBER_ACCEPTED_USER_UPDATE';
 
 // Socket
 export const MATCH_START = 'MATCH_START';
@@ -103,10 +109,25 @@ export default (state = initialState, action = {}) => {
         ...state,
         teamCount: parseInt(action.value, 0),
       };
-    case MATCHING_STATUS_CHANGE:
+    case MATCHING_LOADING_STATUS_CHANGE:
       return {
         ...state,
         matchingLoading: !state.matchingLoading,
+      };
+    case MATCHING_FOUND_STATUS_CHANGE:
+      return {
+        ...state,
+        matchingFound: !state.matchingFound,
+      };
+    case MATCHING_ACCEPTED_STATUS_CHANGE:
+      return {
+        ...state,
+        matchingAccepted: !state.matchingAccepted,
+      };
+    case NUMBER_ACCEPTED_USER_UPDATE:
+      return {
+        ...state,
+        numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
     default:
       return state;
@@ -135,10 +156,22 @@ export const changeTeamCount = value => ({
   value,
 });
 
-export const changeMatchingStatus = () => ({
-  type: MATCHING_STATUS_CHANGE,
+export const changeMatchingLoadingStatus = () => ({
+  type: MATCHING_LOADING_STATUS_CHANGE,
 });
 
+export const changeMatchingFoundStatus = () => ({
+  type: MATCHING_FOUND_STATUS_CHANGE,
+});
+
+export const changeMatchingAcceptedStatus = () => ({
+  type: MATCHING_ACCEPTED_STATUS_CHANGE,
+});
+
+export const updateNumberOfAcceptedUsers = number => ({
+  type: NUMBER_ACCEPTED_USER_UPDATE,
+  number,
+});
 
 // Action Creators Socket
 export const sendMessage = () => ({

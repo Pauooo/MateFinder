@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Redirect } from 'react-router';
 
 /**
  * Local import
@@ -63,28 +64,7 @@ class Matching extends React.Component {
     }
     if (matchingLoading) {
       return (
-        <div id="matchingloading" >
-          <div className="cssload-bell">
-            <div className="cssload-circle">
-              <div className="cssload-inner" />
-            </div>
-            <div className="cssload-circle">
-              <div className="cssload-inner" />
-            </div>
-            <div className="cssload-circle">
-              <div className="cssload-inner" />
-            </div>
-            <div className="cssload-circle">
-              <div className="cssload-inner" />
-            </div>
-            <div className="cssload-circle">
-              <div className="cssload-inner" />
-            </div>
-          </div>
-          <div className="typewriter">
-            <h1>Recherche en cours</h1>
-          </div>
-        </div>
+        <Redirect to="/loading" />
       );
     }
     return (

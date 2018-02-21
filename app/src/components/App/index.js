@@ -8,6 +8,7 @@ import { Route } from 'react-router-dom';
  * Local import
  */
 import MatchingForm from 'src/containers/MatchingForm';
+import MatchingSearch from 'src/containers/MatchingSearch';
 
 /**
  * Code
@@ -19,6 +20,16 @@ const App = () => (
       exact
       component={MatchingForm}
     />
+    <Route
+      path="/loading"
+      exact
+      component={MatchingSearch}
+    />
+    {/* <Route
+      path="/loading"
+      exact
+      component={MatchingSearch}
+    /> */}
   </div>
 );
 

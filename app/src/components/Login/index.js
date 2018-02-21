@@ -31,10 +31,15 @@ class Login extends React.Component {
           </button>
         </form>
         <Link
+          id="password-link"
           to="/password"
-          exact
         >
           J'ai oublié mon mot de passe
+        </Link>
+        <Link
+          to="/"
+        >
+         Annuler
         </Link>
       </div>
     );

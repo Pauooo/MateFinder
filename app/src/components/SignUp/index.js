@@ -33,7 +33,6 @@ class SignUp extends React.Component {
        </form>
        <Link
          to="/"
-         exact
        >
         Annuler
        </Link>

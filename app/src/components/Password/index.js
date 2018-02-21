@@ -31,8 +31,7 @@ class Password extends React.Component {
           </button>
         </form>
         <Link
-          to="/"
-          exact
+          to="/login"
         >
          Annuler
         </Link>

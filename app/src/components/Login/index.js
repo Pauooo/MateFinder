@@ -2,6 +2,7 @@
  * Npm import
  */
 import React from 'react';
+import { Link } from 'react-router-dom';
 /**
  * Local import
  */
@@ -29,7 +30,12 @@ class Login extends React.Component {
             {data.login.submit.label}
           </button>
         </form>
-        <a>J'ai oublié mon mot de passe</a>
+        <Link
+          to="/password"
+          exact
+        >
+          J'ai oublié mon mot de passe
+        </Link>
       </div>
     );
   }

@@ -2,6 +2,7 @@
  * Npm import
  */
 import React from 'react';
+import { Link } from 'react-router-dom';
 /**
  * Local import
  */
@@ -29,7 +30,12 @@ class Password extends React.Component {
             {data.password.submit.label}
           </button>
         </form>
-        <a>Annuler</a>
+        <Link
+          to="/"
+          exact
+        >
+         Annuler
+        </Link>
       </div>
     );
   }

@@ -9,6 +9,7 @@ import { Route } from 'react-router-dom';
 import Landing from 'src/components/Landing';
 import Login from 'src/components/Login';
 import SignUp from 'src/components/SignUp';
+import Password from 'src/components/Password';
 /**
  * Code
  */
@@ -30,7 +31,11 @@ const App = () => (
       exact
       component={Login}
     />
-
+    <Route
+      path="/password"
+      exact
+      component={Password}
+    />
   </div>
 );
 

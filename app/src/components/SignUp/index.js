@@ -2,13 +2,14 @@
  * Npm import
  */
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 /**
  * Local import
  */
 import Headline from 'src/components/Headline';
 import Field from 'src/containers/Field';
 import data from 'src/datas';
+
 /**
  * Code
  */
@@ -30,7 +31,12 @@ class SignUp extends React.Component {
            {data.signup.submit.label}
          </button>
        </form>
-       <a>Annuler</a>
+       <Link
+         to="/"
+         exact
+       >
+        Annuler
+       </Link>
      </div>
    );
  }

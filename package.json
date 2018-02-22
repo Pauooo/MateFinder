@@ -33,6 +33,7 @@
     "babel-polyfill": "*",
     "classnames": "^2.2.5",
     "express": "^4.16.2",
+    "mongoose": "^5.0.6",
     "nodemon": "^1.15.0",
     "prop-types": "*",
     "react": "*",

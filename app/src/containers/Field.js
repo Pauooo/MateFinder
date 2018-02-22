@@ -16,7 +16,7 @@ import { changeInput } from 'src/store/reducer';
  */
 // State
 const mapStateToProps = (state, ownProps) => ({
-  value: state[ownProps.name],
+  value: state.signup[ownProps.name],
 });
 
 // Actions

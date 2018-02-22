@@ -42,7 +42,7 @@ export default {
       },
       {
         type: 'password',
-        name: 'password-confirmation',
+        name: 'passwordConfirmation',
         placeholder: 'Confirmation du mot de passe',
       },
     ],

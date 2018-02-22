@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 /**
  * Local import
  */
@@ -14,8 +15,12 @@ import data from 'src/datas';
  * Code
  */
 class SignUp extends React.Component {
+  static propTypes = {
+    createAccount: PropTypes.func.isRequired,
+  }
  handleSubmit = (evt) => {
    evt.preventDefault();
+   this.props.createAccount();
  }
 
  render() {

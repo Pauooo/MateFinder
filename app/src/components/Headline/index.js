@@ -19,6 +19,7 @@ const Headline = ({ data }) => (
     <div id="headline-desc">{data.desc}</div>
   </div>
 );
+
 Headline.propTypes = {
   data: PropTypes.shape({
     title: PropTypes.string.isRequired,

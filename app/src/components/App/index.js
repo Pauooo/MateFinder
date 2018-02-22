@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom';
  */
 import Landing from 'src/components/Landing';
 import Login from 'src/components/Login';
-import SignUp from 'src/components/SignUp';
+import SignUp from 'src/containers/SignUp';
 import Password from 'src/components/Password';
 /**
  * Code

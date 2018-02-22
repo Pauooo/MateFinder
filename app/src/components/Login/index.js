@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 /**
  * Local import
  */
@@ -13,8 +14,13 @@ import data from 'src/datas';
  * Code
  */
 class Login extends React.Component {
+  // static propTypes = {
+  //   sendCredential: PropTypes.func.isRequired,
+  // }
+
   handleSubmit = (evt) => {
     evt.preventDefault();
+    // this.props.sendCredential();
   }
 
   render() {

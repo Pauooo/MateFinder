@@ -16,12 +16,12 @@ const Landing = () => (
     <Link
       to="/login"
     >
-      Log in
+      Se connecter
     </Link>
     <Link
       to="/signup"
     >
-      Sign up
+      S'enregistrer
     </Link>
   </div>
 );

@@ -19,7 +19,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div id="login">
+      <div id="login" className="box">
         <Headline data={data.login} />
         <form className="form" onSubmit={this.handleSubmit}>
           {data.login.fields.map(field => <Field key={field.name} {...field} />)}
@@ -38,6 +38,7 @@ class Login extends React.Component {
         </Link>
         <Link
           to="/"
+          className="cancel"
         >
          Annuler
         </Link>

@@ -15,7 +15,7 @@ import Password from 'src/components/Password';
  */
 const App = () => (
   <div id="app">
-    <h1>MateFinder</h1>
+    <img src="/img/title.png" alt="title" />
     <Route
       path="/"
       exact

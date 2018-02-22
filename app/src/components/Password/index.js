@@ -19,7 +19,7 @@ class Password extends React.Component {
 
   render() {
     return (
-      <div id="login">
+      <div id="password" className="box">
         <Headline data={data.password} />
         <form className="form" onSubmit={this.handleSubmit}>
           {data.password.fields.map(field => <Field key={field.name} {...field} />)}
@@ -32,6 +32,7 @@ class Password extends React.Component {
         </form>
         <Link
           to="/login"
+          className="cancel"
         >
          Annuler
         </Link>

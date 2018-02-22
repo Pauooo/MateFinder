@@ -1,18 +1,20 @@
-.form
-		margin: 1em 0
+@require "app/styles/charte"
+
 
 	&.form-submit--login
 			display: flex
 			align-items: center
 			justify-content: center
 
-#login
+.box
 		text-align: center
-		max-width: 360px
+		width: 600px
+		padding: 1em 10em
 		margin: 3em auto
+		background-color: $purple-grey
 
 #login-submit
-		background: #CCC
+		background: $yellow
 		border: 0
 		border-radius: 0
 		font-size: 1em
@@ -26,3 +28,12 @@
 		font-size: 0.5em
 		font-style: italic
 		display: block
+		padding: 1em
+		color: #FFF
+		text-align: right
+		padding-bottom: 3em
+
+.cancel
+		padding: 0
+		margin: 2em
+		font-weight: 400

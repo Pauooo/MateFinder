@@ -20,7 +20,7 @@ class SignUp extends React.Component {
 
  render() {
    return (
-     <div id="signup">
+     <div id="signup" className="box">
        <Headline data={data.signup} />
        <form className="form" onSubmit={this.handleSubmit}>
          {data.signup.fields.map(field => <Field key={field.name} {...field} />)}
@@ -33,6 +33,7 @@ class SignUp extends React.Component {
        </form>
        <Link
          to="/"
+         className="cancel"
        >
         Annuler
        </Link>

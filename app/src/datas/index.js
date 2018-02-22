@@ -1,6 +1,6 @@
 export default {
   login: {
-    title: 'Connexion',
+    title: 'Se connecter',
     desc: 'Renseignez votre nom d\'utilisateur et votre mot de passe pour accéder à votre compte',
     link: 'Mot de passe oublié ?',
     fields: [
@@ -48,7 +48,7 @@ export default {
     ],
     submit: {
       className: 'form-submit--login',
-      label: 'Se connecter',
+      label: 'S\'enregistrer',
     },
   },
   password: {

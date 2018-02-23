@@ -114,6 +114,15 @@ const AddUserRoom = (userSocket, roomId, usersInRoom) => {
 };
 
 const RemoveUserRoom = (userSocket) => {
+  UserModel.find()
+    .where('userSocketId', userSocket)
+    .exec((err, users) => {
+      let roomId;
+      users.forEach((user) => {
+        roomId = user.room_id;
+      });
+    });
+
   const conditions = { userSocketId: userSocket };
   const update = { room_id: '-1' };
   const options = { multi: true };
@@ -145,6 +154,8 @@ const CreateNewRoom = (data, userSocket) => {
 };
 
 io.on('connection', (socket) => {
+  let timeOut = null;
+
   // /!\ TABLE USERS DE TEST /!\
   const user = new UserModel();
   user.userSocketId = socket.id;
@@ -158,38 +169,40 @@ io.on('connection', (socket) => {
   // quand l'user lance une recherche
   socket.on('start_match', (data) => {
     // On recupere les rooms open correspondant aux critères
-    RoomModel.find()
-      .where('open', true)
-      .where('game', data.game)
-      .where('lang', data.lang)
-      .where('max_users', data.format)
-      .exec((err, comms) => {
-        if (err) throw err;
-        if (comms.length === 0) {
-          console.log(socket.id);
-          CreateNewRoom(data, socket.id);
-        }
-        else {
-          let found = false;
-          comms.forEach((comm) => {
-            if (found) return;
-            if (data.team && (comm.max_users - comm.current_users) >= data.teamCount) {
-              console.log(`Ajout a la room ${comm.id}`);
-              AddUserRoom(socket.id, comm.id, comm.current_users);
-              found = true;
-            }
-            else if (!data.team) {
-              console.log(`Ajout a la room ${comm.id}`);
-              AddUserRoom(socket.id, comm.id, comm.current_users);
-              found = true;
-            }
-          });
-          if (!found) {
+    timeOut = setTimeout(() => {
+      RoomModel.find()
+        .where('open', true)
+        .where('game', data.game)
+        .where('lang', data.lang)
+        .where('max_users', data.format)
+        .exec((err, comms) => {
+          if (err) throw err;
+          if (comms.length === 0) {
             console.log(socket.id);
             CreateNewRoom(data, socket.id);
           }
-        }
-      });
+          else {
+            let found = false;
+            comms.forEach((comm) => {
+              if (found) return;
+              if (data.team && (comm.max_users - comm.current_users) >= data.teamCount) {
+                console.log(`Ajout a la room ${comm.id}`);
+                AddUserRoom(socket.id, comm.id, comm.current_users);
+                found = true;
+              }
+              else if (!data.team) {
+                console.log(`Ajout a la room ${comm.id}`);
+                AddUserRoom(socket.id, comm.id, comm.current_users);
+                found = true;
+              }
+            });
+            if (!found) {
+              console.log(socket.id);
+              CreateNewRoom(data, socket.id);
+            }
+          }
+        });
+    }, 20000);
   });
 
   socket.on('accepted_match', () => {
@@ -215,6 +228,11 @@ io.on('connection', (socket) => {
           });
         }
       });
+  });
+
+  socket.on('refuse_match', () => {
+    if (timeOut) clearTimeout(timeOut);
+    RemoveUserRoom(socket.id);
   });
 
   // quand l'user quitte le site

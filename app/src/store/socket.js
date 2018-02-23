@@ -11,6 +11,7 @@ import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, up
 
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
+const MATCH_REFUSE = 'MATCH_REFUSE';
 
 /*
  * Middleware
@@ -41,6 +42,11 @@ export default store => next => (action) => {
       store.dispatch(changeMatchingAcceptedStatus());
       break;
     }
+    case MATCH_REFUSE: {
+      socket.emit('refuse_match', store.getState().matchingFound);
+      store.dispatch(changeMatchingLoadingStatus());
+      break;
+    }
     default:
   }
   // On passe au voisin
@@ -53,4 +59,8 @@ export const wsConnect = () => ({
 
 export const matchAccepted = () => ({
   type: MATCH_ACCEPTED,
+});
+
+export const matchRefuse = () => ({
+  type: MATCH_REFUSE,
 });

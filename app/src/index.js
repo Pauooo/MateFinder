@@ -10,6 +10,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 /**
  * Local import
  */
+import { wsConnect } from 'src/store/socket';
 import App from 'src/components/App';
 
 // Store = Gestionnaire de state externe
@@ -26,4 +27,5 @@ document.addEventListener('DOMContentLoaded', () => {
     </Provider>
   );
   render(rootComponent, document.getElementById('root'));
+  store.dispatch(wsConnect());
 });

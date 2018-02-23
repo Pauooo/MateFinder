@@ -1,0 +1,47 @@
+$yellow = rgb(233, 203, 2)
+$bg-color = rgb(61, 82, 135)
+
+.switch
+	display: flex
+	justify-content: space-between
+	align-items: center
+	margin-bottom: 1em
+	color: $yellow
+	font-weight: bold
+
+	// #team
+	// 	margin-left: .5em
+
+	input[type=checkbox]
+		height: 0
+		width: 0
+		visibility: hidden
+
+	label
+		cursor: pointer
+		text-indent: -9999px
+		width: 3.5em
+		height: .6em
+		background: white
+		display: block
+		border-radius: 100px
+		position: relative
+
+	label:before
+		content: ""
+		position: absolute
+		top: -.30em
+		left: .15em
+		width: 1.2em
+		height: 1.2em
+		background: $bg-color
+		border-radius: 90px
+		transition: 0.3s
+		border: .2em solid $yellow
+
+	input:checked + label:before
+		left: calc(100% - 5px)
+		transform: translateX(-100%)
+
+	label:active:before
+		width: 1.5em

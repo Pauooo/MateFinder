@@ -1,35 +1,59 @@
 /*
- * Npm import
+ * NPM import
  */
 import io from 'socket.io-client';
 
 /*
  * Local import
  */
-// import { CREATE_ACCOUNT } from 'src/store/reducer';
 
+// Reducer
+import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducer';
 
-/*
- * Types
- */
-
+// socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
+
+// Matching
+const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
+const MATCH_REFUSE = 'MATCH_REFUSE';
+
+// auhtentication
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 
 /*
- * Code
+ * Middleware
  */
 const socket = io('http://localhost:3000');
 
-const createMiddleware = store => next => (action) => {
+export default store => next => (action) => {
+  // Code
   switch (action.type) {
-    case WEBSOCKET_CONNECT:
-    // on = le client reçoit une info du serveur
-      socket.on('connect', () => {
-        console.log('ouioui');
+    case WEBSOCKET_CONNECT: {
+      socket.on('RoomFound', () => {
+        console.log('Une room a été trouvée');
+        store.dispatch(changeMatchingFoundStatus());
+      });
+      socket.on('updateUserAccepted', (data) => {
+        store.dispatch(updateNumberOfAcceptedUsers(data));
       });
       break;
-
+    }
+    case MATCH_START: {
+      const { selectsMatching, team, teamCount } = store.getState();
+      socket.emit('start_match', { ...selectsMatching, team, teamCount });
+      store.dispatch(changeMatchingLoadingStatus());
+      break;
+    }
+    case MATCH_ACCEPTED: {
+      socket.emit('accepted_match');
+      store.dispatch(changeMatchingAcceptedStatus());
+      break;
+    }
+    case MATCH_REFUSE: {
+      socket.emit('refuse_match', store.getState().matchingFound);
+      store.dispatch(changeMatchingLoadingStatus());
+      break;
+    }
     case CREATE_ACCOUNT: {
       const { signup } = store.getState();
       console.log(signup);
@@ -37,7 +61,6 @@ const createMiddleware = store => next => (action) => {
       socket.emit('createAccount', signup);
       break;
     }
-
     default:
   }
   // On passe au voisin
@@ -51,10 +74,14 @@ export const wsConnect = () => ({
   type: WEBSOCKET_CONNECT,
 });
 
+export const matchAccepted = () => ({
+  type: MATCH_ACCEPTED,
+});
+
+export const matchRefuse = () => ({
+  type: MATCH_REFUSE,
+});
+
 export const createAccount = () => ({
   type: CREATE_ACCOUNT,
 });
-/*
- * Export default
- */
-export default createMiddleware;

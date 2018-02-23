@@ -23,6 +23,7 @@ if (window.devToolsExtension) {
 }
 
 // Middleware vers Enhancers
+
 const socketEnhancer = applyMiddleware(socketMiddleware);
 const enhancers = compose(socketEnhancer, ...devTools);
 

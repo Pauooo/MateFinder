@@ -2,7 +2,6 @@
  * Require
  */
 const express = require('express');
-const { join } = require('path');
 const { Server } = require('http');
 const mongoose = require('mongoose');
 const socket = require('socket.io');
@@ -30,6 +29,10 @@ mongoose.connect('mongodb://localhost/matefinder', (err) => {
   }
 });
 
+/*
+* Matching
+*/
+
 // Création du schéma pour les Rooms
 const RoomSchema = new mongoose.Schema({
   max_users: Number,
@@ -42,12 +45,20 @@ const RoomSchema = new mongoose.Schema({
 // Création du Model pour les Rooms
 const RoomModel = mongoose.model('rooms', RoomSchema);
 
-// /!\ TABLE USERS DE TEST /!\
+/*
+* authentication
+*/
+
+// Création du schéma pour les Users
 const UserSchema = new mongoose.Schema({
+  username: String,
+  email: String,
+  password: String,
   userSocketId: String,
   room_id: { type: String, default: -1 },
 });
 
+// Création du Model pour les Users
 const UserModel = mongoose.model('users', UserSchema);
 
 /**
@@ -152,19 +163,20 @@ const CreateNewRoom = (data, userSocket) => {
     AddUserRoom(userSocket, roomData.id, roomData.current_users);
   });
 };
-
+// du coup toutes mes actions (login, psswordLost) vont être dans connexion ? oui, a  la suite
+// mais là je suis dans le serveur on est d'accord Oui, mais en gros, quand le client se connecte au serveur, il tape sur "l'event" connection
+// cet event il recupere l'argument "socket" qui lui du coup va contenir l'id du socket et pleins d'autres infos
+// quand un utilisateur se connecte au socket
 io.on('connection', (socket) => {
+  // genre comme ça :
+  // socket.io('monaction', () => {
+  //   return;
+  // })
+  // le socket, designe chaque client qui va instancier une connexion entre lui et le serveur
+  // et donc c'est ici qu'on lui dit: Ok, quand je recois l'info 'createAccount' d'un client, je lui fais ça
+  // inutile de redeclarer socket ici, il est deja déclaré en haut
+  
   let timeOut = null;
-
-  // /!\ TABLE USERS DE TEST /!\
-  const user = new UserModel();
-  user.userSocketId = socket.id;
-  user.save((err, data) => {
-    if (err) {
-      throw err;
-    }
-    // console.log(data);
-  });
 
   // quand l'user lance une recherche
   socket.on('start_match', (data) => {
@@ -235,6 +247,22 @@ io.on('connection', (socket) => {
     RemoveUserRoom(socket.id);
   });
 
+  // creation du compte user
+  socket.on('createAccount', (data) => {
+    console.log(data);
+    const user = new UserModel();
+    // On défini ces propriétés
+    user.username = data.username;
+    user.email = data.email;
+    user.password = data.password;
+    user.userSocketId = socket.id;
+    user.save((err) => {
+      if (err) {
+        throw err;
+      }
+      console.log('Commentaire ajouté avec succès !');
+    });
+  
   // quand l'user quitte le site
   socket.on('disconnect', () => {
     RemoveUserRoom(socket.id);

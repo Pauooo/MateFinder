@@ -6,12 +6,19 @@ import io from 'socket.io-client';
 /*
  * Local import
  */
+
 // Reducer
 import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducer';
 
+// socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
+
+// Matching
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
 const MATCH_REFUSE = 'MATCH_REFUSE';
+
+// auhtentication
+const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 
 /*
  * Middleware
@@ -47,12 +54,22 @@ export default store => next => (action) => {
       store.dispatch(changeMatchingLoadingStatus());
       break;
     }
+    case CREATE_ACCOUNT: {
+      const { signup } = store.getState();
+      console.log(signup);
+      // On envoie
+      socket.emit('createAccount', signup);
+      break;
+    }
     default:
   }
   // On passe au voisin
   next(action);
 };
 
+/*
+ * Action Creator
+ */
 export const wsConnect = () => ({
   type: WEBSOCKET_CONNECT,
 });
@@ -63,4 +80,8 @@ export const matchAccepted = () => ({
 
 export const matchRefuse = () => ({
   type: MATCH_REFUSE,
+});
+
+export const createAccount = () => ({
+  type: CREATE_ACCOUNT,
 });

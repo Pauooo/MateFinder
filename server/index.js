@@ -175,7 +175,7 @@ io.on('connection', (socket) => {
   // le socket, designe chaque client qui va instancier une connexion entre lui et le serveur
   // et donc c'est ici qu'on lui dit: Ok, quand je recois l'info 'createAccount' d'un client, je lui fais ça
   // inutile de redeclarer socket ici, il est deja déclaré en haut
-  
+
   let timeOut = null;
 
   // quand l'user lance une recherche
@@ -262,7 +262,7 @@ io.on('connection', (socket) => {
       }
       console.log('Commentaire ajouté avec succès !');
     });
-  
+  });
   // quand l'user quitte le site
   socket.on('disconnect', () => {
     RemoveUserRoom(socket.id);

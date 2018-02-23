@@ -65,6 +65,7 @@ const initialState = {
   matchingAccepted: false,
   numberOfAcceptedUsers: 0,
   // authentication
+  userAccountCreated: false,
   loggedIn: false,
   signup: {
     username: '',
@@ -91,7 +92,7 @@ export const MATCH_START = 'MATCH_START';
 // authentication
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
-
+const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
 /*
  * Reducer
  */
@@ -154,6 +155,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
+    case USER_ACCOUNT_CREATED_STATUS_CHANGE:
+      return {
+        ...state,
+        userAccountCreated: !state.userAccountCreated,
+      };
     default:
       return state;
   }
@@ -171,6 +177,10 @@ export const changeInput = ({ name, value }) => ({
 
 export const createAccount = () => ({
   type: CREATE_ACCOUNT,
+});
+
+export const changeuserAccountCreatedStatus = () => ({
+  type: USER_ACCOUNT_CREATED_STATUS_CHANGE,
 });
 
 export const changeMatchingSelect = (select, value) => ({
@@ -206,9 +216,6 @@ export const updateNumberOfAcceptedUsers = number => ({
 });
 
 // Action Creators Socket
-export const sendMessage = () => ({
-  type: MESSAGE_SEND,
-});
 
 export const startMatch = () => ({
   type: MATCH_START,

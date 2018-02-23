@@ -51,9 +51,20 @@ const RoomModel = mongoose.model('rooms', RoomSchema);
 
 // Création du schéma pour les Users
 const UserSchema = new mongoose.Schema({
-  username: String,
-  email: String,
-  password: String,
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
   userSocketId: String,
   room_id: { type: String, default: -1 },
 });
@@ -248,10 +259,11 @@ io.on('connection', (socket) => {
   });
 
   // creation du compte user
+
   socket.on('createAccount', (data) => {
     console.log(data);
     const user = new UserModel();
-    // On défini ces propriétés
+    // On définit ces propriétés
     user.username = data.username;
     user.email = data.email;
     user.password = data.password;
@@ -260,7 +272,9 @@ io.on('connection', (socket) => {
       if (err) {
         throw err;
       }
-      console.log('Commentaire ajouté avec succès !');
+      else {
+        socket.emit('accountCreated');
+      }
     });
   });
   // quand l'user quitte le site

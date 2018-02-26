@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 /**
  * Local import
@@ -19,6 +20,7 @@ import MatchingSearch from 'src/containers/MatchingSearch';
 const App = () => (
   <div id="app">
     <img src="/img/title.png" alt="title" />
+    <ToastContainer pauseOnHover="false" />
     <Route
       path="/"
       exact

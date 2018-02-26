@@ -54,11 +54,13 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     unique: true,
+    trim: true,
     required: true,
   },
   email: {
     type: String,
     unique: true,
+    trim: true,
     required: true,
   },
   password: {
@@ -258,16 +260,33 @@ io.on('connection', (socket) => {
     RemoveUserRoom(socket.id);
   });
 
-  // creation du compte user
 
+  // creation du compte user
   socket.on('createAccount', (data) => {
-    console.log(data);
+    // on verifie que l'email est unique
+    UserModel.findOne({ email: data.email }, (err, existingEmail) => {
+      if (err) throw err;
+      if (existingEmail) {
+        console.log('email NOPE!');
+        socket.emit('creatingAccountError', 'Cet email est déjà utilisé');
+      }
+    });
+    // on verifie que le username est unique
+    UserModel.findOne({ username: data.username }, (err, existingUsername) => {
+      if (err) throw err;
+      if (existingUsername) {
+        console.log('username NOPE!');
+        socket.emit('creatingAccountError', 'Ce pseudo est déjà utilisé');
+      }
+    });
+
     const user = new UserModel();
     // On définit ces propriétés
     user.username = data.username;
     user.email = data.email;
     user.password = data.password;
     user.userSocketId = socket.id;
+    // on sauve en BDD
     user.save((err) => {
       if (err) {
         throw err;
@@ -282,6 +301,7 @@ io.on('connection', (socket) => {
     RemoveUserRoom(socket.id);
   });
 });
+
 
 /*
  * Server

@@ -8,7 +8,7 @@ import io from 'socket.io-client';
  */
 
 // Reducer
-import { MATCH_START, changeuserAccountCreatedStatus, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducer';
+import { MATCH_START, setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducer';
 
 // socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
@@ -40,6 +40,11 @@ export default store => next => (action) => {
         // On affiche la confirmation
         store.dispatch(changeuserAccountCreatedStatus());
         // On le loggedin => state.loggedIn = true
+        store.dispatch(changeUserLoggedInStatus());
+      });
+      socket.on('creatingAccountError', (message) => {
+        console.log(message);
+        store.dispatch(setErrorMessage(message));
       });
       break;
     }

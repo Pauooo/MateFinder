@@ -73,8 +73,8 @@ const initialState = {
     password: '',
     passwordConfirmation: '',
   },
+  errorMessages: [],
 };
-
 
 
 // Formulaire Matching
@@ -93,6 +93,8 @@ export const MATCH_START = 'MATCH_START';
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
+const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
+const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
 /*
  * Reducer
  */
@@ -107,15 +109,22 @@ export default (state = initialState, action = {}) => {
         },
       };
 
-    case CREATE_ACCOUNT:
+    case USER_ACCOUNT_CREATED_STATUS_CHANGE:
       return {
         ...state,
-        signup: {
-          username: state.username,
-          email: state.email,
-          password: state.password,
-          passwordConfirmation: state.passwordConfirmation,
-        },
+        userAccountCreated: !state.userAccountCreated,
+      };
+    case SET_ERROR_MESSAGE: {
+      const errorMessages = [...state.errorMessages, action.message];
+      return {
+        ...state,
+        errorMessages,
+      };
+    }
+    case USER_LOGGED_IN_STATUS_CHANGE:
+      return {
+        ...state,
+        loggedIn: !state.loggedIn,
       };
     case SELECT_MATCHING_CHANGE:
       return {
@@ -155,11 +164,6 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
-    case USER_ACCOUNT_CREATED_STATUS_CHANGE:
-      return {
-        ...state,
-        userAccountCreated: !state.userAccountCreated,
-      };
     default:
       return state;
   }
@@ -181,6 +185,15 @@ export const createAccount = () => ({
 
 export const changeuserAccountCreatedStatus = () => ({
   type: USER_ACCOUNT_CREATED_STATUS_CHANGE,
+});
+
+export const setErrorMessage = message => ({
+  type: SET_ERROR_MESSAGE,
+  message,
+});
+
+export const changeUserLoggedInStatus = () => ({
+  type: USER_LOGGED_IN_STATUS_CHANGE,
 });
 
 export const changeMatchingSelect = (select, value) => ({

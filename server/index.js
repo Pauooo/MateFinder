@@ -5,7 +5,7 @@ const express = require('express');
 const { Server } = require('http');
 const mongoose = require('mongoose');
 const socket = require('socket.io');
-
+const bcrypt = require('bcrypt');
 
 /*
  * Vars
@@ -267,7 +267,6 @@ io.on('connection', (socket) => {
     UserModel.findOne({ email: data.email }, (err, existingEmail) => {
       if (err) throw err;
       if (existingEmail) {
-        console.log('email NOPE!');
         socket.emit('creatingAccountError', 'Cet email est déjà utilisé');
       }
     });
@@ -275,7 +274,6 @@ io.on('connection', (socket) => {
     UserModel.findOne({ username: data.username }, (err, existingUsername) => {
       if (err) throw err;
       if (existingUsername) {
-        console.log('username NOPE!');
         socket.emit('creatingAccountError', 'Ce pseudo est déjà utilisé');
       }
     });
@@ -284,7 +282,12 @@ io.on('connection', (socket) => {
     // On définit ces propriétés
     user.username = data.username;
     user.email = data.email;
-    user.password = data.password;
+    // on hash le mot de passe avant de le définir dans la BDD
+    const myPlaintextPassword = data.password;
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+    user.password = hash;
     user.userSocketId = socket.id;
     // on sauve en BDD
     user.save((err) => {

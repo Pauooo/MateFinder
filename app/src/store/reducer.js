@@ -169,11 +169,6 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
-    case LOGGEDIN_STATUS_CHANGE:
-      return {
-        ...state,
-        loggedIn: !state.loggedIn,
-      };
     default:
       return state;
   }
@@ -201,10 +196,6 @@ export const setErrorMessage = message => ({
 
 export const changeUserLoggedInStatus = () => ({
   type: USER_LOGGED_IN_STATUS_CHANGE,
-});
-
-export const changeLoggedInStatus = () => ({
-  type: LOGGEDIN_STATUS_CHANGE,
 });
 
 export const changeMatchingSelect = (select, value) => ({

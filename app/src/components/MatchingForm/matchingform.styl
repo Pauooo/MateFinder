@@ -1,5 +1,4 @@
-$yellow = rgb(233, 203, 2)
-$bg-color = rgb(61, 82, 135)
+@require "app/styles/charte"
 
 #matchingform
 	width: 50%
@@ -8,7 +7,7 @@ $bg-color = rgb(61, 82, 135)
 	flex-direction: column
 	align-items: center
 	padding: 1em
-	background-color: rgb(61, 82, 135)
+	background-color: $purple-grey
 	color: white
 	font-size: 2em
 
@@ -28,8 +27,9 @@ $bg-color = rgb(61, 82, 135)
 			text-align: center
 			text-align-last: center
 			border: 0
-			color: $bg-color
+			color: $purple-grey
 			border: .15em solid $yellow
+			background-color: $grey
 			border-radius: 1em
 			-webkit-appearance: none
 			-moz-appearance: none
@@ -61,6 +61,6 @@ $bg-color = rgb(61, 82, 135)
 		width: 30%
 		font-size: 1em
 		background-color: $yellow
-		color: $bg-color
+		color: $purple-grey
 		border: 0
 		border-radius: 1em

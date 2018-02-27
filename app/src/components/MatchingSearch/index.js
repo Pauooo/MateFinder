@@ -51,7 +51,7 @@ class MatchingSearch extends React.Component {
     }
     return (
       <div id="matchingloading" >
-        <div className="cssload-bell">
+        {/* <div className="cssload-bell">
           <div className="cssload-circle">
             <div className="cssload-inner" />
           </div>
@@ -67,7 +67,7 @@ class MatchingSearch extends React.Component {
           <div className="cssload-circle">
             <div className="cssload-inner" />
           </div>
-        </div>
+        </div> */}
         <div className="typewriter">
           <h1>Recherche en cours</h1>
         </div>

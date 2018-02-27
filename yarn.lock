@@ -3506,6 +3506,10 @@ jsx-ast-utils@^2.0.0, jsx-ast-utils@^2.0.1:
   dependencies:
     array-includes "^3.0.3"
 
+jwt-simple@^0.5:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/jwt-simple/-/jwt-simple-0.5.1.tgz#79ea01891b61de6b68e13e67c0b4b5bda937b294"
+
 kareem@2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.0.4.tgz#8e648733c1e45b7d5ca1cf36c364e2787f895ced"
@@ -5267,6 +5271,13 @@ socket.io@^2.0.4:
     socket.io-adapter "~1.1.0"
     socket.io-client "2.0.4"
     socket.io-parser "~3.1.1"
+
+socketio-jwt-auth@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/socketio-jwt-auth/-/socketio-jwt-auth-0.0.6.tgz#4778f1644a011eb6d8931865ec5ccad7dfd961ec"
+  dependencies:
+    jwt-simple "^0.5"
+    xtend "^4.0.0"
 
 source-map-resolve@^0.5.0:
   version "0.5.1"

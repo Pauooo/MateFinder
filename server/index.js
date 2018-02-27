@@ -5,6 +5,11 @@ const express = require('express');
 const { Server } = require('http');
 const mongoose = require('mongoose');
 const socket = require('socket.io');
+const RoomModel = require('./models/Rooms');
+const UserModel = require('./models/Users');
+const matching = require('./controllers/matching');
+const jwtAuth = require('socketio-jwt-auth');
+const config = require('./config');
 
 
 /*
@@ -29,224 +34,41 @@ mongoose.connect('mongodb://localhost/matefinder', (err) => {
   }
 });
 
-/*
-* Matching
-*/
-
-// Création du schéma pour les Rooms
-const RoomSchema = new mongoose.Schema({
-  max_users: Number,
-  current_users: { type: Number, default: 0 },
-  game: String,
-  lang: String,
-  open: { type: Boolean, default: true },
-});
-
-// Création du Model pour les Rooms
-const RoomModel = mongoose.model('rooms', RoomSchema);
-
-/*
-* authentication
-*/
-
-// Création du schéma pour les Users
-const UserSchema = new mongoose.Schema({
-  username: String,
-  email: String,
-  password: String,
-  userSocketId: String,
-  room_id: { type: String, default: -1 },
-});
-
-// Création du Model pour les Users
-const UserModel = mongoose.model('users', UserSchema);
+// using middleware
+io.use(jwtAuth.authenticate({
+  secret: config.secret, // required, used to verify the token's signature
+  algorithm: 'HS256', // optional, default to be HS256
+  succeedWithoutToken: true,
+}, (payload, done) => {
+  console.log(payload);
+  // done is a callback, you can use it as follows
+  UserModel.findOne({ _id: payload.sub }, (err, user) => {
+    if (err) {
+      // return error
+      return done(err);
+    }
+    if (!user) {
+      // return fail with an error message
+      return done(null, false, 'user does not exist');
+    }
+    // return success with a user info
+    return done(null, user);
+  });
+}));
 
 /**
  * Socket.io
  */
-
-const SendNotificationToRoomUsers = (roomId, Infos) => {
-  UserModel.find()
-    .where('room_id', roomId)
-    .exec((err, users) => {
-      if (err) {
-        throw err;
-      }
-      else {
-        users.forEach((user) => {
-          io.sockets.connected[user.userSocketId].emit(Infos);
-        });
-      }
-    });
-};
-
-const SendNotificationToUser = (userSocket, Infos) => {
-  UserModel.find()
-    .where('userSocketId', userSocket)
-    .exec((err, users) => {
-      if (err) {
-        throw err;
-      }
-      else {
-        users.forEach((user) => {
-          io.sockets.connected[user.userSocketId].emit(Infos);
-        });
-      }
-    });
-};
-
-const AddUserRoom = (userSocket, roomId, usersInRoom) => {
-  // on update room_id de l'user dans la Bdd
-  const userConditions = { userSocketId: userSocket };
-  const userUpdate = { room_id: roomId };
-  const userOptions = { multi: true };
-  const userCallBack = (err) => {
-    if (err) {
-      throw err;
-    }
-  };
-  UserModel.update(userConditions, userUpdate, userOptions, userCallBack);
-
-  // on update le nombre d'user dans la room
-  const roomConditions = { _id: roomId };
-  const roomUpdate = { current_users: usersInRoom + 1 };
-  const roomOptions = { multi: true };
-  const roomCallBack = (err) => {
-    if (err) {
-      throw err;
-    }
-    else {
-      RoomModel.find()
-        .where('_id', roomId)
-        .exec((err, datas) => {
-          if (err) {
-            throw err;
-          }
-          else {
-            datas.forEach((data) => {
-              if (data.current_users === data.max_users) {
-                const callBackUpdate = (err) => {
-                  if (err) throw err;
-                };
-                RoomModel.update({ _id: roomId }, { open: false }, roomOptions, callBackUpdate);
-                SendNotificationToRoomUsers(roomId, 'RoomFound');
-              }
-            });
-          }
-        });
-    }
-  };
-  RoomModel.update(roomConditions, roomUpdate, roomOptions, roomCallBack);
-};
-
-const resetUserRoomId = (userSocket) => {
-  const conditions = { userSocketId: userSocket };
-  const update = { room_id: '-1' };
-  const options = { multi: true };
-  const callback = (err) => {
-    if (err) {
-      throw err;
-    }
-  };
-  UserModel.update(conditions, update, options, callback);
-};
-
-const RemoveUserRoom = (userSocket) => {
-  // On récupère l'user
-  UserModel.find()
-    .where('userSocketId', userSocket)
-    .exec((err, users) => {
-      if (err) throw err;
-      if (users.length === 0) return;
-      // on défini une var globale qui contiendra l'id de la room
-      let roomId;
-      users.forEach((user) => {
-        roomId = user.room_id;
-      });
-
-      console.log('test1');
-      // On recupère la room avec l'id récupéré
-      RoomModel.find()
-        .where('_id', roomId)
-        .exec((err2, rooms) => {
-          if (err) throw err;
-          rooms.forEach((room) => {
-            console.log('test2');
-            if (room.current_users - 1 === 0) {
-              console.log('test3');
-              RoomModel.update({ _id: roomId }, { open: false }, { multi: true }, (err3) => {
-                console.log('test4');
-                if (err3) throw err3;
-                resetUserRoomId(userSocket);
-              });
-            }
-            else {
-              RoomModel.update(
-                { _id: roomId },
-                { current_users: room.current_users - 1 },
-                { multi: true },
-                (err3) => {
-                  if (err3) throw err3;
-                  resetUserRoomId(userSocket);
-                  if (room.open === false) {
-                    console.log(room.id);
-                    UserModel.find()
-                      .where('room_id', room.id)
-                      .exec((err4, users2) => {
-                        users2.forEach((user) => {
-                          if (user.userSocketId !== userSocket) {
-                            SendNotificationToUser(user.userSocketId, 'UserRoomNotAccepted');
-                            RoomModel.update({ _id: roomId }, { open: true }, { multi: true }, (err5) => {
-                              if (err5) throw err5;
-                            });
-                          }
-                        });
-                      });
-                  }
-                },
-              );
-            }
-          });
-        });
-    });
-};
-
-const CreateNewRoom = (data, userSocket) => {
-  // On crée une instance du Model Room
-  const room = new RoomModel();
-  // On défini ces propriétés
-  room.max_users = data.format;
-  if (data.team) room.current_users = data.teamCount;
-  room.game = data.game;
-  room.lang = data.lang;
-
-  // On le sauvegarde dans MongoDB !
-  room.save((err, roomData) => {
-    if (err) {
-      throw err;
-    }
-    console.log('room ajoutée avec succès !');
-    AddUserRoom(userSocket, roomData.id, roomData.current_users);
-  });
-};
-// du coup toutes mes actions (login, psswordLost) vont être dans connexion ?
-// oui, a  la suite
-// mais là je suis dans le serveur on est d'accord
-// Oui, mais en gros, quand le client se connecte au serveur, il tape sur "l'event" connection
-// cet event il recupere l'argument "socket" qui lui du coup
-// va contenir l'id du socket et pleins d'autres infos
-// quand un utilisateur se connecte au socket
 io.on('connection', (socket) => {
-  // genre comme ça :
-  // socket.io('monaction', () => {
-  //   return;
-  // })
-  // le socket, designe chaque client qui va instancier une connexion entre lui et le serveur
-  // et donc c'est ici qu'on lui dit: Ok, quand je recois l'info 'createAccount' d'un client,
-  // je lui fais ça ...
-  // inutile de redeclarer socket ici, il est deja déclaré en haut
-
   let MinTimeBeforeMatch = null;
+
+  console.log('Authentication passed!');
+  // now you can access user info through socket.request.user
+  // socket.request.user.logged_in will be set to true if the user was authenticated
+  socket.emit('success', {
+    message: 'success logged in!',
+    user: socket.request.user,
+  });
 
   // quand l'user lance une recherche
   socket.on('start_match', (data) => {
@@ -260,7 +82,7 @@ io.on('connection', (socket) => {
         .exec((err, comms) => {
           if (err) throw err;
           if (comms.length === 0) {
-            CreateNewRoom(data, socket.id);
+            matching.CreateNewRoom(data, socket.id);
           }
           else {
             let found = false;
@@ -268,17 +90,17 @@ io.on('connection', (socket) => {
               if (found) return;
               if (data.team && (comm.max_users - comm.current_users) >= data.teamCount) {
                 console.log(`Ajout a la room ${comm.id}`);
-                AddUserRoom(socket.id, comm.id, comm.current_users);
+                matching.AddUserRoom(socket.id, comm.id, comm.current_users);
                 found = true;
               }
               else if (!data.team) {
                 console.log(`Ajout a la room ${comm.id}`);
-                AddUserRoom(socket.id, comm.id, comm.current_users);
+                matching.AddUserRoom(socket.id, comm.id, comm.current_users);
                 found = true;
               }
             });
             if (!found) {
-              CreateNewRoom(data, socket.id);
+              matching.CreateNewRoom(data, socket.id);
             }
           }
         });
@@ -312,7 +134,7 @@ io.on('connection', (socket) => {
 
   socket.on('refuse_match', () => {
     if (!MinTimeBeforeMatch._called) clearTimeout(MinTimeBeforeMatch);
-    else RemoveUserRoom(socket.id);
+    else matching.RemoveUserRoom(socket.id);
   });
 
   // creation du compte user
@@ -332,7 +154,7 @@ io.on('connection', (socket) => {
   });
   // quand l'user quitte le site
   socket.on('disconnect', () => {
-    RemoveUserRoom(socket.id);
+    matching.RemoveUserRoom(socket.id);
   });
 });
 

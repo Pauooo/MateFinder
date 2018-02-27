@@ -1,4 +1,5 @@
 /*
+  // done is a callback, you
  * NPM import
  */
 import io from 'socket.io-client';
@@ -25,7 +26,24 @@ const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 /*
  * Middleware
  */
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:3000', { query: 'auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YTk1NTI4YzhiOWY1Njc0YThlZDZiYTMiLCJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.Tt6ae1ePoGalP90UzNOO6Gxbj-RBASN3bVPUzDMg20M' });
+
+/*
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+{
+  "sub": "5a95528c8b9f5674a8ed6ba3",
+  "name": "John Doe",
+  "admin": true
+}
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret
+)
+*/
 
 let timerMatchAccept = null;
 let timerMaxMatching = null;
@@ -34,6 +52,9 @@ export default store => next => (action) => {
   // Code
   switch (action.type) {
     case WEBSOCKET_CONNECT: {
+      socket.on('success', (data) => {
+        console.log(data);
+      });
       socket.on('RoomFound', () => {
         const msg = (
           <div>

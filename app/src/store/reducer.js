@@ -75,7 +75,6 @@ const initialState = {
 };
 
 
-
 // Formulaire Matching
 const SELECT_MATCHING_CHANGE = 'SELECT_MATCHING_CHANGE';
 const TEAM_STATUS_CHANGE = 'TEAM_STATUS_CHANGE';
@@ -91,6 +90,9 @@ export const MATCH_START = 'MATCH_START';
 // authentication
 const INPUT_CHANGE = 'INPUT_CHANGE';
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
+
+// POUR LES TESTS !
+const LOGGEDIN_STATUS_CHANGE = 'LOGGEDIN_STATUS_CHANGE';
 
 /*
  * Reducer
@@ -154,6 +156,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
+    case LOGGEDIN_STATUS_CHANGE:
+      return {
+        ...state,
+        loggedIn: !state.loggedIn,
+      };
     default:
       return state;
   }
@@ -171,6 +178,10 @@ export const changeInput = ({ name, value }) => ({
 
 export const createAccount = () => ({
   type: CREATE_ACCOUNT,
+});
+
+export const changeLoggedInStatus = () => ({
+  type: LOGGEDIN_STATUS_CHANGE,
 });
 
 export const changeMatchingSelect = (select, value) => ({

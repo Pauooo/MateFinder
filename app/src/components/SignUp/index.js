@@ -4,6 +4,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
 /**
  * Local import
  */
@@ -17,6 +18,7 @@ import data from 'src/datas';
 class SignUp extends React.Component {
   static propTypes = {
     createAccount: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
   }
  handleSubmit = (evt) => {
    evt.preventDefault();
@@ -24,6 +26,11 @@ class SignUp extends React.Component {
  }
 
  render() {
+   if (this.props.loggedIn) {
+     return (
+       <Redirect to="/matching" />
+     );
+   }
    return (
      <div id="signup" className="box">
        <Headline data={data.signup} />

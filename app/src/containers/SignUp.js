@@ -15,7 +15,9 @@ import { createAccount } from 'src/store/socket';
  * Code
  */
 // State
-const mapStateToProps = null;
+const mapStateToProps = state => ({
+  loggedIn: state.loggedIn,
+});
 // Actions
 const mapDispatchToProps = dispatch => ({
   createAccount: () => {

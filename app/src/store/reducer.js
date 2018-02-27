@@ -73,6 +73,10 @@ const initialState = {
     password: '',
     passwordConfirmation: '',
   },
+  login: {
+    username: '',
+    password: '',
+  },
   errorMessages: [],
 };
 
@@ -102,8 +106,8 @@ export default (state = initialState, action = {}) => {
     case INPUT_CHANGE:
       return {
         ...state,
-        signup: {
-          ...state.signup,
+        [action.context]: {
+          ...state[action.context],
           [action.name]: action.value,
         },
       };
@@ -172,10 +176,11 @@ export default (state = initialState, action = {}) => {
  * Action creators
  */
 
-export const changeInput = ({ name, value }) => ({
+export const changeInput = ({ name, value, context }) => ({
   type: INPUT_CHANGE,
   value,
   name,
+  context,
 });
 
 export const changeuserAccountCreatedStatus = () => ({

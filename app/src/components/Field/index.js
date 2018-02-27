@@ -29,6 +29,7 @@ static propTypes = {
   placeholder: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
+  context: PropTypes.string.isRequired,
   type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
 }
 
@@ -40,7 +41,6 @@ static defaultProps = {
 state = {
   error: false,
 }
-
 
 /**
  * Handle change event
@@ -66,7 +66,7 @@ render() {
   const { error } = this.state;
 
   const {
-    name, placeholder, value, type,
+    name, context, placeholder, value, type,
   } = this.props;
   const id = `field-${name}`;
   return (
@@ -86,6 +86,7 @@ render() {
         placeholder={placeholder}
 
         /* React */
+        context={context}
         value={value}
         onChange={this.handleChange}
       />

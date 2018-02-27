@@ -16,6 +16,8 @@ import { sendCredential } from 'src/store/socket';
  */
 // State
 const mapStateToProps = state => ({
+  loggedIn: state.loggedIn,
+  login: state.login,
   errorMessages: state.errorMessages,
 });
 

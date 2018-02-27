@@ -53,7 +53,7 @@ class SignUp extends React.Component {
         <div id="signup" className="box">
           <Headline data={data.signup} />
           <form className="form" onSubmit={this.handleSubmit}>
-            {data.signup.fields.map(field => <Field key={field.name} {...field} />)}
+            {data.signup.fields.map(field => <Field context="signup" key={field.name} {...field} />)}
             {errorMessages.map(message => <p className="error-message" key={message}>{message}</p>)}
             <button
               id="signup-submit"

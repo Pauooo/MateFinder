@@ -86,10 +86,10 @@ export default store => next => (action) => {
       break;
     }
     case SEND_CREDENTIAL: {
-      const { signup } = store.getState();
-      console.log(signup);
+      const { login } = store.getState();
+      console.log(login);
       // On envoie
-      socket.emit('sendCredential', signup);
+      socket.emit('sendCredential', login);
       break;
     }
     default:

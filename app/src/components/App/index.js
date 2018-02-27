@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 /**
  * Local import
@@ -13,12 +14,15 @@ import SignUp from 'src/containers/SignUp';
 import Password from 'src/components/Password';
 import MatchingForm from 'src/containers/MatchingForm';
 import MatchingSearch from 'src/containers/MatchingSearch';
+import NavBar from 'src/components/NavBar';
 /**
  * Code
  */
 const App = () => (
   <div id="app">
+    <NavBar />
     <img src="/img/title.png" alt="title" />
+    <ToastContainer pauseOnHover={false} />
     <Route
       path="/"
       exact

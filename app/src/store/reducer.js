@@ -98,6 +98,8 @@ const INPUT_CHANGE = 'INPUT_CHANGE';
 const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
+
+
 /*
  * Reducer
  */
@@ -167,6 +169,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
+    case LOGGEDIN_STATUS_CHANGE:
+      return {
+        ...state,
+        loggedIn: !state.loggedIn,
+      };
     default:
       return state;
   }
@@ -194,6 +201,10 @@ export const setErrorMessage = message => ({
 
 export const changeUserLoggedInStatus = () => ({
   type: USER_LOGGED_IN_STATUS_CHANGE,
+});
+
+export const changeLoggedInStatus = () => ({
+  type: LOGGEDIN_STATUS_CHANGE,
 });
 
 export const changeMatchingSelect = (select, value) => ({

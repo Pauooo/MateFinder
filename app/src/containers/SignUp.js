@@ -27,10 +27,6 @@ const mapDispatchToProps = dispatch => ({
   setErrorMessage: (message) => {
     dispatch(setErrorMessage(message));
   },
-  // actions: bindActionCreators({
-  //   createAccount,
-  //   setErrorMessage,
-  // }, dispatch),
 });
 
 

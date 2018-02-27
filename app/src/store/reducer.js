@@ -91,7 +91,6 @@ export const MATCH_START = 'MATCH_START';
 
 // authentication
 const INPUT_CHANGE = 'INPUT_CHANGE';
-const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
@@ -177,10 +176,6 @@ export const changeInput = ({ name, value }) => ({
   type: INPUT_CHANGE,
   value,
   name,
-});
-
-export const createAccount = () => ({
-  type: CREATE_ACCOUNT,
 });
 
 export const changeuserAccountCreatedStatus = () => ({

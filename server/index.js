@@ -299,6 +299,31 @@ io.on('connection', (socket) => {
       }
     });
   });
+
+  // signIn du user
+  socket.on('sendCredential', (data) => {
+    console.log(data);
+    // on verifie que le username existe
+    UserModel.findOne()
+      .where('username', data.username)
+      .exec((err, user) => {
+        if (err) throw err;
+        if (user === null) {
+          console.log('Ce nom d\'utilisateur n\'existe pas');
+          socket.emit('signInError', 'Ce nom d\'utilisateur n\'existe pas');
+        }
+        else if (bcrypt.compareSync(data.password, user.password)) {
+          // Passwords match
+          console.log('YEP, Tu peux passer');
+          socket.emit('signIn');
+        }
+        else {
+          console.log('NOPE, Tu peux pas passer');
+          socket.emit('signInError', 'Vous avez saisi un mauvais mot de passe');
+        }
+      });
+  });
+
   // quand l'user quitte le site
   socket.on('disconnect', () => {
     RemoveUserRoom(socket.id);

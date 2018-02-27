@@ -145,7 +145,7 @@ export default store => next => (action) => {
       console.log(signup);
       // On envoie
       socket.emit('createAccount', signup);
-      store.dispatch(changeLoggedInStatus());
+      store.dispatch(changeUserLoggedInStatus());
       break;
     }
     case SEND_CREDENTIAL: {

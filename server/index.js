@@ -5,6 +5,7 @@ const express = require('express');
 const { Server } = require('http');
 const mongoose = require('mongoose');
 const socket = require('socket.io');
+const bcrypt = require('bcrypt');
 const RoomModel = require('./models/Rooms');
 const UserModel = require('./models/Users');
 const matching = require('./controllers/matching');
@@ -33,6 +34,11 @@ mongoose.connect('mongodb://localhost/matefinder', (err) => {
     throw err;
   }
 });
+
+
+/**
+ * Socket.io
+ */
 
 // using middleware
 io.use(jwtAuth.authenticate({
@@ -137,26 +143,76 @@ io.on('connection', (socket) => {
     else matching.RemoveUserRoom(socket.id);
   });
 
+
   // creation du compte user
   socket.on('createAccount', (data) => {
+    // on verifie que l'email est unique
+    UserModel.findOne({ email: data.email }, (err, existingEmail) => {
+      if (err) throw err;
+      if (existingEmail) {
+        socket.emit('creatingAccountError', 'Cet email est déjà utilisé');
+      }
+    });
+    // on verifie que le username est unique
+    UserModel.findOne({ username: data.username }, (err, existingUsername) => {
+      if (err) throw err;
+      if (existingUsername) {
+        socket.emit('creatingAccountError', 'Ce pseudo est déjà utilisé');
+      }
+    });
+
     const user = new UserModel();
-    // On défini ces propriétés
+    // On définit ces propriétés
     user.username = data.username;
     user.email = data.email;
-    user.password = data.password;
+    // on hash le mot de passe avant de le définir dans la BDD
+    const myPlaintextPassword = data.password;
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+    user.password = hash;
     user.userSocketId = socket.id;
+    // on sauve en BDD
     user.save((err) => {
       if (err) {
         throw err;
       }
-      // console.log('Commentaire ajouté avec succès !');
+      else {
+        socket.emit('accountCreated');
+      }
     });
   });
+
+  // signIn du user
+  socket.on('sendCredential', (data) => {
+    console.log(data);
+    // on verifie que le username existe
+    UserModel.findOne()
+      .where('username', data.username)
+      .exec((err, user) => {
+        if (err) throw err;
+        if (user === null) {
+          console.log('Ce nom d\'utilisateur n\'existe pas');
+          socket.emit('signInError', 'Ce nom d\'utilisateur n\'existe pas');
+        }
+        else if (bcrypt.compareSync(data.password, user.password)) {
+          // Passwords match
+          console.log('YEP, Tu peux passer');
+          socket.emit('signIn');
+        }
+        else {
+          console.log('NOPE, Tu peux pas passer');
+          socket.emit('signInError', 'Vous avez saisi un mauvais mot de passe');
+        }
+      });
+  });
+
   // quand l'user quitte le site
   socket.on('disconnect', () => {
     matching.RemoveUserRoom(socket.id);
   });
 });
+
 
 /*
  * Server

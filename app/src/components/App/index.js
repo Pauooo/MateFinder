@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
  * Local import
  */
 import Landing from 'src/components/Landing';
-import Login from 'src/components/Login';
+import Login from 'src/containers/Login';
 import SignUp from 'src/containers/SignUp';
 import Password from 'src/components/Password';
 import MatchingForm from 'src/containers/MatchingForm';

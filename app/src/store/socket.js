@@ -11,7 +11,8 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, changeLoggedInStatus } from 'src/store/reducer';
+import { MATCH_START, setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducer';
+
 
 // socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
@@ -22,7 +23,7 @@ const MATCH_REFUSE = 'MATCH_REFUSE';
 
 // auhtentication
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
-
+const SEND_CREDENTIAL = 'SEND_CREDENTIAL';
 /*
  * Middleware
  */
@@ -84,8 +85,32 @@ export default store => next => (action) => {
           store.dispatch(changeMatchingAcceptedStatus());
         }
       });
+
       socket.on('updateUserAccepted', (data) => {
         store.dispatch(updateNumberOfAcceptedUsers(data));
+      });
+
+      socket.on('accountCreated', () => {
+        // On affiche la confirmation
+        store.dispatch(changeuserAccountCreatedStatus());
+        // On le loggedin => state.loggedIn = true
+        store.dispatch(changeUserLoggedInStatus());
+      });
+
+      socket.on('creatingAccountError', (message) => {
+        store.dispatch(setErrorMessage(message));
+      });
+
+      socket.on('creatingAccountError', (message) => {
+        store.dispatch(setErrorMessage(message));
+      });
+
+      socket.on('signInError', (message) => {
+        store.dispatch(setErrorMessage(message));
+      });
+
+      socket.on('signIn', () => {
+        store.dispatch(changeUserLoggedInStatus());
       });
       break;
     }
@@ -123,6 +148,13 @@ export default store => next => (action) => {
       store.dispatch(changeLoggedInStatus());
       break;
     }
+    case SEND_CREDENTIAL: {
+      const { login } = store.getState();
+      console.log(login);
+      // On envoie
+      socket.emit('sendCredential', login);
+      break;
+    }
     default:
   }
   // On passe au voisin
@@ -146,4 +178,8 @@ export const matchRefuse = () => ({
 
 export const createAccount = () => ({
   type: CREATE_ACCOUNT,
+});
+
+export const sendCredential = () => ({
+  type: SEND_CREDENTIAL,
 });

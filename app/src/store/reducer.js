@@ -65,6 +65,7 @@ const initialState = {
   matchingAccepted: false,
   numberOfAcceptedUsers: 0,
   // authentication
+  userAccountCreated: false,
   loggedIn: false,
   signup: {
     username: '',
@@ -72,6 +73,11 @@ const initialState = {
     password: '',
     passwordConfirmation: '',
   },
+  login: {
+    username: '',
+    password: '',
+  },
+  errorMessages: [],
 };
 
 
@@ -89,10 +95,10 @@ export const MATCH_START = 'MATCH_START';
 
 // authentication
 const INPUT_CHANGE = 'INPUT_CHANGE';
-const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
+const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
+const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
+const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
 
-// POUR LES TESTS !
-const LOGGEDIN_STATUS_CHANGE = 'LOGGEDIN_STATUS_CHANGE';
 
 /*
  * Reducer
@@ -102,21 +108,28 @@ export default (state = initialState, action = {}) => {
     case INPUT_CHANGE:
       return {
         ...state,
-        signup: {
-          ...state.signup,
+        [action.context]: {
+          ...state[action.context],
           [action.name]: action.value,
         },
       };
 
-    case CREATE_ACCOUNT:
+    case USER_ACCOUNT_CREATED_STATUS_CHANGE:
       return {
         ...state,
-        signup: {
-          username: state.username,
-          email: state.email,
-          password: state.password,
-          passwordConfirmation: state.passwordConfirmation,
-        },
+        userAccountCreated: !state.userAccountCreated,
+      };
+    case SET_ERROR_MESSAGE: {
+      const errorMessages = [...state.errorMessages, action.message];
+      return {
+        ...state,
+        errorMessages,
+      };
+    }
+    case USER_LOGGED_IN_STATUS_CHANGE:
+      return {
+        ...state,
+        loggedIn: !state.loggedIn,
       };
     case SELECT_MATCHING_CHANGE:
       return {
@@ -170,14 +183,24 @@ export default (state = initialState, action = {}) => {
  * Action creators
  */
 
-export const changeInput = ({ name, value }) => ({
+export const changeInput = ({ name, value, context }) => ({
   type: INPUT_CHANGE,
   value,
   name,
+  context,
 });
 
-export const createAccount = () => ({
-  type: CREATE_ACCOUNT,
+export const changeuserAccountCreatedStatus = () => ({
+  type: USER_ACCOUNT_CREATED_STATUS_CHANGE,
+});
+
+export const setErrorMessage = message => ({
+  type: SET_ERROR_MESSAGE,
+  message,
+});
+
+export const changeUserLoggedInStatus = () => ({
+  type: USER_LOGGED_IN_STATUS_CHANGE,
 });
 
 export const changeLoggedInStatus = () => ({
@@ -217,9 +240,6 @@ export const updateNumberOfAcceptedUsers = number => ({
 });
 
 // Action Creators Socket
-export const sendMessage = () => ({
-  type: MESSAGE_SEND,
-});
 
 export const startMatch = () => ({
   type: MATCH_START,

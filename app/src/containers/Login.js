@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
  * Local import
  */
 import Login from 'src/components/Login';
-import { sendCredential } from 'src/store/socket';
+import { sendCredential } from 'src/store/middlewares/authentication';
 
 
 /*
@@ -16,9 +16,9 @@ import { sendCredential } from 'src/store/socket';
  */
 // State
 const mapStateToProps = state => ({
-  loggedIn: state.loggedIn,
-  login: state.login,
-  errorMessages: state.errorMessages,
+  loggedIn: state.auth.loggedIn,
+  login: state.auth.login,
+  errorMessages: state.auth.errorMessages,
 });
 
 // Actions

@@ -10,7 +10,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 /**
  * Local import
  */
-import { wsConnect } from 'src/store/socket';
+import { wsConnect } from 'src/store/middlewares/socket';
 import App from 'src/components/App';
 
 // Store = Gestionnaire de state externe

@@ -11,8 +11,8 @@ import reducer from 'src/store/reducers';
 
 // Middleware
 
-import socketMiddleware from './socket';
-
+import socketMiddleware from './middlewares/socket';
+import authentication from './middlewares/authentication';
 /*
  * Code
  */
@@ -23,9 +23,9 @@ if (window.devToolsExtension) {
 }
 
 // Middleware vers Enhancers
-
+const authenticationEnhancer = applyMiddleware(authentication);
 const socketEnhancer = applyMiddleware(socketMiddleware);
-const enhancers = compose(socketEnhancer, ...devTools);
+const enhancers = compose(authenticationEnhancer, socketEnhancer, ...devTools);
 
 // createStore
 const store = createStore(reducer, enhancers);

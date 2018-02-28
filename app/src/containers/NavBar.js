@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import NavBar from 'src/components/NavBar';
 
 // Action creators
-// import { changeMatchingSelect, changeTeamStatus, changeTeamCount, startMatch } from 'src/store/reducer';
+import { matchRefuse } from '../store/socket';
 
 /**
  * Code
@@ -22,25 +22,16 @@ const mapStateToProps = state => ({
 });
 
 // Actions
-// const mapDispatchToProps = dispatch => ({
-//   changeMatchingSelect: (select, value) => {
-//     dispatch(changeMatchingSelect(select, value));
-//   },
-//   changeTeamStatus: () => {
-//     dispatch(changeTeamStatus());
-//   },
-//   changeTeamCount: (value) => {
-//     dispatch(changeTeamCount(value));
-//   },
-//   startMatch: () => {
-//     dispatch(startMatch());
-//   },
-// });
+const mapDispatchToProps = dispatch => ({
+  matchRefuse: () => {
+    dispatch(matchRefuse());
+  },
+});
 
 /*
  * Container
  */
-const NavBarContainer = connect(mapStateToProps)(NavBar);
+const NavBarContainer = connect(mapStateToProps, mapDispatchToProps)(NavBar);
 
 
 /**

@@ -5,13 +5,13 @@ const initialState = {
   team: false,
   teamCount: 2,
   selectsMatching: {
-    game: 'CS:GO',
-    lang: 'Français',
+    game: 'Counter-Strike: Global Offensive',
+    lang: 'Fr',
     format: 2,
   },
   gameList: [
     {
-      name: 'CS:GO',
+      name: 'Counter-Strike: Global Offensive',
       playerMax: 5,
       formats: [
         {
@@ -59,7 +59,7 @@ const initialState = {
       ],
     },
   ],
-  langList: ['Français', 'English'],
+  langList: ['Fr', 'En'],
   matchingLoading: false,
   matchingFound: false,
   matchingAccepted: false,
@@ -98,6 +98,7 @@ const INPUT_CHANGE = 'INPUT_CHANGE';
 const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
+const SIGNUP_TO_LOGIN = 'SIGNUP_TO_LOGIN';
 
 
 /*
@@ -169,6 +170,14 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
+    case SIGNUP_TO_LOGIN:
+      return {
+        ...state,
+        login: {
+          username: state.signup.username,
+          password: state.signup.password,
+        },
+      };
     default:
       return state;
   }
@@ -228,6 +237,10 @@ export const changeMatchingAcceptedStatus = () => ({
 export const updateNumberOfAcceptedUsers = number => ({
   type: NUMBER_ACCEPTED_USER_UPDATE,
   number,
+});
+
+export const signupToLogin = () => ({
+  type: SIGNUP_TO_LOGIN,
 });
 
 // Action Creators Socket

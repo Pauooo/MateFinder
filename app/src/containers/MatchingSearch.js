@@ -25,6 +25,7 @@ const mapStateToProps = state => ({
   numberOfAcceptedUsers: state.numberOfAcceptedUsers,
   format: state.selectsMatching.format,
   matchingLoading: state.matchingLoading,
+  selectsMatching: state.selectsMatching,
 });
 
 // Actions

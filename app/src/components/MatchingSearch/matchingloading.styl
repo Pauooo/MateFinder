@@ -11,28 +11,48 @@
 	color: white
 	font-size: 2em
 
-.typewriter h1
-	overflow: hidden /* Ensures the content is not revealed until the animation */
-	border-right: .15em solid $yellow /* The typwriter cursor */
-	white-space: nowrap /* Keeps the content on a single line */
-	margin: 1em auto /* Gives that scrolling effect as the typing happens */
-	letter-spacing: .15em /* Adjust as needed */
-	animation:
-		typing 3.5s steps(40, end) infinite,
-		blink-caret .60s step-end infinite
+#content
+	width: 60%
+	margin: auto
+	text-align: left
+	font-size: 1.2em
 
-/* The typing effect */
-@keyframes typing
-	from
-		width: 0
-	50%
-		width: 100%
-	100%
-		width: 100%
+	h1
+		background-color: $purple-grey
+		color: $yellow
+		padding: .5em
+		padding-left: 1em
+		margin: .5em 0 1em 0
+		font-size: 2em
+		font-weight: 600
 
-/* The typewriter cursor effect */
-@keyframes blink-caret
-	from, to
-		border-color: transparent
-	50%
-		border-color: $yellow
+	p
+		color: $purple-grey
+		margin-bottom: .5em
+
+	#game
+		color: $yellow
+		font-weight: 600
+
+	#infoqueue
+		text-decoration: underline
+
+	#streamspanel
+		display: flex
+		justify-content: space-between
+
+		.stream
+			text-align: center
+
+			h3
+				margin-bottom: .5em
+				color: $purple-grey
+
+			a
+				background: none
+				margin: 0
+				padding: 0
+
+			img
+				width: 95%
+				margin: 0

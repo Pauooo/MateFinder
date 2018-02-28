@@ -2,6 +2,7 @@
  * Npm import
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Local import
@@ -11,7 +12,7 @@ import React from 'react';
 /**
  * Code
  */
-const LoadingNavBar = () => (
+const LoadingNavBar = ({ matchRefuse }) => (
   <div id="go-to-matching">
     <p>Recherche en cours</p>
     <div className="cssload-bell">
@@ -31,8 +32,13 @@ const LoadingNavBar = () => (
         <div className="cssload-inner" />
       </div>
     </div>
+    <button id="cancel-match" onClick={matchRefuse}>Annuler</button>
   </div>
 );
+
+LoadingNavBar.propTypes = {
+  matchRefuse: PropTypes.func.isRequired,
+};
 
 /**
  * Export

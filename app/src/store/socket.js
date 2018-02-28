@@ -11,7 +11,7 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducer';
+import { MATCH_START, setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, signupToLogin } from 'src/store/reducer';
 
 
 // socket
@@ -47,7 +47,7 @@ HMACSHA256(
 */
 
 let timerMatchAccept = null;
-let timerMaxMatching = null;
+const timerMaxMatching = null;
 
 export default store => next => (action) => {
   // Code
@@ -95,6 +95,7 @@ export default store => next => (action) => {
         store.dispatch(changeuserAccountCreatedStatus());
         // On le loggedin => state.loggedIn = true
         store.dispatch(changeUserLoggedInStatus());
+        store.dispatch(signupToLogin());
       });
 
       socket.on('creatingAccountError', (message) => {
@@ -118,13 +119,13 @@ export default store => next => (action) => {
       const { selectsMatching, team, teamCount } = store.getState();
       socket.emit('start_match', { ...selectsMatching, team, teamCount });
       store.dispatch(changeMatchingLoadingStatus());
-      timerMaxMatching = setTimeout(() => {
-        store.dispatch(matchRefuse());
-        toast('La recherche échouée', {
-          autoClose: 5000,
-          type: toast.TYPE.ERROR,
-        });
-      }, 40000);
+      // timerMaxMatching = setTimeout(() => {
+      //   store.dispatch(matchRefuse());
+      //   toast('La recherche échouée', {
+      //     autoClose: 5000,
+      //     type: toast.TYPE.ERROR,
+      //   });
+      // }, 40000);
       break;
     }
     case MATCH_ACCEPTED: {
@@ -136,6 +137,8 @@ export default store => next => (action) => {
     case MATCH_REFUSE: {
       const { matchingFound, matchingLoading } = store.getState();
       socket.emit('refuse_match', matchingFound);
+      clearTimeout(timerMaxMatching);
+      clearTimeout(timerMatchAccept);
       if (matchingLoading) store.dispatch(changeMatchingLoadingStatus());
       if (matchingFound) store.dispatch(changeMatchingFoundStatus());
       break;
@@ -145,7 +148,6 @@ export default store => next => (action) => {
       console.log(signup);
       // On envoie
       socket.emit('createAccount', signup);
-      store.dispatch(changeUserLoggedInStatus());
       break;
     }
     case SEND_CREDENTIAL: {

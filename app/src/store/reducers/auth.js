@@ -24,7 +24,7 @@ const INPUT_CHANGE = 'INPUT_CHANGE';
 const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
-
+const EMPTY_ERROR_MESSAGES = 'EMPTY_ERROR_MESSAGES';
 
 /*
  * Reducer
@@ -50,6 +50,12 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         errorMessages,
+      };
+    }
+    case EMPTY_ERROR_MESSAGES: {
+      return {
+        ...state,
+        errorMessages: [],
       };
     }
     case USER_LOGGED_IN_STATUS_CHANGE:
@@ -85,4 +91,8 @@ export const setErrorMessage = message => ({
 
 export const changeUserLoggedInStatus = () => ({
   type: USER_LOGGED_IN_STATUS_CHANGE,
+});
+
+export const emptyErrorMessages = () => ({
+  type: EMPTY_ERROR_MESSAGES,
 });

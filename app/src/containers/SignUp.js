@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
  */
 import SignUp from 'src/components/SignUp';
 import { createAccount } from 'src/store/middlewares/authentication';
-import { setErrorMessage } from 'src/store/reducers/auth';
+import { setErrorMessage, emptyErrorMessages } from 'src/store/reducers/auth';
 
 /*
  * Code
@@ -26,6 +26,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setErrorMessage: (message) => {
     dispatch(setErrorMessage(message));
+  },
+  emptyErrorMessages: () => {
+    dispatch(emptyErrorMessages());
   },
 });
 

@@ -34,13 +34,13 @@ const createMiddleware = store => next => (action) => {
           store.dispatch(changeUserLoggedInStatus());
         })
         .catch((err) => {
-          const error = err.response.status;
+          const error = err.response;
           console.log(error);
-          if (error === 403) {
+          if (error.data === 'WrongEmail') {
             const message = 'Cet email est déjà utilisé';
             store.dispatch(setErrorMessage(message));
           }
-          if (error === 404) {
+          if (error.data === 'UsernameUsed') {
             const message = 'Ce pseudo est déjà utilisé';
             store.dispatch(setErrorMessage(message));
           }
@@ -63,13 +63,13 @@ const createMiddleware = store => next => (action) => {
           store.dispatch(changeUserLoggedInStatus());
         })
         .catch((err) => {
-          const error = err.response.status;
+          const error = err.response;
           console.log(error);
-          if (error === 400) {
+          if (error.status === 401 && error.data === 'WrongUser') {
             const message = 'Ce nom d\'utilisateur n\'existe pas';
             store.dispatch(setErrorMessage(message));
           }
-          if (error === 401) {
+          if (error.status === 401 && error.data === 'WrongPassword') {
             const message = 'Vous avez saisi un mauvais mot de passe';
             store.dispatch(setErrorMessage(message));
           }

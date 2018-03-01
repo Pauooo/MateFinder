@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
  */
 import Login from 'src/components/Login';
 import { sendCredential } from 'src/store/middlewares/authentication';
-
+import { setErrorMessage, emptyErrorMessages } from 'src/store/reducers/auth';
 
 /*
  * Code
@@ -25,6 +25,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   sendCredential: () => {
     dispatch(sendCredential());
+  },
+  emptyErrorMessages: () => {
+    dispatch(emptyErrorMessages());
+  },
+  setErrorMessage: () => {
+    dispatch(setErrorMessage());
   },
 });
 

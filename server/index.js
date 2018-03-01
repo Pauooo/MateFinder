@@ -61,7 +61,6 @@ app.post('/signup', (req, res) => {
           const salt = bcrypt.genSaltSync(saltRounds);
           const hash = bcrypt.hashSync(myPlaintextPassword, salt);
           user.password = hash;
-          user.userSocketId = socket.id;
           // on sauve en BDD
           user.save((err) => {
             if (err) throw err;
@@ -132,9 +131,9 @@ io.use(jwtAuth.authenticate({
   algorithm: 'HS256', // optional, default to be HS256
   // succeedWithoutToken: true,
 }, (payload, done) => {
-  console.log(payload);
+
   // done is a callback, you can use it as follows
-  UserModel.findOne({ _id: payload.sub }, (err, user) => {
+  UserModel.findOne({ username: payload.username }, (err, user) => {
     if (err) {
       // return error
       return done(err);
@@ -155,6 +154,16 @@ io.on('connection', (socket) => {
   let MinTimeBeforeMatch = null;
 
   console.log('Authentication passed!');
+
+  UserModel.update(
+    { username: socket.request.user.username },
+    { userSocketId: socket.id },
+    {},
+    (err) => {
+      if (err) throw err;
+    },
+  );
+
   // now you can access user info through socket.request.user
   // socket.request.user.logged_in will be set to true if the user was authenticated
   socket.emit('success', {

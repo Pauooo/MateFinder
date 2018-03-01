@@ -11,11 +11,12 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducers';
+import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducers/matching';
 
 
 // socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
+const IO_START = 'IO_START';
 
 // Matching
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
@@ -24,7 +25,7 @@ const MATCH_REFUSE = 'MATCH_REFUSE';
 /*
  * Middleware
  */
-const socket = io('http://localhost:3000');
+let socket = null
 
 /*
 {
@@ -114,6 +115,12 @@ export default store => next => (action) => {
       if (matchingFound) store.dispatch(changeMatchingFoundStatus());
       break;
     }
+    case IO_START: {
+      console.log(action.token);
+      socket = io('http://localhost:3000', { query: `auth_token=${action.token}` });
+      store.dispatch(wsConnect());
+      break;
+    }
     default:
   }
   // On passe au voisin
@@ -133,4 +140,9 @@ export const matchAccepted = () => ({
 
 export const matchRefuse = () => ({
   type: MATCH_REFUSE,
+});
+
+export const startIO = token => ({
+  type: IO_START,
+  token,
 });

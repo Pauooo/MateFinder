@@ -47,7 +47,7 @@ HMACSHA256(
 */
 
 let timerMatchAccept = null;
-const timerMaxMatching = null;
+let timerMaxMatching = null;
 
 export default store => next => (action) => {
   // Code
@@ -119,13 +119,13 @@ export default store => next => (action) => {
       const { selectsMatching, team, teamCount } = store.getState();
       socket.emit('start_match', { ...selectsMatching, team, teamCount });
       store.dispatch(changeMatchingLoadingStatus());
-      // timerMaxMatching = setTimeout(() => {
-      //   store.dispatch(matchRefuse());
-      //   toast('La recherche échouée', {
-      //     autoClose: 5000,
-      //     type: toast.TYPE.ERROR,
-      //   });
-      // }, 40000);
+      timerMaxMatching = setTimeout(() => {
+        store.dispatch(matchRefuse());
+        toast('La recherche échouée', {
+          autoClose: 5000,
+          type: toast.TYPE.ERROR,
+        });
+      }, 40000);
       break;
     }
     case MATCH_ACCEPTED: {

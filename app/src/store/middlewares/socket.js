@@ -100,7 +100,7 @@ export default store => next => (action) => {
       timerMaxMatching = setTimeout(() => {
         store.dispatch(matchRefuse());
         toast('La recherche a échouée', {
-          autoClose: false,
+          autoClose: 5000,
           type: toast.TYPE.ERROR,
           bodyClassName: 'toast',
         });

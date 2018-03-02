@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, style } from 'react-toastify';
 import PropTypes from 'prop-types';
 
 /**
@@ -19,6 +19,22 @@ import NavBar from 'src/containers/NavBar';
 /**
  * Code
  */
+
+style({
+  colorDefault: '#505F79',
+  colorInfo: '#505F79',
+  colorSuccess: '#505F79',
+  colorWarning: '#505F79',
+  colorError: '#505F79',
+  mobile: 'only screen and (max-width : 480px)',
+  fontFamily: 'sans-serif',
+  zIndex: 9999,
+  TOP_RIGHT: {
+    top: '5em',
+    right: '1em',
+  },
+});
+
 class App extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,

@@ -17,12 +17,6 @@ import axios from 'axios';
 
 class MatchingSearch extends React.Component {
   static propTypes = {
-    // matchingFound: PropTypes.bool.isRequired,
-    // matchingAccepted: PropTypes.bool.isRequired,
-    // matchAccepted: PropTypes.func.isRequired,
-    // matchRefuse: PropTypes.func.isRequired,
-    // numberOfAcceptedUsers: PropTypes.number.isRequired,
-    // format: PropTypes.number.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
     selectsMatching: PropTypes.object.isRequired,
   }

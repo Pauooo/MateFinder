@@ -5,13 +5,13 @@ const initialState = {
   team: false,
   teamCount: 2,
   selectsMatching: {
-    game: 'CS:GO',
-    lang: 'Français',
+    game: 'Counter-Strike: Global Offensive',
+    lang: 'Fr',
     format: 2,
   },
   gameList: [
     {
-      name: 'CS:GO',
+      name: 'Counter-Strike: Global Offensive',
       playerMax: 5,
       formats: [
         {
@@ -59,7 +59,7 @@ const initialState = {
       ],
     },
   ],
-  langList: ['Français', 'English'],
+  langList: ['Fr', 'En'],
   matchingLoading: false,
   matchingFound: false,
   matchingAccepted: false,
@@ -162,6 +162,10 @@ export const changeMatchingAcceptedStatus = () => ({
 export const updateNumberOfAcceptedUsers = number => ({
   type: NUMBER_ACCEPTED_USER_UPDATE,
   number,
+});
+
+export const signupToLogin = () => ({
+  type: SIGNUP_TO_LOGIN,
 });
 
 // Action Creators Socket

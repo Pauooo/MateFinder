@@ -191,17 +191,17 @@ io.on('connection', (socket) => {
               if (found) return;
               if (data.team && (comm.max_users - comm.current_users) >= data.teamCount) {
                 console.log(`Ajout a la room ${comm.id}`);
-                matching.AddUserRoom(socket.id, comm.id, comm.current_users);
+                matching.AddUserRoom(socket.id, comm.id, comm.current_users, io);
                 found = true;
               }
               else if (!data.team) {
                 console.log(`Ajout a la room ${comm.id}`);
-                matching.AddUserRoom(socket.id, comm.id, comm.current_users);
+                matching.AddUserRoom(socket.id, comm.id, comm.current_users, io);
                 found = true;
               }
             });
             if (!found) {
-              matching.CreateNewRoom(data, socket.id);
+              matching.CreateNewRoom(data, socket.id, io);
             }
           }
         });
@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
 
   socket.on('refuse_match', () => {
     if (!MinTimeBeforeMatch._called) clearTimeout(MinTimeBeforeMatch);
-    else matching.RemoveUserRoom(socket.id);
+    else matching.RemoveUserRoom(socket.id, io);
   });
 
 
@@ -280,7 +280,7 @@ io.on('connection', (socket) => {
 
   // quand l'user quitte le site
   socket.on('disconnect', () => {
-    matching.RemoveUserRoom(socket.id);
+    matching.RemoveUserRoom(socket.id, io);
   });
 });
 

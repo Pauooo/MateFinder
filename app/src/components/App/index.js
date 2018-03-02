@@ -14,7 +14,7 @@ import SignUp from 'src/containers/SignUp';
 import Password from 'src/components/Password';
 import MatchingForm from 'src/containers/MatchingForm';
 import MatchingSearch from 'src/containers/MatchingSearch';
-import NavBar from 'src/components/NavBar';
+import NavBar from 'src/containers/NavBar';
 /**
  * Code
  */

@@ -25,7 +25,7 @@ const MATCH_REFUSE = 'MATCH_REFUSE';
 /*
  * Middleware
  */
-let socket = null
+let socket = null;
 
 /*
 {
@@ -79,7 +79,7 @@ export default store => next => (action) => {
           type: toast.TYPE.ERROR,
         });
         store.dispatch(changeMatchingFoundStatus());
-        if (store.getState().matchingAccepted) {
+        if (store.getState().matching.matchingAccepted) {
           store.dispatch(changeMatchingAcceptedStatus());
         }
       });
@@ -90,7 +90,7 @@ export default store => next => (action) => {
       break;
     }
     case MATCH_START: {
-      const { selectsMatching, team, teamCount } = store.getState();
+      const { selectsMatching, team, teamCount } = store.getState().matching;
       socket.emit('start_match', { ...selectsMatching, team, teamCount });
       store.dispatch(changeMatchingLoadingStatus());
       timerMaxMatching = setTimeout(() => {
@@ -109,8 +109,10 @@ export default store => next => (action) => {
       break;
     }
     case MATCH_REFUSE: {
-      const { matchingFound, matchingLoading } = store.getState();
+      const { matchingFound, matchingLoading } = store.getState().matching;
       socket.emit('refuse_match', matchingFound);
+      clearTimeout(timerMaxMatching);
+      clearTimeout(timerMatchAccept);
       if (matchingLoading) store.dispatch(changeMatchingLoadingStatus());
       if (matchingFound) store.dispatch(changeMatchingFoundStatus());
       break;

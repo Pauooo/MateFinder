@@ -27,7 +27,7 @@ const Matching = {
       });
   },
 
-  AddUserRoom: (userSocket, roomId, usersInRoom) => {
+  AddUserRoom: (userSocket, roomId, usersInRoom, ioConnection) => {
     // on update room_id de l'user dans la Bdd
     const userConditions = { userSocketId: userSocket };
     const userUpdate = { room_id: roomId };
@@ -58,7 +58,7 @@ const Matching = {
                 if (err3) throw err;
               };
               RoomModel.update({ _id: roomId }, { open: false }, roomOptions, callBackUpdate);
-              Matching.SendNotificationToRoomUsers(roomId, 'RoomFound');
+              Matching.SendNotificationToRoomUsers(roomId, 'RoomFound', ioConnection);
             }
           });
       }
@@ -78,7 +78,7 @@ const Matching = {
     UserModel.update(conditions, update, options, callback);
   },
 
-  RemoveUserRoom: (userSocket) => {
+  RemoveUserRoom: (userSocket, ioConnection) => {
     // On récupère l'user
     UserModel.findOne({ userSocketId: userSocket })
       .exec((err, user) => {
@@ -90,7 +90,6 @@ const Matching = {
           RoomModel.findOne({ _id: roomId })
             .exec((err2, room) => {
               if (err2) throw err2;
-              console.log(room);
               if (room.current_users - 1 === 0) {
                 RoomModel.update({ _id: roomId }, { open: false }, { multi: true }, (err3) => {
                   if (err3) throw err3;
@@ -111,7 +110,7 @@ const Matching = {
                         .exec((err4, users) => {
                           users.forEach((usr) => {
                             if (usr.userSocketId !== userSocket) {
-                              Matching.SendNotificationToUser(usr.userSocketId, 'UserRoomNotAccepted');
+                              Matching.SendNotificationToUser(usr.userSocketId, 'UserRoomNotAccepted', ioConnection);
                               RoomModel.update(
                                 { _id: roomId },
                                 { open: true },
@@ -132,7 +131,7 @@ const Matching = {
       });
   },
 
-  CreateNewRoom: (data, userSocket) => {
+  CreateNewRoom: (data, userSocket, ioConnection) => {
     // On crée une instance du Model Room
     const room = new RoomModel();
     // On défini ces propriétés
@@ -147,7 +146,7 @@ const Matching = {
         throw err;
       }
       console.log('room ajoutée avec succès !');
-      Matching.AddUserRoom(userSocket, roomData.id, roomData.current_users);
+      Matching.AddUserRoom(userSocket, roomData.id, roomData.current_users, ioConnection);
     });
   },
 };

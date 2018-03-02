@@ -22,9 +22,8 @@ import { matchAccepted, matchRefuse } from 'src/store/middlewares/socket';
 const mapStateToProps = state => ({
   matchingFound: state.matching.matchingFound,
   matchingAccepted: state.matching.matchingAccepted,
-  numberOfAcceptedUsers: state.matching.numberOfAcceptedUsers,
-  format: state.matching.selectsMatching.format,
   matchingLoading: state.matching.matchingLoading,
+  selectsMatching: state.matching.selectsMatching,
 });
 
 // Actions

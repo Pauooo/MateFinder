@@ -15,8 +15,8 @@ import AcceptedNavBar from 'src/components/NavBar/AcceptedNavBar';
  */
 // State
 const mapStateToProps = state => ({
-  numberOfAcceptedUsers: state.numberOfAcceptedUsers,
-  format: state.selectsMatching.format,
+  numberOfAcceptedUsers: state.matching.numberOfAcceptedUsers,
+  format: state.matching.selectsMatching.format,
 });
 
 // Actions

@@ -25,6 +25,7 @@ const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
 const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
 const EMPTY_ERROR_MESSAGES = 'EMPTY_ERROR_MESSAGES';
+const SIGNUP_TO_LOGIN = 'SIGNUP_TO_LOGIN';
 
 /*
  * Reducer
@@ -63,6 +64,15 @@ export default (state = initialState, action = {}) => {
         ...state,
         loggedIn: !state.loggedIn,
       };
+    case SIGNUP_TO_LOGIN: {
+      return {
+        ...state,
+        login: {
+          username: state.signup.username,
+          password: state.signup.password,
+        },
+      };
+    }
 
     default:
       return state;
@@ -95,4 +105,8 @@ export const changeUserLoggedInStatus = () => ({
 
 export const emptyErrorMessages = () => ({
   type: EMPTY_ERROR_MESSAGES,
+});
+
+export const signupToLogin = () => ({
+  type: SIGNUP_TO_LOGIN,
 });

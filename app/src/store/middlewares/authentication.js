@@ -7,7 +7,7 @@ import jwtDecode from 'jwt-decode';
 /*
  * Local import
  */
-import { setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus } from 'src/store/reducers/auth';
+import { setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, signupToLogin } from 'src/store/reducers/auth';
 import { startIO } from 'src/store/middlewares/socket';
 /*
  * Code
@@ -34,6 +34,7 @@ const createMiddleware = store => next => (action) => {
           store.dispatch(changeuserAccountCreatedStatus());
           store.dispatch(changeUserLoggedInStatus());
           store.dispatch(startIO(resp.data.token));
+          store.dispatch(signupToLogin());
         })
         .catch((err) => {
           const error = err.response;

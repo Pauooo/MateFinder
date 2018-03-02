@@ -28,12 +28,12 @@ class Login extends React.Component {
   handleSubmit = (evt) => {
     evt.preventDefault();
     const { login } = this.props;
+    this.props.emptyErrorMessages();
     console.log(login);
     if (login.username === '' || login.password === '') {
       const message = 'Merci de bien remplir tous les champs';
       this.props.setErrorMessage(message);
     }
-    this.props.emptyErrorMessages();
     this.props.sendCredential();
   }
 

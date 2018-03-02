@@ -64,20 +64,6 @@ const initialState = {
   matchingFound: false,
   matchingAccepted: false,
   numberOfAcceptedUsers: 0,
-  // authentication
-  userAccountCreated: false,
-  loggedIn: false,
-  signup: {
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirmation: '',
-  },
-  login: {
-    username: '',
-    password: '',
-  },
-  errorMessages: [],
 };
 
 
@@ -93,44 +79,12 @@ const NUMBER_ACCEPTED_USER_UPDATE = 'NUMBER_ACCEPTED_USER_UPDATE';
 // Socket
 export const MATCH_START = 'MATCH_START';
 
-// authentication
-const INPUT_CHANGE = 'INPUT_CHANGE';
-const USER_ACCOUNT_CREATED_STATUS_CHANGE = 'USER_ACCOUNT_CREATED_STATUS_CHANGE';
-const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
-const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
-
 
 /*
  * Reducer
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case INPUT_CHANGE:
-      return {
-        ...state,
-        [action.context]: {
-          ...state[action.context],
-          [action.name]: action.value,
-        },
-      };
-
-    case USER_ACCOUNT_CREATED_STATUS_CHANGE:
-      return {
-        ...state,
-        userAccountCreated: !state.userAccountCreated,
-      };
-    case SET_ERROR_MESSAGE: {
-      const errorMessages = [...state.errorMessages, action.message];
-      return {
-        ...state,
-        errorMessages,
-      };
-    }
-    case USER_LOGGED_IN_STATUS_CHANGE:
-      return {
-        ...state,
-        loggedIn: !state.loggedIn,
-      };
     case SELECT_MATCHING_CHANGE:
       return {
         ...state,
@@ -169,11 +123,6 @@ export default (state = initialState, action = {}) => {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
-    case LOGGEDIN_STATUS_CHANGE:
-      return {
-        ...state,
-        loggedIn: !state.loggedIn,
-      };
     default:
       return state;
   }
@@ -182,30 +131,6 @@ export default (state = initialState, action = {}) => {
 /*
  * Action creators
  */
-
-export const changeInput = ({ name, value, context }) => ({
-  type: INPUT_CHANGE,
-  value,
-  name,
-  context,
-});
-
-export const changeuserAccountCreatedStatus = () => ({
-  type: USER_ACCOUNT_CREATED_STATUS_CHANGE,
-});
-
-export const setErrorMessage = message => ({
-  type: SET_ERROR_MESSAGE,
-  message,
-});
-
-export const changeUserLoggedInStatus = () => ({
-  type: USER_LOGGED_IN_STATUS_CHANGE,
-});
-
-export const changeLoggedInStatus = () => ({
-  type: LOGGEDIN_STATUS_CHANGE,
-});
 
 export const changeMatchingSelect = (select, value) => ({
   type: SELECT_MATCHING_CHANGE,

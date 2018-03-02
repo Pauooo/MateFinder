@@ -11,6 +11,8 @@ const UserModel = require('./models/Users');
 const matching = require('./controllers/matching');
 const jwtAuth = require('socketio-jwt-auth');
 const config = require('./config');
+const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
 
 
 /*
@@ -19,9 +21,92 @@ const config = require('./config');
 const app = express();
 const server = Server(app);
 const io = socket(server);
+/*
+. Routes pour axios
+*/
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
+// On utilise body-parser pour avoir les info de POST et GET
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+
+app.post('/signup', (req, res) => {
+  const { username, email, password } = req.body;
+  // on verifie que le username est unique
+  UserModel.findOne({ username }, (err, existingUsername) => {
+    if (err) throw err;
+    if (existingUsername) {
+      res.status(401).send('UsernameUsed');
+    }
+    else {
+      // on verifie que l'email est unique
+      UserModel.findOne({ email }, (err, existingEmail) => {
+        if (err) throw err;
+        if (existingEmail) {
+          res.status(401).send('WrongEmail');
+        }
+        else {
+          const user = new UserModel();
+          // On définit ces propriétés
+          user.username = username;
+          user.email = email;
+          // on hash le mot de passe avant de le définir dans la BDD
+          const myPlaintextPassword = password;
+          const saltRounds = 10;
+          const salt = bcrypt.genSaltSync(saltRounds);
+          const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+          user.password = hash;
+          // on sauve en BDD
+          user.save((err) => {
+            if (err) throw err;
+            else {
+              const token = jwt.sign({
+                username: user.username,
+              }, config.secret);
+              res.json({ token });
+              // res.send('accountCreated');
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  UserModel.findOne()
+    .where('username', username)
+    .exec((err, user) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (user === null) {
+        res.status(401).send('WrongUser');
+      }
+      else if (bcrypt.compareSync(password, user.password)) {
+        // Passwords match
+        const token = jwt.sign({
+          username: user.username,
+        }, config.secret);
+        res.json({ token });
+        // res.send('signIn');
+      }
+      else {
+        res.status(401).send('WrongPassword');
+      }
+    });
+  // // we are sending the profile in the token
+  // const token = jwt.sign(profile, jwtSecret, { expiresInMinutes: 60 * 5 });
+
+  // res.json({ message: 'API Initialized!' });
 });
 
 /**
@@ -44,11 +129,11 @@ mongoose.connect('mongodb://localhost/matefinder', (err) => {
 io.use(jwtAuth.authenticate({
   secret: config.secret, // required, used to verify the token's signature
   algorithm: 'HS256', // optional, default to be HS256
-  succeedWithoutToken: true,
+  // succeedWithoutToken: true,
 }, (payload, done) => {
-  console.log(payload);
+
   // done is a callback, you can use it as follows
-  UserModel.findOne({ _id: payload.sub }, (err, user) => {
+  UserModel.findOne({ username: payload.username }, (err, user) => {
     if (err) {
       // return error
       return done(err);
@@ -69,6 +154,16 @@ io.on('connection', (socket) => {
   let MinTimeBeforeMatch = null;
 
   console.log('Authentication passed!');
+
+  UserModel.update(
+    { username: socket.request.user.username },
+    { userSocketId: socket.id },
+    {},
+    (err) => {
+      if (err) throw err;
+    },
+  );
+
   // now you can access user info through socket.request.user
   // socket.request.user.logged_in will be set to true if the user was authenticated
   socket.emit('success', {
@@ -181,30 +276,6 @@ io.on('connection', (socket) => {
         socket.emit('accountCreated');
       }
     });
-  });
-
-  // signIn du user
-  socket.on('sendCredential', (data) => {
-    console.log(data);
-    // on verifie que le username existe
-    UserModel.findOne()
-      .where('username', data.username)
-      .exec((err, user) => {
-        if (err) throw err;
-        if (user === null) {
-          console.log('Ce nom d\'utilisateur n\'existe pas');
-          socket.emit('signInError', 'Ce nom d\'utilisateur n\'existe pas');
-        }
-        else if (bcrypt.compareSync(data.password, user.password)) {
-          // Passwords match
-          console.log('YEP, Tu peux passer');
-          socket.emit('signIn');
-        }
-        else {
-          console.log('NOPE, Tu peux pas passer');
-          socket.emit('signInError', 'Vous avez saisi un mauvais mot de passe');
-        }
-      });
   });
 
   // quand l'user quitte le site

@@ -10,7 +10,7 @@ import MatchingSearch from 'src/components/MatchingSearch';
 
 // Action creators
 // import { changeMatchingAcceptedStatus } from 'src/store/reducer';
-import { matchAccepted, matchRefuse } from 'src/store/socket';
+import { matchAccepted, matchRefuse } from 'src/store/middlewares/socket';
 
 /**
  * Code
@@ -20,11 +20,11 @@ import { matchAccepted, matchRefuse } from 'src/store/socket';
 // Si je ne veux pas renvoyer de props
 // `const mapStateToProps = null;`
 const mapStateToProps = state => ({
-  matchingFound: state.matchingFound,
-  matchingAccepted: state.matchingAccepted,
-  numberOfAcceptedUsers: state.numberOfAcceptedUsers,
-  format: state.selectsMatching.format,
-  matchingLoading: state.matchingLoading,
+  matchingFound: state.matching.matchingFound,
+  matchingAccepted: state.matching.matchingAccepted,
+  numberOfAcceptedUsers: state.matching.numberOfAcceptedUsers,
+  format: state.matching.selectsMatching.format,
+  matchingLoading: state.matching.matchingLoading,
 });
 
 // Actions

@@ -9,7 +9,9 @@ import ReactTooltip from 'react-tooltip';
 /**
  * Local import
  */
-import LoadingNavBar from 'src/components/NavBar/LoadingNavBar';
+import LoadingNavBar from 'src/containers/LoadingNavBar';
+import FindingNavBar from 'src/containers/FindingNavBar';
+import AcceptedNavBar from 'src/containers/AcceptedNavBar';
 
 /**
  * Code
@@ -19,13 +21,14 @@ class NavBar extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
-    matchRefuse: PropTypes.func.isRequired,
+    matchingFound: PropTypes.bool.isRequired,
+    matchingAccepted: PropTypes.bool.isRequired,
   }
   state = {}
 
   render() {
     const {
-      loggedIn, username, matchingLoading, matchRefuse,
+      loggedIn, username, matchingLoading, matchingFound, matchingAccepted,
     } = this.props;
     if (loggedIn) {
       return (
@@ -51,10 +54,22 @@ class NavBar extends React.Component {
               Recherche
               </NavLink>
             )}
-            {matchingLoading && (
+            {(matchingLoading && !matchingFound) && (
               <div>
                 <ReactTooltip place="bottom" />
-                <LoadingNavBar matchRefuse={matchRefuse} />
+                <LoadingNavBar />
+              </div>
+            )}
+            {(matchingFound && !matchingAccepted) && (
+              <div>
+                <ReactTooltip place="bottom" />
+                <FindingNavBar />
+              </div>
+            )}
+            {matchingAccepted && (
+              <div>
+                <ReactTooltip place="bottom" />
+                <AcceptedNavBar />
               </div>
             )}
           </div>

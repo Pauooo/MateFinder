@@ -17,12 +17,12 @@ import axios from 'axios';
 
 class MatchingSearch extends React.Component {
   static propTypes = {
-    matchingFound: PropTypes.bool.isRequired,
-    matchingAccepted: PropTypes.bool.isRequired,
-    matchAccepted: PropTypes.func.isRequired,
-    matchRefuse: PropTypes.func.isRequired,
-    numberOfAcceptedUsers: PropTypes.number.isRequired,
-    format: PropTypes.number.isRequired,
+    // matchingFound: PropTypes.bool.isRequired,
+    // matchingAccepted: PropTypes.bool.isRequired,
+    // matchAccepted: PropTypes.func.isRequired,
+    // matchRefuse: PropTypes.func.isRequired,
+    // numberOfAcceptedUsers: PropTypes.number.isRequired,
+    // format: PropTypes.number.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
     selectsMatching: PropTypes.object.isRequired,
   }
@@ -79,12 +79,12 @@ class MatchingSearch extends React.Component {
 
   render() {
     const {
-      matchingFound,
-      matchingAccepted,
-      matchAccepted,
-      matchRefuse,
-      numberOfAcceptedUsers,
-      format,
+      // matchingFound,
+      // matchingAccepted,
+      // matchAccepted,
+      // matchRefuse,
+      // numberOfAcceptedUsers,
+      // format,
       matchingLoading,
       selectsMatching,
     } = this.props;
@@ -98,20 +98,20 @@ class MatchingSearch extends React.Component {
         <p>Chargement</p>
       );
     }
-    else if (matchingFound) {
-      return (
-        <div id="matchingloading" >
-          <h1>Une partie a été trouvée !</h1>
-          {(!matchingAccepted &&
-            <div>
-              <button onClick={matchAccepted}>Accepter</button>
-              <button onClick={matchRefuse}>Annuler</button>
-            </div>
-          )}
-          {(matchingAccepted && <h1>{`${numberOfAcceptedUsers}/${format}`}</h1>)}
-        </div>
-      );
-    }
+    // else if (matchingFound) {
+    //   return (
+    //     <div id="matchingloading" >
+    //       <h1>Une partie a été trouvée !</h1>
+    //       {(!matchingAccepted &&
+    //         <div>
+    //           <button onClick={matchAccepted}>Accepter</button>
+    //           <button onClick={matchRefuse}>Annuler</button>
+    //         </div>
+    //       )}
+    //       {(matchingAccepted && <h1>{`${numberOfAcceptedUsers}/${format}`}</h1>)}
+    //     </div>
+    //   );
+    // }
     return (
       <div id="content">
         <div>

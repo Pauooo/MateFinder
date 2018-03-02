@@ -22,8 +22,6 @@ import { matchAccepted, matchRefuse } from 'src/store/socket';
 const mapStateToProps = state => ({
   matchingFound: state.matchingFound,
   matchingAccepted: state.matchingAccepted,
-  numberOfAcceptedUsers: state.numberOfAcceptedUsers,
-  format: state.selectsMatching.format,
   matchingLoading: state.matchingLoading,
   selectsMatching: state.selectsMatching,
 });

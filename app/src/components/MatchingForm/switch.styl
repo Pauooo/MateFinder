@@ -2,11 +2,12 @@
 
 .switch
 	display: flex
-	justify-content: space-between
+	justify-content: space-between;
 	align-items: center
 	margin-bottom: 1em
 	color: $yellow
 	font-weight: bold
+	width: 10em
 
 	// #team
 	// 	margin-left: .5em
@@ -34,12 +35,12 @@
 		width: 1.2em
 		height: 1.2em
 		background: $purple-grey
-		border-radius: 90px
+		border-radius: 1.2em
 		transition: 0.3s
 		border: .2em solid $yellow
 
 	input:checked + label:before
-		left: calc(100% - 5px)
+		left: calc(100% - .2em)
 		transform: translateX(-100%)
 
 	label:active:before

@@ -12,18 +12,20 @@ import PropTypes from 'prop-types';
 /**
  * Code
  */
-class LoadingNavBar extends React.Component {
+class AcceptedNavBar extends React.Component {
   static propTypes = {
-    matchRefuse: PropTypes.func.isRequired,
+    numberOfAcceptedUsers: PropTypes.number.isRequired,
+    format: PropTypes.number.isRequired,
   }
 
   state = {}
 
   render() {
-    const { matchRefuse } = this.props;
+    const { numberOfAcceptedUsers, format } = this.props;
     return (
       <div id="go-to-matching">
-        <p>Recherche en cours</p>
+        <p>Création de la chatroom</p>
+        <p>{`${numberOfAcceptedUsers}/${format}`}</p>
         <div className="cssload-bell">
           <div className="cssload-circle">
             <div className="cssload-inner" />
@@ -41,7 +43,6 @@ class LoadingNavBar extends React.Component {
             <div className="cssload-inner" />
           </div>
         </div>
-        <button className="loadingbutton" onClick={matchRefuse}>Annuler</button>
       </div>
     );
   }
@@ -50,4 +51,4 @@ class LoadingNavBar extends React.Component {
 /**
  * Export
  */
-export default LoadingNavBar;
+export default AcceptedNavBar;

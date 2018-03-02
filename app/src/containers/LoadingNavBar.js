@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import LoadingNavBar from 'src/components/NavBar/LoadingNavBar';
 
 // Action creators
-import { matchRefuse } from '../store/socket';
+import { matchRefuse } from '../store/middlewares/socket';
 
 /**
  * Code

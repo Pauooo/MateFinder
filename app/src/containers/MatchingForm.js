@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Matching from 'src/components/MatchingForm';
 
 // Action creators
-import { changeMatchingSelect, changeTeamStatus, changeTeamCount, startMatch } from 'src/store/reducer';
+import { changeMatchingSelect, changeTeamStatus, changeTeamCount, startMatch } from 'src/store/reducers/matching';
 
 /**
  * Code
@@ -19,16 +19,16 @@ import { changeMatchingSelect, changeTeamStatus, changeTeamCount, startMatch } f
 // Si je ne veux pas renvoyer de props
 // `const mapStateToProps = null;`
 const mapStateToProps = state => ({
-  gameSelected: state.selectsMatching.game,
-  langSelected: state.selectsMatching.lang,
-  formatSelected: state.selectsMatching.format,
-  gameList: state.gameList,
-  langList: state.langList,
-  formatList: state.formatList,
-  team: state.team,
-  teamCount: state.teamCount,
-  matchingLoading: state.matchingLoading,
-  loggedIn: state.loggedIn,
+  gameSelected: state.matching.selectsMatching.game,
+  langSelected: state.matching.selectsMatching.lang,
+  formatSelected: state.matching.selectsMatching.format,
+  gameList: state.matching.gameList,
+  langList: state.matching.langList,
+  formatList: state.matching.formatList,
+  team: state.matching.team,
+  teamCount: state.matching.teamCount,
+  matchingLoading: state.matching.matchingLoading,
+  loggedIn: state.auth.loggedIn,
 });
 
 // Actions

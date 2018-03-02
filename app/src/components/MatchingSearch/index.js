@@ -49,42 +49,10 @@ class MatchingSearch extends React.Component {
           contentLoading: true,
         });
       });
-
-    // axios({
-    //   method: 'get',
-    //   url: 'https://api-endpoint.igdb.com/games/',
-    //   headers: { 'user-key': 'ee3ee465baaf30227734736b02e125e7' },
-    // })
-    //   .then((resp) => {
-    //     console.log(resp);
-    //     // this.setState({
-    //     //   news: [...resp.data.streams],
-    //     //   contentLoading: true,
-    //     // });
-    //   });
-
-    // const client = igdb('ee3ee465baaf30227734736b02e125e7');
-    //
-    // client.games({
-    //   fields: '*', // Return all fields
-    //   limit: 5, // Limit to 5 results
-    //   offset: 15, // Index offset for results
-    // }).then((response) => {
-    //   console.log(response);
-    //   // response.body contains the parsed JSON response to this query
-    // }).catch((error) => {
-    //   throw error;
-    // });
   }
 
   render() {
     const {
-      // matchingFound,
-      // matchingAccepted,
-      // matchAccepted,
-      // matchRefuse,
-      // numberOfAcceptedUsers,
-      // format,
       matchingLoading,
       selectsMatching,
     } = this.props;
@@ -98,20 +66,6 @@ class MatchingSearch extends React.Component {
         <p>Chargement</p>
       );
     }
-    // else if (matchingFound) {
-    //   return (
-    //     <div id="matchingloading" >
-    //       <h1>Une partie a été trouvée !</h1>
-    //       {(!matchingAccepted &&
-    //         <div>
-    //           <button onClick={matchAccepted}>Accepter</button>
-    //           <button onClick={matchRefuse}>Annuler</button>
-    //         </div>
-    //       )}
-    //       {(matchingAccepted && <h1>{`${numberOfAcceptedUsers}/${format}`}</h1>)}
-    //     </div>
-    //   );
-    // }
     return (
       <div id="content">
         <div>
@@ -121,7 +75,7 @@ class MatchingSearch extends React.Component {
         <h1>Streaming</h1>
         <div id="streamspanel" >
           {this.state.streams.map(stream => (
-            <div className="stream">
+            <div key={stream.channel.display_name} className="stream">
               <h3>TWITCH - {stream.channel.display_name}</h3>
               <a target="_blank" href={stream.channel.url}>
                 <img src={stream.preview.medium} alt="" />

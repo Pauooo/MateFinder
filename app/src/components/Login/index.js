@@ -18,12 +18,22 @@ import data from 'src/datas';
 class Login extends React.Component {
   static propTypes = {
     sendCredential: PropTypes.func.isRequired,
+    emptyErrorMessages: PropTypes.func.isRequired,
+    setErrorMessage: PropTypes.func.isRequired,
     errorMessages: PropTypes.array.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    login: PropTypes.object.isRequired,
   }
 
   handleSubmit = (evt) => {
     evt.preventDefault();
+    const { login } = this.props;
+    this.props.emptyErrorMessages();
+    console.log(login);
+    if (login.username === '' || login.password === '') {
+      const message = 'Merci de bien remplir tous les champs';
+      this.props.setErrorMessage(message);
+    }
     this.props.sendCredential();
   }
 

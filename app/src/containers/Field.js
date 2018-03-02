@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
  * Local import
  */
 import Field from 'src/components/Field';
-import { changeInput } from 'src/store/reducer';
+import { changeInput } from 'src/store/reducers/auth';
 
 
 /*
@@ -16,7 +16,7 @@ import { changeInput } from 'src/store/reducer';
  */
 // State
 const mapStateToProps = (state, ownProps) => ({
-  value: state[ownProps.context][ownProps.name],
+  value: state.auth[ownProps.context][ownProps.name],
 });
 
 // Actions

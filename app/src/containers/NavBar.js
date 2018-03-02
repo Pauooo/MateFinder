@@ -9,18 +9,18 @@ import { connect } from 'react-redux';
 import NavBar from 'src/components/NavBar';
 
 // Action creators
-// import { matchRefuse, matchAccepted } from '../store/socket';
+// import { matchRefuse, matchAccepted } from '../store/middlewares/socket';
 
 /**
  * Code
  */
 // State
 const mapStateToProps = state => ({
-  loggedIn: state.loggedIn,
-  username: state.login.username,
-  matchingFound: state.matchingFound,
-  matchingLoading: state.matchingLoading,
-  matchingAccepted: state.matchingAccepted,
+  loggedIn: state.auth.loggedIn,
+  username: state.auth.login.username,
+  matchingFound: state.matching.matchingFound,
+  matchingLoading: state.matching.matchingLoading,
+  matchingAccepted: state.matching.matchingAccepted,
 });
 
 // Actions

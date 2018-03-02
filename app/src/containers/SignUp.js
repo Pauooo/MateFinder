@@ -3,23 +3,29 @@
  */
 import { connect } from 'react-redux';
 
-
 /*
  * Local import
  */
 import SignUp from 'src/components/SignUp';
 import { createAccount } from 'src/store/socket';
-
+import { setErrorMessage } from 'src/store/reducer';
 
 /*
  * Code
  */
 // State
-const mapStateToProps = null;
+const mapStateToProps = state => ({
+  userAccountCreated: state.userAccountCreated,
+  signup: state.signup,
+  errorMessages: state.errorMessages,
+});
 // Actions
 const mapDispatchToProps = dispatch => ({
   createAccount: () => {
     dispatch(createAccount());
+  },
+  setErrorMessage: (message) => {
+    dispatch(setErrorMessage(message));
   },
 });
 

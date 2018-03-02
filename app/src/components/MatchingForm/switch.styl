@@ -1,13 +1,13 @@
-$yellow = rgb(233, 203, 2)
-$bg-color = rgb(61, 82, 135)
+@require "app/styles/charte"
 
 .switch
 	display: flex
-	justify-content: space-between
+	justify-content: space-between;
 	align-items: center
 	margin-bottom: 1em
 	color: $yellow
 	font-weight: bold
+	width: 10em
 
 	// #team
 	// 	margin-left: .5em
@@ -22,7 +22,7 @@ $bg-color = rgb(61, 82, 135)
 		text-indent: -9999px
 		width: 3.5em
 		height: .6em
-		background: white
+		background: $grey
 		display: block
 		border-radius: 100px
 		position: relative
@@ -34,13 +34,13 @@ $bg-color = rgb(61, 82, 135)
 		left: .15em
 		width: 1.2em
 		height: 1.2em
-		background: $bg-color
-		border-radius: 90px
+		background: $purple-grey
+		border-radius: 1.2em
 		transition: 0.3s
 		border: .2em solid $yellow
 
 	input:checked + label:before
-		left: calc(100% - 5px)
+		left: calc(100% - .2em)
 		transform: translateX(-100%)
 
 	label:active:before

@@ -27,6 +27,7 @@ class Matching extends React.Component {
     changeTeamCount: PropTypes.func.isRequired,
     startMatch: PropTypes.func.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
   }
 
   state = {}
@@ -56,11 +57,17 @@ class Matching extends React.Component {
       gameList,
       langList,
       matchingLoading,
+      loggedIn,
     } = this.props;
     const { formats, playerMax } = gameList.filter(game => game.name === gameSelected)[0];
     const GameTeamCount = [];
     for (let i = 2; i < playerMax; i += 1) {
       GameTeamCount.push(<option key={i} value={i}>{i} joueurs</option>);
+    }
+    if (!loggedIn) {
+      return (
+        <Redirect to="/" />
+      );
     }
     if (matchingLoading) {
       return (

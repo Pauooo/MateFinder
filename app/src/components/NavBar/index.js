@@ -1,0 +1,95 @@
+/**
+ * Npm import
+ */
+import React from 'react';
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
+
+/**
+ * Local import
+ */
+import LoadingNavBar from 'src/containers/LoadingNavBar';
+import FindingNavBar from 'src/containers/FindingNavBar';
+import AcceptedNavBar from 'src/containers/AcceptedNavBar';
+
+/**
+ * Code
+ */
+class NavBar extends React.Component {
+  static propTypes = {
+    loggedIn: PropTypes.bool.isRequired,
+    username: PropTypes.string.isRequired,
+    matchingLoading: PropTypes.bool.isRequired,
+    matchingFound: PropTypes.bool.isRequired,
+    matchingAccepted: PropTypes.bool.isRequired,
+  }
+  state = {}
+
+  render() {
+    const {
+      loggedIn, username, matchingLoading, matchingFound, matchingAccepted,
+    } = this.props;
+    if (loggedIn) {
+      return (
+        <nav id="mainnav">
+          <div>
+            <p>Bienvenue</p>
+            <p id="username">{username}</p>
+            <NavLink
+              exact
+              to="/profil"
+              data-tip="Pas maintenant !"
+              onClick={evt => evt.preventDefault()}
+              id="go-to-profil"
+            >
+              Compte
+            </NavLink>
+            {!matchingLoading && (
+              <NavLink
+                exact
+                to="/matching"
+                id="go-to-matching"
+              >
+              Recherche
+              </NavLink>
+            )}
+            {(matchingLoading && !matchingFound) && (
+              <div>
+                <ReactTooltip place="bottom" />
+                <LoadingNavBar />
+              </div>
+            )}
+            {(matchingFound && !matchingAccepted) && (
+              <div>
+                <ReactTooltip place="bottom" />
+                <FindingNavBar />
+              </div>
+            )}
+            {matchingAccepted && (
+              <div>
+                <ReactTooltip place="bottom" />
+                <AcceptedNavBar />
+              </div>
+            )}
+          </div>
+          <div>
+            <p>Deconnexion</p>
+          </div>
+        </nav>
+      );
+    }
+    return (
+      <nav id="mainnav">
+        <div id="leftnav">
+          <p>Bienvenue</p>
+        </div>
+      </nav>
+    );
+  }
+}
+
+/**
+ * Export
+ */
+export default NavBar;

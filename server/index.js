@@ -67,7 +67,7 @@ app.post('/signup', (req, res) => {
             else {
               const token = jwt.sign({
                 username: user.username,
-              }, config.secret);
+              }, config.secret, { expiresIn: '1h' });
               res.json({ token });
               // res.send('accountCreated');
             }
@@ -131,7 +131,6 @@ io.use(jwtAuth.authenticate({
   algorithm: 'HS256', // optional, default to be HS256
   // succeedWithoutToken: true,
 }, (payload, done) => {
-
   // done is a callback, you can use it as follows
   UserModel.findOne({ username: payload.username }, (err, user) => {
     if (err) {

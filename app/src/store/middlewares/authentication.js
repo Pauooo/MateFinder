@@ -14,6 +14,7 @@ import { startIO } from 'src/store/middlewares/socket';
  */
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 const SEND_CREDENTIAL = 'SEND_CREDENTIAL';
+const LOGOUT = 'LOGOUT';
 const urlSignUp = 'http://localhost:3000/signup';
 const urlLogIn = 'http://localhost:3000/login';
 
@@ -34,6 +35,7 @@ const createMiddleware = store => next => (action) => {
           store.dispatch(changeuserAccountCreatedStatus());
           store.dispatch(changeUserLoggedInStatus());
           store.dispatch(startIO(resp.data.token));
+          localStorage.setItem('mytoken', resp.data.token);
           store.dispatch(signupToLogin());
         })
         .catch((err) => {
@@ -65,6 +67,7 @@ const createMiddleware = store => next => (action) => {
           console.log(resp);
           store.dispatch(changeUserLoggedInStatus());
           store.dispatch(startIO(resp.data.token));
+          localStorage.setItem('mytoken', resp.data.token);
         })
         .catch((err) => {
           const error = err.response;
@@ -80,7 +83,11 @@ const createMiddleware = store => next => (action) => {
         });
       break;
     }
-
+    case LOGOUT: {
+      store.dispatch(changeUserLoggedInStatus());
+      localStorage.removeItem('mytoken');
+      break;
+    }
     default:
   }
 
@@ -94,6 +101,10 @@ export const createAccount = () => ({
 
 export const sendCredential = () => ({
   type: SEND_CREDENTIAL,
+});
+
+export const logout = () => ({
+  type: LOGOUT,
 });
 /*
  * Export default

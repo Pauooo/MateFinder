@@ -18,6 +18,7 @@ import AcceptedNavBar from 'src/containers/AcceptedNavBar';
  */
 class NavBar extends React.Component {
   static propTypes = {
+    logout: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
@@ -25,7 +26,9 @@ class NavBar extends React.Component {
     matchingAccepted: PropTypes.bool.isRequired,
   }
   state = {}
-
+  handleClick = () => {
+    this.props.logout();
+  }
   render() {
     const {
       loggedIn, username, matchingLoading, matchingFound, matchingAccepted,
@@ -74,7 +77,14 @@ class NavBar extends React.Component {
             )}
           </div>
           <div>
-            <p>Deconnexion</p>
+            <NavLink
+              exact
+              to="/"
+              onClick={this.handleClick}
+              id="go-to-profil"
+            >
+              Déconnexion
+            </NavLink>
           </div>
         </nav>
       );

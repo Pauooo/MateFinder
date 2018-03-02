@@ -11,23 +11,21 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, signupToLogin } from 'src/store/reducer';
+import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus } from 'src/store/reducers/matching';
 
 
 // socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
+const IO_START = 'IO_START';
 
 // Matching
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
 const MATCH_REFUSE = 'MATCH_REFUSE';
 
-// auhtentication
-const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
-const SEND_CREDENTIAL = 'SEND_CREDENTIAL';
 /*
  * Middleware
  */
-const socket = io('http://localhost:3000', { query: 'auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YTk1NTI4YzhiOWY1Njc0YThlZDZiYTMiLCJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.Tt6ae1ePoGalP90UzNOO6Gxbj-RBASN3bVPUzDMg20M' });
+let socket = null;
 
 /*
 {
@@ -89,30 +87,6 @@ export default store => next => (action) => {
       socket.on('updateUserAccepted', (data) => {
         store.dispatch(updateNumberOfAcceptedUsers(data));
       });
-
-      socket.on('accountCreated', () => {
-        // On affiche la confirmation
-        store.dispatch(changeuserAccountCreatedStatus());
-        // On le loggedin => state.loggedIn = true
-        store.dispatch(changeUserLoggedInStatus());
-        store.dispatch(signupToLogin());
-      });
-
-      socket.on('creatingAccountError', (message) => {
-        store.dispatch(setErrorMessage(message));
-      });
-
-      socket.on('creatingAccountError', (message) => {
-        store.dispatch(setErrorMessage(message));
-      });
-
-      socket.on('signInError', (message) => {
-        store.dispatch(setErrorMessage(message));
-      });
-
-      socket.on('signIn', () => {
-        store.dispatch(changeUserLoggedInStatus());
-      });
       break;
     }
     case MATCH_START: {
@@ -143,18 +117,10 @@ export default store => next => (action) => {
       if (matchingFound) store.dispatch(changeMatchingFoundStatus());
       break;
     }
-    case CREATE_ACCOUNT: {
-      const { signup } = store.getState();
-      console.log(signup);
-      // On envoie
-      socket.emit('createAccount', signup);
-      break;
-    }
-    case SEND_CREDENTIAL: {
-      const { login } = store.getState();
-      console.log(login);
-      // On envoie
-      socket.emit('sendCredential', login);
+    case IO_START: {
+      console.log(action.token);
+      socket = io('http://localhost:3000', { query: `auth_token=${action.token}` });
+      store.dispatch(wsConnect());
       break;
     }
     default:
@@ -178,10 +144,7 @@ export const matchRefuse = () => ({
   type: MATCH_REFUSE,
 });
 
-export const createAccount = () => ({
-  type: CREATE_ACCOUNT,
-});
-
-export const sendCredential = () => ({
-  type: SEND_CREDENTIAL,
+export const startIO = token => ({
+  type: IO_START,
+  token,
 });

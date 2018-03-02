@@ -21,6 +21,7 @@ class SignUp extends React.Component {
   static propTypes = {
     userAccountCreated: PropTypes.bool.isRequired,
     createAccount: PropTypes.func.isRequired,
+    emptyErrorMessages: PropTypes.func.isRequired,
     setErrorMessage: PropTypes.func.isRequired,
     signup: PropTypes.object.isRequired,
     errorMessages: PropTypes.array.isRequired,
@@ -44,6 +45,7 @@ class SignUp extends React.Component {
       console.log(message);
     }
     else {
+      this.props.emptyErrorMessages();
       this.props.createAccount();
     }
   }

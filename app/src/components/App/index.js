@@ -4,6 +4,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 /**
  * Local import
@@ -18,43 +19,57 @@ import NavBar from 'src/containers/NavBar';
 /**
  * Code
  */
-const App = () => (
-  <div id="app">
-    <NavBar />
-    <img src="/img/title.png" alt="title" />
-    <ToastContainer pauseOnHover={false} />
-    <Route
-      path="/"
-      exact
-      component={Landing}
-    />
-    <Route
-      path="/signup"
-      exact
-      component={SignUp}
-    />
-    <Route
-      path="/login"
-      exact
-      component={Login}
-    />
-    <Route
-      path="/password"
-      exact
-      component={Password}
-    />
-    <Route
-      path="/matching"
-      exact
-      component={MatchingForm}
-    />
-    <Route
-      path="/loading"
-      exact
-      component={MatchingSearch}
-    />
-  </div>
-);
+class App extends React.Component {
+  static propTypes = {
+    loggedIn: PropTypes.bool.isRequired,
+  }
+  state = {}
+  render() {
+    const { loggedIn } = this.props;
+    return (
+      <div id="app">
+        <NavBar />
+        <img src="/img/title.png" alt="title" />
+        <ToastContainer pauseOnHover={false} />
+        {!loggedIn && <Route
+          path="/"
+          exact
+          component={Landing}
+        />}
+        {loggedIn && <Route
+          path="/"
+          exact
+          component={MatchingForm}
+        />}
+        <Route
+          path="/signup"
+          exact
+          component={SignUp}
+        />
+        <Route
+          path="/login"
+          exact
+          component={Login}
+        />
+        <Route
+          path="/password"
+          exact
+          component={Password}
+        />
+        <Route
+          path="/matching"
+          exact
+          component={MatchingForm}
+        />
+        <Route
+          path="/loading"
+          exact
+          component={MatchingSearch}
+        />
+      </div>
+    );
+  }
+}
 
 /**
  * Export

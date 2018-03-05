@@ -104,7 +104,7 @@ class MatchingSearch extends React.Component {
               <img src={news.image} alt="" />
               <div className="content">
                 <h3>{news.title}</h3>
-                <p>{news.summary}</p>
+                <p>{`${news.summary.substring(0, 250)}...`}</p>
                 <a target="_blank" href={news.url}>
                   En savoir plus
                 </a>

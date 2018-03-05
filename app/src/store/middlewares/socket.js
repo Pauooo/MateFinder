@@ -51,10 +51,31 @@ export default store => next => (action) => {
   // Code
   switch (action.type) {
     case WEBSOCKET_CONNECT: {
+      socket.on('news-api', (data) => {
+        console.log(data);
+      });
       socket.on('success', (data) => {
         console.log(data);
       });
       socket.on('RoomFound', () => {
+        if (!('Notification' in window)) {
+          console.log('This browser does not support desktop notification');
+        }
+
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === 'granted') {
+          // If it's okay let's create a notification
+          const notification = new Notification('Reviens vite ! Nous avons trouvé !');
+        }
+
+        else if (Notification.permission !== 'denied' || Notification.permission === 'default') {
+          Notification.requestPermission((permission) => {
+            // If the user accepts, let's create a notification
+            if (permission === 'granted') {
+              const notification = new Notification('Reviens vite ! Nous avons trouvé !');
+            }
+          });
+        }
         const msg = (
           <div>
             <h1>Hey ! Rejoins ta team !</h1>

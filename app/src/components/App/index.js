@@ -16,6 +16,10 @@ import Password from 'src/components/Password';
 import MatchingForm from 'src/containers/MatchingForm';
 import MatchingSearch from 'src/containers/MatchingSearch';
 import NavBar from 'src/containers/NavBar';
+import Footer from 'src/components/Footer';
+import Mentions from 'src/components/Mentions';
+import Contact from 'src/components/Contact';
+
 /**
  * Code
  */
@@ -93,6 +97,16 @@ class App extends React.Component {
             exact
             component={MatchingSearch}
           />
+          <Route
+            path="/mentions"
+            exact
+            component={Mentions}
+          />
+          <Route
+            path="/contact"
+            exact
+            component={Contact}
+          />
           <div id="right-panel">
             <div className="landing-message">
               <h3>Trouve les derniers joueurs</h3>
@@ -104,6 +118,7 @@ class App extends React.Component {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     );
   }

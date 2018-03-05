@@ -43,6 +43,21 @@ class MatchingSearch extends React.Component {
           contentLoading: true,
         });
       });
+
+    // axios({
+    //   method: 'get',
+    //   url: 'https://api-endpoint.igdb.com/characters/?fields=*&limit=10',
+    //   headers: {
+    //     'user-key': 'ee3ee465baaf30227734736b02e125e7',
+    //   },
+    // })
+    //   .then((resp) => {
+    //     console.log(resp.data.streams);
+    //     this.setState({
+    //       streams: [...resp.data.streams],
+    //       contentLoading: true,
+    //     });
+    //   });
   }
 
   render() {
@@ -63,6 +78,24 @@ class MatchingSearch extends React.Component {
     return (
       <div id="content">
         <div>
+          <div className="cssload-bell2">
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+          </div>
+          <p className="searchinprogress">Recherche en cours</p>
           <p><span id="infoqueue">Tu es actuellement dans la file</span> pour jouer à <span id="game">{selectsMatching.game}</span></p>
           <p>voici du contenu qui te plaira sans doute !</p>
         </div>

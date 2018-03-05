@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 });
 
 
+// Création de compte et envoie du token
 app.post('/signup', (req, res) => {
   const { username, email, password } = req.body;
   // on verifie que le username est unique
@@ -65,10 +66,12 @@ app.post('/signup', (req, res) => {
           user.save((err) => {
             if (err) throw err;
             else {
-              const token = jwt.sign({
+              const Newtoken = jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + 60,
                 username: user.username,
-              }, config.secret, { expiresIn: '1h' });
-              res.json({ token });
+                password: user.password,
+              }, config.secret);
+              res.json({ Newtoken });
               // res.send('accountCreated');
             }
           });
@@ -78,8 +81,9 @@ app.post('/signup', (req, res) => {
   });
 });
 
+// Login et envoie du token
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, token } = req.body;
 
   UserModel.findOne()
     .where('username', username)
@@ -91,23 +95,21 @@ app.post('/login', (req, res) => {
       if (user === null) {
         res.status(401).send('WrongUser');
       }
-      else if (bcrypt.compareSync(password, user.password)) {
+      else if (bcrypt.compareSync(password, user.password) || (token && password === user.password)) {
         // Passwords match
-        const token = jwt.sign({
+        const Newtoken = jwt.sign({
           username: user.username,
-        }, config.secret);
-        res.json({ token });
+          password: user.password,
+        }, config.secret, { expiresIn: 60 });
+        res.json({ Newtoken });
         // res.send('signIn');
       }
       else {
         res.status(401).send('WrongPassword');
       }
     });
-  // // we are sending the profile in the token
-  // const token = jwt.sign(profile, jwtSecret, { expiresInMinutes: 60 * 5 });
-
-  // res.json({ message: 'API Initialized!' });
 });
+
 
 /**
  * MongoDB
@@ -238,51 +240,11 @@ io.on('connection', (socket) => {
   });
 
 
-  // creation du compte user
-  socket.on('createAccount', (data) => {
-    // on verifie que l'email est unique
-    UserModel.findOne({ email: data.email }, (err, existingEmail) => {
-      if (err) throw err;
-      if (existingEmail) {
-        socket.emit('creatingAccountError', 'Cet email est déjà utilisé');
-      }
-    });
-    // on verifie que le username est unique
-    UserModel.findOne({ username: data.username }, (err, existingUsername) => {
-      if (err) throw err;
-      if (existingUsername) {
-        socket.emit('creatingAccountError', 'Ce pseudo est déjà utilisé');
-      }
-    });
-
-    const user = new UserModel();
-    // On définit ces propriétés
-    user.username = data.username;
-    user.email = data.email;
-    // on hash le mot de passe avant de le définir dans la BDD
-    const myPlaintextPassword = data.password;
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = bcrypt.hashSync(myPlaintextPassword, salt);
-    user.password = hash;
-    user.userSocketId = socket.id;
-    // on sauve en BDD
-    user.save((err) => {
-      if (err) {
-        throw err;
-      }
-      else {
-        socket.emit('accountCreated');
-      }
-    });
-  });
-
   // quand l'user quitte le site
   socket.on('disconnect', () => {
     matching.RemoveUserRoom(socket.id, io);
   });
 });
-
 
 /*
  * Server

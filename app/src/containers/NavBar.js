@@ -10,7 +10,6 @@ import NavBar from 'src/components/NavBar';
 
 // Action creators
 import { logout } from '../store/middlewares/authentication';
-
 /**
  * Code
  */

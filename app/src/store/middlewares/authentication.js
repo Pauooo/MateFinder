@@ -2,7 +2,6 @@
  * Npm import
  */
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 
 /*
  * Local import
@@ -34,8 +33,8 @@ const createMiddleware = store => next => (action) => {
           console.log(resp.data);
           store.dispatch(changeuserAccountCreatedStatus());
           store.dispatch(changeUserLoggedInStatus());
-          store.dispatch(startIO(resp.data.token));
-          localStorage.setItem('mytoken', resp.data.token);
+          store.dispatch(startIO(resp.data.Newtoken));
+          localStorage.setItem('mytoken', resp.data.Newtoken);
           store.dispatch(signupToLogin());
         })
         .catch((err) => {
@@ -61,13 +60,13 @@ const createMiddleware = store => next => (action) => {
         data: {
           username: state.auth.login.username,
           password: state.auth.login.password,
+          token: action.token,
         },
       })
         .then((resp) => {
-          console.log(resp);
           store.dispatch(changeUserLoggedInStatus());
-          store.dispatch(startIO(resp.data.token));
-          localStorage.setItem('mytoken', resp.data.token);
+          store.dispatch(startIO(resp.data.Newtoken));
+          localStorage.setItem('mytoken', resp.data.Newtoken);
         })
         .catch((err) => {
           const error = err.response;
@@ -99,8 +98,9 @@ export const createAccount = () => ({
   type: CREATE_ACCOUNT,
 });
 
-export const sendCredential = () => ({
+export const sendCredential = (token = false) => ({
   type: SEND_CREDENTIAL,
+  token,
 });
 
 export const logout = () => ({

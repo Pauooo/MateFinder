@@ -26,9 +26,10 @@ class NavBar extends React.Component {
     matchingAccepted: PropTypes.bool.isRequired,
   }
   state = {}
-  handleClick = () => {
+  handleLogout = () => {
     this.props.logout();
   }
+
   render() {
     const {
       loggedIn, username, matchingLoading, matchingFound, matchingAccepted,
@@ -39,15 +40,26 @@ class NavBar extends React.Component {
           <div>
             <p>Bienvenue</p>
             <p id="username">{username}</p>
-            <NavLink
-              exact
-              to="/profil"
-              data-tip="Pas maintenant !"
-              onClick={evt => evt.preventDefault()}
-              id="go-to-profil"
-            >
-              Compte
-            </NavLink>
+            {(!matchingLoading) && (
+              <NavLink
+                exact
+                to="/profil"
+                id="go-to-profil"
+              >
+                Compte
+              </NavLink>
+            )}
+            {(matchingLoading) && (
+              <NavLink
+                exact
+                to="/profil"
+                data-tip="Pas maintenant !"
+                onClick={evt => evt.preventDefault()}
+                id="go-to-profil"
+              >
+                Compte
+              </NavLink>
+            )}
             {!matchingLoading && (
               <NavLink
                 exact
@@ -80,7 +92,7 @@ class NavBar extends React.Component {
             <NavLink
               exact
               to="/"
-              onClick={this.handleClick}
+              onClick={this.handleLogout}
               id="go-to-profil"
             >
               Déconnexion

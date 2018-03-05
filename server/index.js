@@ -176,39 +176,16 @@ io.on('connection', (socket) => {
   // quand l'user lance une recherche
   socket.on('start_match', (data) => {
     // On recupere les rooms open correspondant aux critères
-    client.reviews({
-      game: 1372, // Return all fields
-    }, [
-      'id',
-      'url',
-      'title',
-      'content',
-      'game',
-    ]).then((response) => {
+    client.pulses({
+      fields: '*',
+      limit: 6,
+      order: 'published_at:desc',
+      search: data.searchname,
+    }).then((response) => {
       socket.emit('news-api', response);
     }).catch((error) => {
       throw error;
     });
-    // client.pulse_groups({
-    //   game: '1372', // Return all fields
-    //   limit: '3',
-    // }, [
-    //   'pulses',
-    // ]).then((response) => {
-    //   console.log(response.body);
-    //   response.body.forEach((pulse) => {
-    //     client.pulses({
-    //       id: pulse.pulses[0], // Return all fields
-    //     }, [
-    //       'title',
-    //       'url',
-    //     ]).then((resp) => {
-    //       socket.emit('news-api', resp);
-    //     });
-    //   });
-    // }).catch((error) => {
-    //   throw error;
-    // });
     MinTimeBeforeMatch = setTimeout(() => {
       RoomModel.find()
         .where('open', true)

@@ -11,7 +11,7 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast } from 'src/store/reducers/matching';
+import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews } from 'src/store/reducers/matching';
 
 
 // socket
@@ -52,7 +52,7 @@ export default store => next => (action) => {
   switch (action.type) {
     case WEBSOCKET_CONNECT: {
       socket.on('news-api', (data) => {
-        console.log(data);
+        store.dispatch(setNews(data.body));
       });
       socket.on('success', (data) => {
         console.log(data);
@@ -115,8 +115,19 @@ export default store => next => (action) => {
       break;
     }
     case MATCH_START: {
-      const { selectsMatching, team, teamCount } = store.getState().matching;
-      socket.emit('start_match', { ...selectsMatching, team, teamCount });
+      const {
+        selectsMatching,
+        team,
+        teamCount,
+        gameList,
+      } = store.getState().matching;
+      const searchname = gameList.filter((game) => {
+        if (game.name === selectsMatching.game) return true;
+        return false;
+      });
+      socket.emit('start_match', {
+        ...selectsMatching, team, teamCount, searchname: searchname[0].searchname,
+      });
       store.dispatch(changeMatchingLoadingStatus());
       timerMaxMatching = setTimeout(() => {
         store.dispatch(matchRefuse());

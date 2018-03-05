@@ -12,6 +12,7 @@ const initialState = {
   gameList: [
     {
       name: 'Counter-Strike: Global Offensive',
+      searchname: 'csgo',
       playerMax: 5,
       formats: [
         {
@@ -26,6 +27,7 @@ const initialState = {
     },
     {
       name: 'Battlerite',
+      searchname: 'battlerite',
       playerMax: 3,
       formats: [
         {
@@ -40,6 +42,7 @@ const initialState = {
     },
     {
       name: 'League of Legends',
+      searchname: 'leagueoflegends',
       playerMax: 5,
       formats: [
         {
@@ -50,6 +53,7 @@ const initialState = {
     },
     {
       name: 'DOTA 2',
+      searchname: 'dota2',
       playerMax: 5,
       formats: [
         {
@@ -65,6 +69,7 @@ const initialState = {
   matchingAccepted: false,
   numberOfAcceptedUsers: 0,
   foundToast: null,
+  news: [],
 };
 
 
@@ -77,6 +82,7 @@ const MATCHING_FOUND_STATUS_CHANGE = 'MATCHING_FOUND_STATUS_CHANGE';
 const MATCHING_ACCEPTED_STATUS_CHANGE = 'MATCHING_ACCEPTED_STATUS_CHANGE';
 const NUMBER_ACCEPTED_USER_UPDATE = 'NUMBER_ACCEPTED_USER_UPDATE';
 const FOUND_TOAST_SET = 'FOUND_TOAST_SET';
+const SET_NEWS = 'SET_NEWS';
 
 // Socket
 export const MATCH_START = 'MATCH_START';
@@ -130,6 +136,11 @@ export default (state = initialState, action = {}) => {
         ...state,
         foundToast: action.foundToast,
       };
+    case SET_NEWS:
+      return {
+        ...state,
+        news: action.news,
+      };
     default:
       return state;
   }
@@ -174,6 +185,11 @@ export const updateNumberOfAcceptedUsers = number => ({
 export const setFoundToast = foundToast => ({
   type: FOUND_TOAST_SET,
   foundToast,
+});
+
+export const setNews = news => ({
+  type: SET_NEWS,
+  news,
 });
 
 // Action Creators Socket

@@ -19,6 +19,7 @@ class MatchingSearch extends React.Component {
   static propTypes = {
     matchingLoading: PropTypes.bool.isRequired,
     selectsMatching: PropTypes.object.isRequired,
+    listnews: PropTypes.array.isRequired,
   }
 
   state = {
@@ -43,34 +44,20 @@ class MatchingSearch extends React.Component {
           contentLoading: true,
         });
       });
-
-    // axios({
-    //   method: 'get',
-    //   url: 'https://api-endpoint.igdb.com/characters/?fields=*&limit=10',
-    //   headers: {
-    //     'user-key': 'ee3ee465baaf30227734736b02e125e7',
-    //   },
-    // })
-    //   .then((resp) => {
-    //     console.log(resp.data.streams);
-    //     this.setState({
-    //       streams: [...resp.data.streams],
-    //       contentLoading: true,
-    //     });
-    //   });
   }
 
   render() {
     const {
       matchingLoading,
       selectsMatching,
+      listnews,
     } = this.props;
     if (!matchingLoading) {
       return (
         <Redirect to="/" />
       );
     }
-    else if (!this.state.contentLoading) {
+    else if (!this.state.contentLoading || listnews === []) {
       return (
         <p>Chargement</p>
       );
@@ -110,7 +97,21 @@ class MatchingSearch extends React.Component {
             </div>
           ))}
         </div>
-
+        <h1>Actu</h1>
+        <div id="actupanel" >
+          {listnews.map(news => (
+            <div key={news.id} className="articles">
+              <img src={news.image} alt="" />
+              <div className="content">
+                <h3>{news.title}</h3>
+                <p>{news.summary}</p>
+                <a target="_blank" href={news.url}>
+                  En savoir plus
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

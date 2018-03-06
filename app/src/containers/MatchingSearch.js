@@ -24,6 +24,7 @@ const mapStateToProps = state => ({
   matchingAccepted: state.matching.matchingAccepted,
   matchingLoading: state.matching.matchingLoading,
   selectsMatching: state.matching.selectsMatching,
+  listnews: state.matching.news,
 });
 
 // Actions

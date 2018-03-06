@@ -1,8 +1,14 @@
 @require "app/styles/charte"
 
+.cssload-bell2
+	width: 3em
+	height: 3em
+	border-radius: 100%
+	left: calc(50% - 49px)
+	margin: auto
+	margin-bottom: 1em
+
 #matchingloading
-	width: 50%
-	margin: 5em auto
 	display: flex
 	flex-direction: column
 	align-items: center
@@ -12,8 +18,7 @@
 	font-size: 2em
 
 #content
-	width: 60%
-	margin: auto
+	width: 40em
 	text-align: left
 	font-size: 1.2em
 
@@ -56,3 +61,39 @@
 			img
 				width: 95%
 				margin: 0
+
+	#actupanel
+
+		.articles
+			display: flex
+			justify-content: space-between
+			align-items: flex-start
+			margin-bottom: 1em
+			border-bottom: .1em solid $purple-grey
+			padding: 0
+			padding-bottom: 1em
+
+			h3
+				color: $purple-grey
+				font-weight: 600
+				margin-bottom: .5em
+
+			p
+				color: black
+
+			a
+				background: none
+				margin: 0
+				padding: 0
+
+			img
+				width: 40%
+				margin: 0
+				margin-right: .5em
+				border: .2em solid $purple-grey
+
+.searchinprogress
+	text-align: center
+	color: $yellow !important
+	margin-bottom: 2em !important
+	font-weight: 600

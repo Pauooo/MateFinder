@@ -6,7 +6,7 @@ import axios from 'axios';
 /*
  * Local import
  */
-import { setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, signupToLogin } from 'src/store/reducers/auth';
+import { setErrorMessage, changeUserLoggedInStatus, changeuserAccountCreatedStatus, signupToLogin, emptyFields } from 'src/store/reducers/auth';
 import { startIO } from 'src/store/middlewares/socket';
 /*
  * Code
@@ -84,6 +84,7 @@ const createMiddleware = store => next => (action) => {
     }
     case LOGOUT: {
       store.dispatch(changeUserLoggedInStatus());
+      store.dispatch(emptyFields());
       localStorage.removeItem('mytoken');
       break;
     }

@@ -9,8 +9,7 @@ import { connect } from 'react-redux';
 import NavBar from 'src/components/NavBar';
 
 // Action creators
-// import { matchRefuse, matchAccepted } from '../store/middlewares/socket';
-
+import { logout } from '../store/middlewares/authentication';
 /**
  * Code
  */
@@ -23,20 +22,17 @@ const mapStateToProps = state => ({
   matchingAccepted: state.matching.matchingAccepted,
 });
 
-// Actions
-// const mapDispatchToProps = dispatch => ({
-//   matchRefuse: () => {
-//     dispatch(matchRefuse());
-//   },
-//   matchAccepted: () => {
-//     dispatch(matchAccepted());
-//   },
-// });
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => {
+    dispatch(logout());
+  },
+});
 
 /*
  * Container
  */
-const NavBarContainer = connect(mapStateToProps)(NavBar);
+const NavBarContainer = connect(mapStateToProps, mapDispatchToProps)(NavBar);
 
 
 /**

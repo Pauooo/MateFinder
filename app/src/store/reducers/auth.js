@@ -26,6 +26,8 @@ const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 const USER_LOGGED_IN_STATUS_CHANGE = 'USER_LOGGED_IN_STATUS_CHANGE';
 const EMPTY_ERROR_MESSAGES = 'EMPTY_ERROR_MESSAGES';
 const SIGNUP_TO_LOGIN = 'SIGNUP_TO_LOGIN';
+const SET_USERNAME_PASSWORD = 'SET_USERNAME';
+const EMPTY_FIELDS = 'EMPTY_FIELDS';
 
 /*
  * Reducer
@@ -73,7 +75,31 @@ export default (state = initialState, action = {}) => {
         },
       };
     }
-
+    case SET_USERNAME_PASSWORD: {
+      return {
+        ...state,
+        login: {
+          username: action.username,
+          password: action.password,
+        },
+      };
+    }
+    case EMPTY_FIELDS: {
+      return {
+        ...state,
+        userAccountCreated: false,
+        signup: {
+          username: '',
+          email: '',
+          password: '',
+          passwordConfirmation: '',
+        },
+        login: {
+          username: '',
+          password: '',
+        },
+      };
+    }
     default:
       return state;
   }
@@ -109,4 +135,14 @@ export const emptyErrorMessages = () => ({
 
 export const signupToLogin = () => ({
   type: SIGNUP_TO_LOGIN,
+});
+
+export const setUsernameAndPassword = (username, password) => ({
+  type: SET_USERNAME_PASSWORD,
+  username,
+  password,
+});
+
+export const emptyFields = () => ({
+  type: EMPTY_FIELDS,
 });

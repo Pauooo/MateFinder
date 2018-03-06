@@ -67,10 +67,9 @@ app.post('/signup', (req, res) => {
             if (err) throw err;
             else {
               const Newtoken = jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 1),
                 username: user.username,
                 password: user.password,
-              }, config.secret);
+              }, config.secret, { expiresIn: 60 * 60 });
               res.json({ Newtoken });
               // res.send('accountCreated');
             }
@@ -98,10 +97,9 @@ app.post('/login', (req, res) => {
       else if (bcrypt.compareSync(password, user.password) || (token && password === user.password)) {
         // Passwords match
         const Newtoken = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 1),
           username: user.username,
           password: user.password,
-        }, config.secret);
+        }, config.secret, { expiresIn: 60 * 1 });
         res.json({ Newtoken });
         // res.send('signIn');
       }

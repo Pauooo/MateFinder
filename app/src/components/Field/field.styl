@@ -1,3 +1,5 @@
+@require "app/styles/charte"
+
 .field
 	position: relative
 
@@ -7,23 +9,27 @@
 	&-input
 		display: block
 		border: 1px solid #2F4F4F
-		color: #777
+		background-color: $grey
 		font-size: 1rem
 		height: 2.5em
-		width: 100%
+		width: 15em
 		margin: .4em 0
 		padding: 0 1em
+		color: $purple-grey
+
 
 		&::placeholder
-			color: #777
+			color: $purple-grey
+			text-align: right
+			font-style: italic
+			font-size: .8em
 
 	&-label
 		display: none
-		color: #777
+		color: $purple-grey
 		position: absolute
 		top: .75em
 		left: 1.5em
-		font-family: 'Source Sans Pro'
 		text-transform: uppercase
 		font-size: .8em
 

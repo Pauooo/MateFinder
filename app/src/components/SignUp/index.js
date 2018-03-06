@@ -10,7 +10,6 @@ import { Redirect } from 'react-router';
  */
 
 
-import Headline from 'src/components/Headline';
 import Field from 'src/containers/Field';
 import data from 'src/datas';
 import Confirmation from 'src/components/Confirmation';
@@ -54,7 +53,10 @@ class SignUp extends React.Component {
     if (!userAccountCreated) {
       return (
         <div id="signup" className="box">
-          <Headline data={data.signup} />
+          <div>
+            <h3 className="text-description">Rassure-toi, tu n'es plus qu'à un clic du <span className="text-yellow">bonheur</span>.</h3>
+            <h2 className="title">S'enregistrer</h2>
+          </div>
           <form className="form" onSubmit={this.handleSubmit}>
             {data.signup.fields.map(field => <Field context="signup" key={field.name} {...field} />)}
             {errorMessages.map(message => <p className="error-message" key={message}>{message}</p>)}

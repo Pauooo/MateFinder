@@ -65,7 +65,7 @@ class App extends React.Component {
           {!loggedIn && <Route
             path="/"
             exact
-            component={Landing}
+            component={Login}
           />}
           {loggedIn && <Route
             path="/"

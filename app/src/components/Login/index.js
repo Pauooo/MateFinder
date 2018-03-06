@@ -9,7 +9,7 @@ import { Redirect } from 'react-router';
 /**
  * Local import
  */
-import Headline from 'src/components/Headline';
+
 import Field from 'src/containers/Field';
 import data from 'src/datas';
 /**
@@ -42,7 +42,16 @@ class Login extends React.Component {
     if (!loggedIn) {
       return (
         <div id="login" className="box">
-          <Headline data={data.login} />
+          <div>
+            <h3 className="text-description">Trouve des partenaires de jeu en ligne et joue <span className="text-yellow">maintenant</span>.</h3>
+            <h2 className="title">Se connecter</h2>
+          </div>
+          <Link
+            id="go-to-signup"
+            to="/signup"
+          >
+           Je n'ai pas encore de compte,<span className="text-yellow"> enregistrez-moi</span> !
+          </Link>
           <form className="form" onSubmit={this.handleSubmit}>
             {data.login.fields.map(field => <Field context="login" key={field.name} {...field} />)}
             {errorMessages.map(message => <p className="error-message" key={message}>{message}</p>)}
@@ -53,18 +62,12 @@ class Login extends React.Component {
               {data.login.submit.label}
             </button>
           </form>
-          <Link
+          {/* <Link
             id="password-link"
             to="/password"
           >
             J'ai oublié mon mot de passe
-          </Link>
-          <Link
-            to="/"
-            className="cancel"
-          >
-           Annuler
-          </Link>
+          </Link> */}
         </div>
       );
     }

@@ -38,15 +38,14 @@ class NavBar extends React.Component {
       return (
         <nav id="mainnav">
           <div>
-            <p>Bienvenue</p>
-            <p id="username">{username}</p>
+            <p id="username">Bienvenue {username}</p>
             {(!matchingLoading) && (
               <NavLink
                 exact
                 to="/profil"
                 id="go-to-profil"
               >
-                Compte
+                Mon profil
               </NavLink>
             )}
             {(matchingLoading) && (

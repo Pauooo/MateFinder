@@ -125,7 +125,7 @@ class Matching extends React.Component {
         </label>
 
         <button>
-          BOOM!
+          BOOM !
           <i className="fas fa-bomb" />
         </button>
       </form>

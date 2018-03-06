@@ -13,6 +13,8 @@ import React from 'react';
 // Reducer
 import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews } from 'src/store/reducers/matching';
 
+import { setUserProfil, setLoginInfo } from 'src/store/reducers/auth';
+
 
 // socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
@@ -21,6 +23,11 @@ const IO_START = 'IO_START';
 // Matching
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
 const MATCH_REFUSE = 'MATCH_REFUSE';
+
+// Authentication
+const SAVE_USER_INFO = 'SAVE_USER_INFO';
+const SAVE_USER_PASSWORD = 'SAVE_USER_PASSWORD';
+
 /*
  * Middleware
  */
@@ -37,6 +44,8 @@ export default store => next => (action) => {
       });
       socket.on('success', (data) => {
         console.log(data);
+        store.dispatch(setUserProfil(data.user.username, data.user.email));
+        store.dispatch(setLoginInfo(data.user.username, data.user.email));
       });
       socket.on('RoomFound', () => {
         if (!('Notification' in window)) {
@@ -148,6 +157,14 @@ export default store => next => (action) => {
       store.dispatch(wsConnect());
       break;
     }
+    case SAVE_USER_INFO: {
+      socket.emit('save_user_info', { username: action.username, email: action.email });
+      break;
+    }
+    case SAVE_USER_PASSWORD: {
+      socket.emit('save_user_password', action.password);
+      break;
+    }
     default:
   }
   // On passe au voisin
@@ -173,6 +190,14 @@ export const startIO = token => ({
   type: IO_START,
   token,
 });
-export const checkToken = () => ({
-  type: CHECK_TOKEN,
+
+export const saveUserInfo = (username, email) => ({
+  type: SAVE_USER_INFO,
+  username,
+  email,
+});
+
+export const saveUserPassword = password => ({
+  type: SAVE_USER_PASSWORD,
+  password,
 });

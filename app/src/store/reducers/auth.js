@@ -14,6 +14,12 @@ const initialState = {
   login: {
     username: '',
     password: '',
+    email: '',
+  },
+  profil: {
+    username: '',
+    email: '',
+    password: '',
   },
   errorMessages: [],
 };
@@ -28,6 +34,8 @@ const EMPTY_ERROR_MESSAGES = 'EMPTY_ERROR_MESSAGES';
 const SIGNUP_TO_LOGIN = 'SIGNUP_TO_LOGIN';
 const SET_USERNAME_PASSWORD = 'SET_USERNAME';
 const EMPTY_FIELDS = 'EMPTY_FIELDS';
+const SET_USER_PROFIL = 'SET_USER_PROFIL';
+const SET_LOGIN_INFO = 'SET_LOGIN_INFO';
 
 /*
  * Reducer
@@ -100,6 +108,24 @@ export default (state = initialState, action = {}) => {
         },
       };
     }
+    case SET_USER_PROFIL: {
+      return {
+        ...state,
+        profil: {
+          username: action.username,
+          email: action.email,
+        },
+      };
+    }
+    case SET_LOGIN_INFO: {
+      return {
+        ...state,
+        login: {
+          username: action.username,
+          email: action.email,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -145,4 +171,16 @@ export const setUsernameAndPassword = (username, password) => ({
 
 export const emptyFields = () => ({
   type: EMPTY_FIELDS,
+});
+
+export const setUserProfil = (username, email) => ({
+  type: SET_USER_PROFIL,
+  username,
+  email,
+});
+
+export const setLoginInfo = (username, email) => ({
+  type: SET_LOGIN_INFO,
+  username,
+  email,
 });

@@ -174,6 +174,31 @@ io.on('connection', (socket) => {
     user: socket.request.user,
   });
 
+  socket.on('save_user_info', ({ username, email }) => {
+    UserModel.update(
+      { userSocketId: socket.id },
+      { username, email },
+      {},
+      (err) => {
+        if (err) throw err;
+      },
+    );
+  });
+
+  socket.on('save_user_password', (password) => {
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+    UserModel.update(
+      { userSocketId: socket.id },
+      { password: hash },
+      {},
+      (err) => {
+        if (err) throw err;
+      },
+    );
+  });
+
   // quand l'user lance une recherche
   socket.on('start_match', (data) => {
     // On recupere les rooms open correspondant aux critères

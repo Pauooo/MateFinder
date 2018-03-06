@@ -19,6 +19,7 @@ import NavBar from 'src/containers/NavBar';
 import Footer from 'src/components/Footer';
 import Mentions from 'src/components/Mentions';
 import Contact from 'src/components/Contact';
+import Profil from 'src/containers/Profil';
 
 /**
  * Code
@@ -86,6 +87,11 @@ class App extends React.Component {
             path="/password"
             exact
             component={Password}
+          />
+          <Route
+            path="/profil"
+            exact
+            component={Profil}
           />
           <Route
             path="/matching"

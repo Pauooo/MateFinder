@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
 /**
  * Local import
  */
-import App from 'src/components/App';
+import App from 'src/containers/App';
 
 import { setUsernameAndPassword } from 'src/store/reducers/auth';
 import { sendCredential } from 'src/store/middlewares/authentication';

@@ -21,29 +21,10 @@ const IO_START = 'IO_START';
 // Matching
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
 const MATCH_REFUSE = 'MATCH_REFUSE';
-
 /*
  * Middleware
  */
 let socket = null;
-
-/*
-{
-  "alg": "HS256",
-  "typ": "JWT"
-}
-{
-  "sub": "5a95528c8b9f5674a8ed6ba3",
-  "name": "John Doe",
-  "admin": true
-}
-HMACSHA256(
-  base64UrlEncode(header) + "." +
-  base64UrlEncode(payload),
-  secret
-)
-*/
-
 let timerMatchAccept = null;
 let timerMaxMatching = null;
 
@@ -191,4 +172,7 @@ export const matchRefuse = () => ({
 export const startIO = token => ({
   type: IO_START,
   token,
+});
+export const checkToken = () => ({
+  type: CHECK_TOKEN,
 });

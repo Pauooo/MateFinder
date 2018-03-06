@@ -17,14 +17,9 @@ import axios from 'axios';
 
 class MatchingSearch extends React.Component {
   static propTypes = {
-    // matchingFound: PropTypes.bool.isRequired,
-    // matchingAccepted: PropTypes.bool.isRequired,
-    // matchAccepted: PropTypes.func.isRequired,
-    // matchRefuse: PropTypes.func.isRequired,
-    // numberOfAcceptedUsers: PropTypes.number.isRequired,
-    // format: PropTypes.number.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
     selectsMatching: PropTypes.object.isRequired,
+    listnews: PropTypes.array.isRequired,
   }
 
   state = {
@@ -55,13 +50,14 @@ class MatchingSearch extends React.Component {
     const {
       matchingLoading,
       selectsMatching,
+      listnews,
     } = this.props;
     if (!matchingLoading) {
       return (
         <Redirect to="/" />
       );
     }
-    else if (!this.state.contentLoading) {
+    else if (!this.state.contentLoading || listnews === []) {
       return (
         <p>Chargement</p>
       );
@@ -69,6 +65,24 @@ class MatchingSearch extends React.Component {
     return (
       <div id="content">
         <div>
+          <div className="cssload-bell2">
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+            <div className="cssload-circle">
+              <div className="cssload-inner" />
+            </div>
+          </div>
+          <p className="searchinprogress">Recherche en cours</p>
           <p><span id="infoqueue">Tu es actuellement dans la file</span> pour jouer à <span id="game">{selectsMatching.game}</span></p>
           <p>voici du contenu qui te plaira sans doute !</p>
         </div>
@@ -83,7 +97,21 @@ class MatchingSearch extends React.Component {
             </div>
           ))}
         </div>
-
+        <h1>Actu</h1>
+        <div id="actupanel" >
+          {listnews.map(news => (
+            <div key={news.id} className="articles">
+              <img src={news.image} alt="" />
+              <div className="content">
+                <h3>{news.title}</h3>
+                <p>{`${news.summary.substring(0, 250)}...`}</p>
+                <a target="_blank" href={news.url}>
+                  En savoir plus
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

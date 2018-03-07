@@ -18,6 +18,11 @@
 			font-weight: bold
 			font-size: 1.3em
 			margin: 0.5em
+			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.50)
+
+			&:focus
+				box-shadow: none
+				transform: translateX(2px) translateY(2px)
 
 .error-message
 		font-size: 1em
@@ -35,7 +40,7 @@
 		visibility: visible !important
 
 		&::before
-			content: "   "
+			content: ""
 			background: url("/img/sad.svg") no-repeat bottom left
 			background-size: contain
 			height: 1.5em

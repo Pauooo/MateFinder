@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
  * Local import
  */
 import Profil from 'src/components/Profil';
-import { setUserProfil } from 'src/store/reducers/auth';
+import { setUserProfil, setLoginInfo } from 'src/store/reducers/auth';
 import { saveUserInfo, saveUserPassword } from 'src/store/middlewares/socket';
 import { logout } from 'src/store/middlewares/authentication';
 
@@ -37,6 +37,9 @@ const mapDispatchToProps = dispatch => ({
   },
   saveUserPassword: (password) => {
     dispatch(saveUserPassword(password));
+  },
+  setLoginInfo: (email, password) => {
+    dispatch(setLoginInfo(email, password));
   },
 });
 

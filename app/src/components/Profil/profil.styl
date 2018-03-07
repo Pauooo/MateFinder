@@ -2,12 +2,17 @@
 
 #profil
 	background: $purple-grey
-	min-width: 40em
+	width: 40em
 	padding: 1em
 
 	.editProfil
+		color: $grey
 		display: flex
 		align-items: center
+		padding: 1em 2em
+		font-size: 1.2em
+		margin: 1em 0
+		height: 2.5em
 
 		span
 			margin: 0 1em
@@ -23,7 +28,13 @@
 
 		div
 			display: flex
+			justify-content: space-between
+			width: 100%
 			align-items: center
+			text-align: left
+
+			p
+				width: 80%
 
 			input
 				margin: 0 1em
@@ -40,25 +51,12 @@
 				margin: 0 .2em
 
 	h1
-		color: $grey
+		color: $yellow
 		font-weight: 600
 		font-size: 2em
-
-	h2
-		color: $yellow
-		background: $purple-grey
-		font-size: 1.5em
-		margin-top: 2em
-		margin-bottom: 1em
-
-	#infos
-		.editProfil
-			color: $grey
-			font-size: 1.2em
-			text-align: left
-			padding-left: 5em
-			margin-bottom: .5em
-			height: 2.5em
+		font-family: "Roboto Slab", serif
+		text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
+		margin-bottom: 2em
 
 	#actions
 		display: flex
@@ -71,8 +69,8 @@
 			border: .1em solid $yellow
 			margin: .5em 1em
 			color: $yellow
-			font-size: 1.2em
-			border-radius: 1em
+			font-size: 1em
+			border-radius: .5em
 			padding: .4em
 
 

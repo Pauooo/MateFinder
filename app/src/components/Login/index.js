@@ -33,10 +33,13 @@ class Login extends React.Component {
     this.props.emptyErrorMessages();
     console.log(login);
     if (login.username === '' || login.password === '') {
+      console.log('les champs sont vides');
       const message = 'Merci de bien remplir tous les champs';
       this.props.setErrorMessage(message);
     }
-    this.props.sendCredential();
+    else {
+      this.props.sendCredential();
+    }
   }
 
   handleErrorMessages = () => {

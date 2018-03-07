@@ -33,7 +33,7 @@ class SignUp extends React.Component {
     // le formulaire ne peut pas être envoyé si
     // 1) les champs sont vides
     const { signup } = this.props;
-
+    this.props.emptyErrorMessages();
     if (signup.username === '' || signup.email === '' || signup.password === '' || signup.passwordConfirmation === '') {
       const message = 'Merci de bien remplir tous les champs';
       this.props.setErrorMessage(message);
@@ -43,10 +43,8 @@ class SignUp extends React.Component {
     else if (signup.password !== signup.passwordConfirmation) {
       const message = 'il faut que le mot de passe et la confirmation de mot de passe soient identiques';
       this.props.setErrorMessage(message);
-      console.log(message);
     }
     else {
-      this.props.emptyErrorMessages();
       this.props.createAccount();
     }
   }

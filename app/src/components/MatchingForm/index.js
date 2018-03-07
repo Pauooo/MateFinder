@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Redirect } from 'react-router';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 /**
  * Local import
@@ -125,8 +126,8 @@ class Matching extends React.Component {
         </label>
 
         <button>
-          BOOM!
-          <i className="fas fa-bomb" />
+          BOOM !
+          <FontAwesomeIcon icon="bomb" />
         </button>
       </form>
     );

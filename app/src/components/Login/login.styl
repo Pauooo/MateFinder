@@ -1,29 +1,50 @@
 @require "app/styles/charte"
 
 
-	&.form-submit--login
-			display: flex
-			align-items: center
-			justify-content: center
-
 .box
-		text-align: center
-		width: 600px
-		padding: 1em 10em
+		width: 35em
+		display: flex
+		flex-direction: column
+		align-items: center
+		padding: 1em
 		background-color: $purple-grey
+		color: white
+		line-height: 1.5
+		margin: 2em
+
+	.text-yellow
+			color:$yellow
+
+	.title
+			font-family: "Roboto Slab", serif
+			font-weight: bold
+			text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
+			color: $yellow
+			font-size: 1.8em
+			margin: 1em 0 0 0
+
+	.text-description
+			font-size: 1.5em
+			text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
+
+#go-to-signup
+		font-style: italic
+		font-size: 1em
 
 #login-submit
 		background: $yellow
-		border: 0
-		border-radius: 0
-		font-size: 1em
-		display: block
-		text-transform: uppercase
-		height: 3em
-		width: 100%
+		border: .1em solid $yellow
+		border-radius: .5em
+		padding: .3em
 		color: $purple-grey
 		font-weight: bold
+		font-size: 1.3em
+		margin: 1em
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.50)
 
+		&:focus
+			box-shadow: none
+			transform: translateX(2px) translateY(2px)
 
 #password-link
 		font-size: 0.5em
@@ -33,8 +54,3 @@
 		color: #FFF
 		text-align: right
 		padding-bottom: 3em
-
-.cancel
-		padding: 0
-		margin: 2em
-		font-weight: 400

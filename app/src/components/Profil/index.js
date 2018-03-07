@@ -27,6 +27,7 @@ class Profil extends React.Component {
     saveUserPassword: PropTypes.func.isRequired,
     successedit: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
+    setLoginInfo: PropTypes.func.isRequired,
   }
   state = {
     editPseudo: false,
@@ -60,12 +61,14 @@ class Profil extends React.Component {
         type: toast.TYPE.ERROR,
         bodyClassName: 'toast',
       });
+      this.props.saveUserInfo(this.props.username, this.props.email);
       return;
     }
     else if (context === 'editPassword') {
       this.props.saveUserPassword();
       return;
     }
+    this.props.setLoginInfo(this.props.username, this.props.email);
     this.props.saveUserInfo(this.props.username, this.props.email);
     toast('Email modifié avec succès', {
       autoClose: 5000,
@@ -90,17 +93,16 @@ class Profil extends React.Component {
       <div id="profil">
         <h1>Mon profil</h1>
         <div id="infos">
-          <h2>Informations du compte</h2>
           <div className="editProfil">
-            Pseudo :
             {!this.state.editPseudo && (
               <div>
-                <span>{login.username}</span>
+                <p>Pseudo :<span>{login.username}</span></p>
                 <FontAwesomeIcon className="icons" onClick={this.handleClick('editPseudo')} icon="edit" />
               </div>
             )}
             {this.state.editPseudo && (
               <div>
+                <p>Pseudo :</p>
                 <Field context="profil" key="editPseudo" name="username" placeholder="Pseudo" />
                 <FontAwesomeIcon className="icons" onClick={this.handleActionButtonSave('editPseudo')} icon="check" />
                 <FontAwesomeIcon className="icons" onClick={this.handleActionButtonCancel('editPseudo')} icon="times" />
@@ -108,15 +110,15 @@ class Profil extends React.Component {
             )}
           </div>
           <div className="editProfil">
-            Adresse e-mail :
             {!this.state.editEmail && (
               <div>
-                <span>{login.email}</span>
+                <p>Adresse e-mail :<span>{login.email}</span></p>
                 <FontAwesomeIcon className="icons" onClick={this.handleClick('editEmail')} icon="edit" />
               </div>
             )}
             {this.state.editEmail && (
               <div>
+                <p>Adresse e-mail :</p>
                 <Field context="profil" key="editEmail" name="email" placeholder="Adresse e-mail" />
                 <FontAwesomeIcon className="icons" onClick={this.handleActionButtonSave('editEmail')} icon="check" />
                 <FontAwesomeIcon className="icons" onClick={this.handleActionButtonCancel('editEmail')} icon="times" />
@@ -125,7 +127,6 @@ class Profil extends React.Component {
           </div>
         </div>
         <div id="actions">
-          <h2>Actions</h2>
           <div className="editProfil">
             {!this.state.editPassword && (
               <button id="editPassword" onClick={this.handleClick('editPassword')}>Modifier le mot de passe</button>

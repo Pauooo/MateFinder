@@ -136,11 +136,12 @@ export default (state = initialState, action = {}) => {
         ...state,
         foundToast: action.foundToast,
       };
-    case SET_NEWS:
+    case SET_NEWS: {
       return {
         ...state,
         news: action.news,
       };
+    }
     default:
       return state;
   }

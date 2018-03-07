@@ -72,6 +72,29 @@
 		border-radius: .5em
 		margin-top: 1em
 		font-family: "Roboto Slab", serif
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.50)
 
 		.fa-bomb
 			margin-left: 1em
+
+	button:hover
+		.fa-bomb
+			animation-name: tossing
+			-webkit-animation-name: tossing
+			animation-duration: .2s
+			-webkit-animation-duration: .2s
+			animation-iteration-count: infinite
+			-webkit-animation-iteration-count: infinite
+
+	button:focus
+		box-shadow: none
+		transform: translateX(2px) translateY(2px)
+
+
+@keyframes tossing
+		0%
+				transform: rotate(10deg)
+		50%
+				transform: rotate(-10deg)
+		100%
+				transform: rotate(10deg)

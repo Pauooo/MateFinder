@@ -32,14 +32,19 @@
 		font-size: 1em
 
 #login-submit
-			background: $yellow
-			border: .1em solid $yellow
-			border-radius: .5em
-			padding: .3em
-			color: $purple-grey
-			font-weight: bold
-			font-size: 1.3em
-			margin: 1em
+		background: $yellow
+		border: .1em solid $yellow
+		border-radius: .5em
+		padding: .3em
+		color: $purple-grey
+		font-weight: bold
+		font-size: 1.3em
+		margin: 1em
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.50)
+
+		&:focus
+			box-shadow: none
+			transform: translateX(2px) translateY(2px)
 
 #password-link
 		font-size: 0.5em

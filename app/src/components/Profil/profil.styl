@@ -1,0 +1,91 @@
+@require "app/styles/charte"
+
+#profil
+	background: $purple-grey
+	width: 40em
+	padding: 1em
+
+	.editProfil
+		color: $grey
+		display: flex
+		align-items: center
+		padding: 1em 2em
+		font-size: 1.2em
+		margin: 1em 0
+		height: 2.5em
+
+		span
+			margin: 0 1em
+			font-weight: 600
+
+		.icons
+			color: $yellow
+			cursor: pointer
+			font-size: 1.2em
+
+		.icons:hover
+			opacity: .5
+
+		div
+			display: flex
+			justify-content: space-between
+			width: 100%
+			align-items: center
+			text-align: left
+
+			p
+				width: 80%
+
+			input
+				margin: 0 1em
+				background: $grey
+				color: $purple-grey
+				border: 0
+				animation-name: stretchRight
+				animation-duration: 1.5s
+				animation-timing-function: ease-out
+				transform-origin: 0 0
+				height: 2.5em
+
+			.icons
+				margin: 0 .2em
+
+	h1
+		color: $yellow
+		font-weight: 600
+		font-size: 2em
+		font-family: "Roboto Slab", serif
+		text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
+		margin-bottom: 2em
+
+	#actions
+		display: flex
+		flex-direction: column
+		align-items: center
+		justify-content: space-between
+
+		button
+			background: none
+			border: .1em solid $yellow
+			margin: .5em 1em
+			color: $yellow
+			font-size: 1em
+			border-radius: .5em
+			padding: .4em
+
+
+@keyframes stretchRight
+	0%
+		transform: scaleX(0.3)
+	40%
+		transform: scaleX(1.02)
+	60%
+		transform: scaleX(0.98)
+	80%
+		transform: scaleX(1.01)
+	100%
+		transform: scaleX(0.98)
+	80%
+		transform: scaleX(1.01)
+	100%
+		transform: scaleX(1)

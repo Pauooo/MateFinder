@@ -30,6 +30,8 @@
     "stylus-brunch": "*"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/react-fontawesome": "^0.0.17",
     "axios": "^0.18.0",
     "babel-polyfill": "*",
     "bcrypt": "^1.0.3",

@@ -208,7 +208,6 @@ export const startIO = token => ({
   type: IO_START,
   token,
 });
-<<<<<<< HEAD
 
 export const saveUserInfo = (username, email) => ({
   type: SAVE_USER_INFO,
@@ -219,5 +218,3 @@ export const saveUserInfo = (username, email) => ({
 export const saveUserPassword = () => ({
   type: SAVE_USER_PASSWORD,
 });
-=======
->>>>>>> b9f72524bad0ed0a8130cc86b3d0937a20b524be

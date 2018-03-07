@@ -12,12 +12,12 @@ import { Link } from 'react-router-dom';
  */
 const Confirmation = () => (
   <div id="confirmation" className="box">
-    <h2>Votre compte a bien été créé.</h2>
+    <h3 className="text-description" id="text-confirmation">Ton <span className="text-yellow">compte</span> a bien été créé.</h3>
     <Link
       to="/matching"
-      id="go-to-match"
+      className="text-description"
     >
-     Lancez votre première recherche !
+     Lance ta première <span className="text-yellow" id="underline">recherche</span>  !
     </Link>
   </div>
 );

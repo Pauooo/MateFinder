@@ -6,9 +6,34 @@
 	font-family: "Montserrat", sans-serif
 	height: 100vh
 
-	img
-		margin-top: 2em
-		font-size: 2em
+#mate-finder-img
+	margin: 2em auto
+	height: 20%
+	&:hover
+		animation-name: floating
+		-webkit-animation-name: floating
+		animation-duration: 1.5s
+		-webkit-animation-duration: 1.5s
+		animation-iteration-count: 2
+		-webkit-animation-iteration-count: 2
+
+
+@keyframes floating
+	0%
+		transform: translateY(0%)
+	50%
+		transform: translateY(8%)
+	100%
+		transform: translateY(0%)
+
+@-webkit-keyframes floating
+	0%
+		-webkit-transform: translateY(0%)
+	50%
+		-webkit-transform: translateY(8%)
+	100%
+		-webkit-transform: translateY(0%)
+
 
 .toast
 	background-color: $purple-grey
@@ -35,24 +60,3 @@ main
 	display: flex
 	justify-content: space-around
 	align-items: flex-start
-
-	.landing-message
-		width: 20em
-		color: $purple-grey
-		margin: 2em 0 8em 0
-
-		h3
-			font-size: 1.8em
-			font-weight: 600
-			text-shadow: 0 1px 1px black
-
-		p
-			font-size: 1.2em
-
-	#right-panel
-		.landing-message
-			text-align: left
-
-	#left-panel
-		.landing-message
-			text-align: right

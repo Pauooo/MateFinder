@@ -1,0 +1,76 @@
+@require "app/styles/charte"
+.main-container
+		display: flex
+		justify-content: space-around
+		align-items: flex-start
+
+	.landing-message
+		width: 18em
+		color: $purple-grey
+		margin: 2em 0 8em 0
+		font-family: "Roboto Slab", serif
+		line-height: 1.3
+		text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
+
+		h3
+			font-size: 1.5em
+			margin-bottom: 0.5em
+
+		p
+			font-size: 1.2em
+			font-style: italic
+
+	#left-panel
+		.landing-message
+			text-align: right
+			animation-name: slideRight
+			-webkit-animation-name: slideRight
+
+			animation-duration: 1s
+			-webkit-animation-duration: 1s
+
+			animation-timing-function: ease-in-out
+			-webkit-animation-timing-function: ease-in-out
+
+			visibility: visible !important
+
+
+@keyframes slideRight
+	0%
+		transform: translateX(-150%)
+
+	50%
+		transform: translateX(8%)
+
+	65%
+		transform: translateX(-4%)
+
+	80%
+		transform: translateX(4%)
+
+	95%
+		transform: translateX(-2%)
+
+	100%
+		transform: translateX(0%)
+
+
+
+@-webkit-keyframes slideRight
+	0%
+		-webkit-transform: translateX(-150%)
+
+	50%
+		-webkit-transform: translateX(8%)
+
+	65%
+		-webkit-transform: translateX(-4%)
+
+	80%
+		-webkit-transform: translateX(4%)
+
+	95%
+		-webkit-transform: translateX(-2%)
+
+	100%
+		-webkit-transform: translateX(0%)

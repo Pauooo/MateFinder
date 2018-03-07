@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 /**
  * Local import
  */
-import Headline from 'src/components/Headline';
+
 import Field from 'src/containers/Field';
 import data from 'src/datas';
 /**
@@ -20,7 +20,6 @@ class Password extends React.Component {
   render() {
     return (
       <div id="password" className="box">
-        <Headline data={data.password} />
         <form className="form" onSubmit={this.handleSubmit}>
           {data.password.fields.map(field => <Field key={field.name} {...field} />)}
           <button

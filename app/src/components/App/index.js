@@ -50,23 +50,13 @@ class App extends React.Component {
     return (
       <div id="app">
         <NavBar />
-        <img src="/img/title.png" alt="title" />
+        <img src="/img/title.png" alt="title" id="mate-finder-img" />
         <ToastContainer pauseOnHover={false} />
         <main>
-          <div id="left-panel">
-            <div className="landing-message">
-              <h3>Joueur solo avec une envie de multi</h3>
-              <p>Tu es au bon endroit !</p>
-            </div>
-            <div className="landing-message">
-              <h3>Recherche par jeu et pas format</h3>
-              <p>Yep, c'est ici.</p>
-            </div>
-          </div>
           {!loggedIn && <Route
             path="/"
             exact
-            component={Landing}
+            component={Login}
           />}
           {loggedIn && <Route
             path="/"
@@ -113,16 +103,6 @@ class App extends React.Component {
             exact
             component={Contact}
           />
-          <div id="right-panel">
-            <div className="landing-message">
-              <h3>Trouve les derniers joueurs</h3>
-              <p>Complète ton groupe d'amis et saute dans l'action !</p>
-            </div>
-            <div className="landing-message">
-              <h3>Mise en relation instantanée</h3>
-              <p>On ne connait aucun gamer qui aime attendre !</p>
-            </div>
-          </div>
         </main>
         <Footer />
       </div>

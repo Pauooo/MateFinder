@@ -1,7 +1,8 @@
 @require "app/styles/charte"
 
 .form
-		margin-top: 1em
+		margin-top: .5em
+		width: 18em
 
 		&.form-submit--signup
 				display: flex
@@ -9,22 +10,85 @@
 				justify-content: center
 
 #signup-submit
-		background: $yellow
-		border: 0
-		border-radius: 0
-		font-size: 1em
-		display: block
-		text-transform: uppercase
-		height: 3em
-		width: 100%
-		margin-bottom: 2em
-		color: $purple-grey
-		font-weight: bold
+			background: $yellow
+			border: .1em solid $yellow
+			border-radius: .5em
+			padding: .4em
+			color: $purple-grey
+			font-weight: bold
+			font-size: 1.3em
+			margin: 0.5em
 
 .error-message
-		font-size: 0.8em
-		line-height: 2
+		font-size: 1em
+		width: 100%
+		line-height: 1.2
 		margin: .5em 0
-		background-color: #cc0000
-		color: #FFF
-		transition: 3s
+		color: #FF4C4C
+		font-weight: bold
+		animation-name: bigEntrance
+		-webkit-animation-name: bigEntrance
+		animation-duration: 1.6s
+		-webkit-animation-duration: 1.6s
+		animation-timing-function: ease-out
+		-webkit-animation-timing-function: ease-out
+		visibility: visible !important
+
+		&::before
+			content: "   "
+			background: url("/img/sad.svg") no-repeat bottom left
+			background-size: contain
+			height: 1.5em
+			width: 1.5em
+			margin-right: .6em
+
+@keyframes bigEntrance
+	0%
+		transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%)
+		opacity: 0.2
+	30%
+		transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%)
+		opacity: 1
+	45%
+		transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%)
+		opacity: 1
+	60%
+		transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%)
+		opacity: 1
+	75%
+		transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%)
+		opacity: 1
+	90%
+		transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%)
+		opacity: 1
+	100%
+		transform: scale(1) rotate(0deg) translateX(0%) translateY(0%)
+		opacity: 1
+
+@-webkit-keyframes bigEntrance
+	0%
+		-webkit-transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%)
+		opacity: 0.2
+	30%
+		-webkit-transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%)
+		opacity: 1
+	45%
+		-webkit-transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%)
+		opacity: 1
+	60%
+		-webkit-transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%)
+		opacity: 1
+	75%
+		-webkit-transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%)
+		opacity: 1
+	90%
+		-webkit-transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%)
+		opacity: 1
+	100%
+		-webkit-transform: scale(1) rotate(0deg) translateX(0%) translateY(0%)
+		opacity: 1
+
+.cancel
+		padding: 0
+		font-weight: 400
+		color: $yellow

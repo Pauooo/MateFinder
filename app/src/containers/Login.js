@@ -29,8 +29,8 @@ const mapDispatchToProps = dispatch => ({
   emptyErrorMessages: () => {
     dispatch(emptyErrorMessages());
   },
-  setErrorMessage: () => {
-    dispatch(setErrorMessage());
+  setErrorMessage: (message) => {
+    dispatch(setErrorMessage(message));
   },
 });
 

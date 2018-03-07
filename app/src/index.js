@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     </Provider>
   );
   render(rootComponent, document.getElementById('root'));
-
-  console.log(localStorage.getItem('mytoken'));
-
-  if (localStorage.getItem('mytoken')) {
-    const decoded = jwtDecode(localStorage.getItem('mytoken'));
+  // On vérifie s'il existe un token dans la session locale.
+  // et on vérifie que ce token corespond bien à un utilisateur
+  // si c'est le cas, on le connecte
+  if (sessionStorage.getItem('mytoken')) {
+    const decoded = jwtDecode(sessionStorage.getItem('mytoken'));
     console.log(decoded);
     store.dispatch(setUsernameAndPassword(decoded.username, decoded.password));
     store.dispatch(sendCredential(true));

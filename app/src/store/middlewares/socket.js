@@ -173,6 +173,3 @@ export const startIO = token => ({
   type: IO_START,
   token,
 });
-export const checkToken = () => ({
-  type: CHECK_TOKEN,
-});

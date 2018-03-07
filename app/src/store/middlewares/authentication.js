@@ -34,7 +34,7 @@ const createMiddleware = store => next => (action) => {
           store.dispatch(changeuserAccountCreatedStatus());
           store.dispatch(changeUserLoggedInStatus());
           store.dispatch(startIO(resp.data.Newtoken));
-          localStorage.setItem('mytoken', resp.data.Newtoken);
+          sessionStorage.setItem('mytoken', resp.data.Newtoken);
           store.dispatch(signupToLogin());
         })
         .catch((err) => {
@@ -66,7 +66,7 @@ const createMiddleware = store => next => (action) => {
         .then((resp) => {
           store.dispatch(changeUserLoggedInStatus());
           store.dispatch(startIO(resp.data.Newtoken));
-          localStorage.setItem('mytoken', resp.data.Newtoken);
+          sessionStorage.setItem('mytoken', resp.data.Newtoken);
         })
         .catch((err) => {
           const error = err.response;
@@ -85,7 +85,7 @@ const createMiddleware = store => next => (action) => {
     case LOGOUT: {
       store.dispatch(changeUserLoggedInStatus());
       store.dispatch(emptyFields());
-      localStorage.removeItem('mytoken');
+      sessionStorage.removeItem('mytoken');
       break;
     }
     default:

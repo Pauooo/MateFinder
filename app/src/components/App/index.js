@@ -52,16 +52,6 @@ class App extends React.Component {
         <img src="/img/title.png" alt="title" />
         <ToastContainer pauseOnHover={false} />
         <main>
-          <div id="left-panel">
-            <div className="landing-message">
-              <h3>Joueur solo avec une envie de multi</h3>
-              <p>Tu es au bon endroit !</p>
-            </div>
-            <div className="landing-message">
-              <h3>Recherche par jeu et pas format</h3>
-              <p>Yep, c'est ici.</p>
-            </div>
-          </div>
           {!loggedIn && <Route
             path="/"
             exact
@@ -107,16 +97,6 @@ class App extends React.Component {
             exact
             component={Contact}
           />
-          <div id="right-panel">
-            <div className="landing-message">
-              <h3>Trouve les derniers joueurs</h3>
-              <p>Complète ton groupe d'amis et saute dans l'action !</p>
-            </div>
-            <div className="landing-message">
-              <h3>Mise en relation instantanée</h3>
-              <p>On ne connait aucun gamer qui aime attendre !</p>
-            </div>
-          </div>
         </main>
         <Footer />
       </div>

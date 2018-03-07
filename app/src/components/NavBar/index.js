@@ -56,7 +56,7 @@ class NavBar extends React.Component {
                 onClick={evt => evt.preventDefault()}
                 id="go-to-profil"
               >
-                Compte
+                Mon profil
               </NavLink>
             )}
             {!matchingLoading && (

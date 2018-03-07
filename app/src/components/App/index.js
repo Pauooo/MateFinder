@@ -49,7 +49,7 @@ class App extends React.Component {
     return (
       <div id="app">
         <NavBar />
-        <img src="/img/title.png" alt="title" />
+        <img src="/img/title.png" alt="title" id="mate-finder-img" />
         <ToastContainer pauseOnHover={false} />
         <main>
           {!loggedIn && <Route

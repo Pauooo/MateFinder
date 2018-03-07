@@ -20,8 +20,8 @@ const mapStateToProps = state => ({
   loggedIn: state.auth.loggedIn,
   username: state.auth.profil.username,
   email: state.auth.profil.email,
-  password: state.auth.profil.password,
   login: state.auth.login,
+  successedit: state.auth.profil.successedit,
 });
 
 // Actions

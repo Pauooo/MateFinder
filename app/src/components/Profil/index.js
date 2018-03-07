@@ -4,6 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { toast } from 'react-toastify';
 
 /**
  * Local import
@@ -19,11 +21,11 @@ class Profil extends React.Component {
     loggedIn: PropTypes.bool.isRequired,
     username: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
     login: PropTypes.object.isRequired,
     setUserProfil: PropTypes.func.isRequired,
     saveUserInfo: PropTypes.func.isRequired,
     saveUserPassword: PropTypes.func.isRequired,
+    successedit: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
   }
   state = {
@@ -32,9 +34,9 @@ class Profil extends React.Component {
     editPassword: false,
   }
 
-  handleClick = (evt) => {
+  handleClick = context => () => {
     this.setState({
-      [evt.target.id]: !this.state[evt.target.id],
+      [context]: !this.state[context],
     });
   }
 
@@ -53,56 +55,90 @@ class Profil extends React.Component {
     });
     if (context === 'editPseudo') {
       this.props.logout();
+      toast('Pseudo modifié avec succès, reconnectes toi !', {
+        autoClose: 5000,
+        type: toast.TYPE.ERROR,
+        bodyClassName: 'toast',
+      });
+      return;
     }
     else if (context === 'editPassword') {
-      this.props.saveUserPassword(this.props.password);
-      this.props.logout();
+      this.props.saveUserPassword();
+      return;
     }
     this.props.saveUserInfo(this.props.username, this.props.email);
+    toast('Email modifié avec succès', {
+      autoClose: 5000,
+      type: toast.TYPE.ERROR,
+      bodyClassName: 'toast',
+    });
   }
 
   render() {
-    const { login, loggedIn } = this.props;
+    const {
+      login, loggedIn, successedit, logout,
+    } = this.props;
     if (!loggedIn) {
       return (
         <Redirect to="/" />
       );
     }
+    if (successedit) {
+      logout();
+    }
     return (
       <div id="profil">
-        <h1>Ton profil</h1>
+        <h1>Mon profil</h1>
         <div id="infos">
           <h2>Informations du compte</h2>
-          <p>Pseudo : {login.username}</p>
-          <p>Adresse e-mail : {login.email}</p>
+          <div className="editProfil">
+            Pseudo :
+            {!this.state.editPseudo && (
+              <div>
+                <span>{login.username}</span>
+                <FontAwesomeIcon className="icons" onClick={this.handleClick('editPseudo')} icon="edit" />
+              </div>
+            )}
+            {this.state.editPseudo && (
+              <div>
+                <Field context="profil" key="editPseudo" name="username" placeholder="Pseudo" />
+                <FontAwesomeIcon className="icons" onClick={this.handleActionButtonSave('editPseudo')} icon="check" />
+                <FontAwesomeIcon className="icons" onClick={this.handleActionButtonCancel('editPseudo')} icon="times" />
+              </div>
+            )}
+          </div>
+          <div className="editProfil">
+            Adresse e-mail :
+            {!this.state.editEmail && (
+              <div>
+                <span>{login.email}</span>
+                <FontAwesomeIcon className="icons" onClick={this.handleClick('editEmail')} icon="edit" />
+              </div>
+            )}
+            {this.state.editEmail && (
+              <div>
+                <Field context="profil" key="editEmail" name="email" placeholder="Adresse e-mail" />
+                <FontAwesomeIcon className="icons" onClick={this.handleActionButtonSave('editEmail')} icon="check" />
+                <FontAwesomeIcon className="icons" onClick={this.handleActionButtonCancel('editEmail')} icon="times" />
+              </div>
+            )}
+          </div>
         </div>
         <div id="actions">
           <h2>Actions</h2>
-          <button id="editPseudo" onClick={this.handleClick}>Modifier le pseudo</button>
-          {this.state.editPseudo && (
-            <div className="actionsbutton">
-              <Field context="profil" key="editPseudo" name="username" placeholder="Pseudo" />
-              <button onClick={this.handleActionButtonSave('editPseudo')}><i className="fas fa-check" /></button>
-              <button onClick={this.handleActionButtonCancel('editPseudo')}><i className="fas fa-times" /></button>
-            </div>
-          )}
-          <button id="editEmail" onClick={this.handleClick}>Modifier l'adresse e-mail</button>
-          {this.state.editEmail && (
-            <div className="actionsbutton">
-              <Field context="profil" key="editEmail" name="email" placeholder="Adresse e-mail" />
-              <button onClick={this.handleActionButtonSave('editEmail')}><i className="fas fa-check" /></button>
-              <button onClick={this.handleActionButtonCancel('editEmail')}><i className="fas fa-times" /></button>
-            </div>
-          )}
-          <button id="editPassword" onClick={this.handleClick}>Modifier le mot de passe</button>
-          {this.state.editPassword && (
-            <div className="actionsbutton">
-              <Field context="profil" key="editPassword" name="password" placeholder="Nouveau mot de passe" />
-              {/* <Field context="profil" key="editConfirmPassword" name="email" placeholder="Adresse e-mail" /> */}
-              <button onClick={this.handleActionButtonSave('editPassword')}><i className="fas fa-check" /></button>
-              <button onClick={this.handleActionButtonCancel('editPassword')}><i className="fas fa-times" /></button>
-            </div>
-          )}
+          <div className="editProfil">
+            {!this.state.editPassword && (
+              <button id="editPassword" onClick={this.handleClick('editPassword')}>Modifier le mot de passe</button>
+            )}
+            {this.state.editPassword && (
+              <div>
+                <Field context="profil" key="editCurrentPassword" type="password" name="currentpassword" placeholder="Mot de passe actuel" />
+                <Field context="profil" key="editPassword" type="password" name="password" placeholder="Nouveau mot de passe" />
+                <FontAwesomeIcon className="icons" onClick={this.handleActionButtonSave('editPassword')} icon="check" />
+                <FontAwesomeIcon className="icons" onClick={this.handleActionButtonCancel('editPassword')} icon="times" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

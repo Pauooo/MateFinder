@@ -13,7 +13,7 @@ import React from 'react';
 // Reducer
 import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews } from 'src/store/reducers/matching';
 
-import { setUserProfil, setLoginInfo } from 'src/store/reducers/auth';
+import { setUserProfil, setLoginInfo, changeSuccessEdit } from 'src/store/reducers/auth';
 
 
 // socket
@@ -41,6 +41,23 @@ export default store => next => (action) => {
     case WEBSOCKET_CONNECT: {
       socket.on('news-api', (data) => {
         store.dispatch(setNews(data.body));
+      });
+      socket.on('response_save_password', (data) => {
+        if (data) {
+          store.dispatch(changeSuccessEdit());
+          toast('Mot de passe modifié avec succès, reconnectes toi !', {
+            autoClose: 5000,
+            type: toast.TYPE.ERROR,
+            bodyClassName: 'toast',
+          });
+        }
+        else {
+          toast('Le mot de passe actuel n\'est pas bon', {
+            autoClose: 5000,
+            type: toast.TYPE.ERROR,
+            bodyClassName: 'toast',
+          });
+        }
       });
       socket.on('success', (data) => {
         console.log(data);
@@ -90,6 +107,7 @@ export default store => next => (action) => {
       socket.on('UserRoomNotAccepted', () => {
         toast('La recherche a échouée', {
           autoClose: 5000,
+          type: toast.TYPE.ERROR,
           bodyClassName: 'toast',
         });
         store.dispatch(changeMatchingFoundStatus());
@@ -98,7 +116,6 @@ export default store => next => (action) => {
           store.dispatch(changeMatchingAcceptedStatus());
         }
       });
-
       socket.on('updateUserAccepted', (data) => {
         store.dispatch(updateNumberOfAcceptedUsers(data));
       });
@@ -162,7 +179,8 @@ export default store => next => (action) => {
       break;
     }
     case SAVE_USER_PASSWORD: {
-      socket.emit('save_user_password', action.password);
+      const { currentpassword, password } = store.getState().auth.profil;
+      socket.emit('save_user_password', { currentpassword, password });
       break;
     }
     default:
@@ -197,7 +215,6 @@ export const saveUserInfo = (username, email) => ({
   email,
 });
 
-export const saveUserPassword = password => ({
+export const saveUserPassword = () => ({
   type: SAVE_USER_PASSWORD,
-  password,
 });

@@ -20,6 +20,7 @@ const initialState = {
     username: '',
     email: '',
     password: '',
+    successedit: false,
   },
   errorMessages: [],
 };
@@ -36,6 +37,7 @@ const SET_USERNAME_PASSWORD = 'SET_USERNAME';
 const EMPTY_FIELDS = 'EMPTY_FIELDS';
 const SET_USER_PROFIL = 'SET_USER_PROFIL';
 const SET_LOGIN_INFO = 'SET_LOGIN_INFO';
+const CHANGE_SUCCESS_EDIT = 'CHANGE_SUCCESS_EDIT';
 
 /*
  * Reducer
@@ -112,6 +114,7 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         profil: {
+          ...state.profil,
           username: action.username,
           email: action.email,
         },
@@ -123,6 +126,15 @@ export default (state = initialState, action = {}) => {
         login: {
           username: action.username,
           email: action.email,
+        },
+      };
+    }
+    case CHANGE_SUCCESS_EDIT: {
+      return {
+        ...state,
+        profil: {
+          ...state.profil,
+          successedit: !state.profil.successedit,
         },
       };
     }
@@ -183,4 +195,8 @@ export const setLoginInfo = (username, email) => ({
   type: SET_LOGIN_INFO,
   username,
   email,
+});
+
+export const changeSuccessEdit = () => ({
+  type: CHANGE_SUCCESS_EDIT,
 });

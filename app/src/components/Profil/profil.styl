@@ -2,8 +2,42 @@
 
 #profil
 	background: $purple-grey
-	width: 40%
+	min-width: 40em
 	padding: 1em
+
+	.editProfil
+		display: flex
+		align-items: center
+
+		span
+			margin: 0 1em
+			font-weight: 600
+
+		.icons
+			color: $yellow
+			cursor: pointer
+			font-size: 1.2em
+
+		.icons:hover
+			opacity: .5
+
+		div
+			display: flex
+			align-items: center
+
+			input
+				margin: 0 1em
+				background: $grey
+				color: $purple-grey
+				border: 0
+				animation-name: stretchRight
+				animation-duration: 1.5s
+				animation-timing-function: ease-out
+				transform-origin: 0 0
+				height: 2.5em
+
+			.icons
+				margin: 0 .2em
 
 	h1
 		color: $grey
@@ -18,12 +52,13 @@
 		margin-bottom: 1em
 
 	#infos
-		p
+		.editProfil
 			color: $grey
 			font-size: 1.2em
 			text-align: left
 			padding-left: 5em
 			margin-bottom: .5em
+			height: 2.5em
 
 	#actions
 		display: flex
@@ -40,6 +75,19 @@
 			border-radius: 1em
 			padding: .4em
 
-		input
-			background: $grey
-			color: $purple-grey
+
+@keyframes stretchRight
+	0%
+		transform: scaleX(0.3)
+	40%
+		transform: scaleX(1.02)
+	60%
+		transform: scaleX(0.98)
+	80%
+		transform: scaleX(1.01)
+	100%
+		transform: scaleX(0.98)
+	80%
+		transform: scaleX(1.01)
+	100%
+		transform: scaleX(1)

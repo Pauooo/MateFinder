@@ -35,13 +35,13 @@ class SignUp extends React.Component {
     const { signup } = this.props;
     this.props.emptyErrorMessages();
     if (signup.username === '' || signup.email === '' || signup.password === '' || signup.passwordConfirmation === '') {
-      const message = 'Merci de bien remplir tous les champs';
+      const message = 'Pour commencer, c\'est bien de remplir tous les champs.';
       this.props.setErrorMessage(message);
       console.log(message);
     }
     // 2) password != passwordConfimation
     else if (signup.password !== signup.passwordConfirmation) {
-      const message = 'il faut que le mot de passe et la confirmation de mot de passe soient identiques';
+      const message = 'il faut que le mot de passe et la confirmation de mot de passe soient identiques.';
       this.props.setErrorMessage(message);
     }
     else {

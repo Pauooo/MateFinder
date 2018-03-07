@@ -2,7 +2,7 @@
 
 .form
 		margin-top: .5em
-		width: em
+		width: 18em
 
 		&.form-submit--signup
 				display: flex
@@ -33,6 +33,14 @@
 		animation-timing-function: ease-out
 		-webkit-animation-timing-function: ease-out
 		visibility: visible !important
+
+		&::before
+			content: "   "
+			background: url("/img/sad.svg") no-repeat bottom left
+			background-size: contain
+			height: 1.5em
+			width: 1.5em
+			margin-right: .6em
 
 @keyframes bigEntrance
 	0%

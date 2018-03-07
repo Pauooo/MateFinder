@@ -1,11 +1,11 @@
 @require "app/styles/charte"
 
 #matchingform
-	width: 20em
+	width: 25em
 	display: flex
 	flex-direction: column
 	align-items: center
-	padding: 1em
+	padding: 1em 2em
 	background-color: $purple-grey
 	color: white
 	font-size: 1.8em
@@ -15,16 +15,18 @@
 	label
 		display: flex
 		justify-content: center
+		font-style: 1.5em
 		width: 100%
 
 	.test
 		width: 100%
 		margin-left: 1em
 		margin-bottom: 1em
+		font-family: "Roboto Slab", serif
 
 		select
 			width: 100%
-			height: 1.5em
+			height: 2em
 			text-align: center
 			text-align-last: center
 			border: 0
@@ -36,7 +38,9 @@
 			-moz-appearance: none
 			text-indent: 1px
 			text-overflow: ""
-			font-size: .6em
+			font-size: .7em
+			font-family: "Roboto Slab", serif
+			font-weight: bold
 
 			&::-ms-expand
 				display: none
@@ -44,6 +48,7 @@
 	.label
 		text-align: right
 		width: 100%
+		font-size: 1em
 
 	#labelswitch
 		margin-bottom: 1em
@@ -59,12 +64,14 @@
 			opacity: .3
 
 	button
-		width: 40%
+		width: 35%
 		font-size: 1em
 		background-color: $yellow
 		color: $purple-grey
 		border: 0
 		border-radius: .5em
+		margin-top: 1em
+		font-family: "Roboto Slab", serif
 
-		.fa fa-bomb
-			text-align: right
+		.fa-bomb
+			margin-left: 1em

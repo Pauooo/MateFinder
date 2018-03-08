@@ -71,12 +71,8 @@ const createMiddleware = store => next => (action) => {
         .catch((err) => {
           const error = err.response;
           console.log(error);
-          if (error.status === 401 && error.data === 'WrongUser') {
-            const message = 'Ce nom d\'utilisateur n\'existe pas.';
-            store.dispatch(setErrorMessage(message));
-          }
-          if (error.status === 401 && error.data === 'WrongPassword') {
-            const message = 'Tu as saisi un mauvais mot de passe.';
+          if ((error.status === 401 && error.data === 'WrongUser') || (error.status === 401 && error.data === 'WrongPassword')) {
+            const message = 'Identifiant(s) incorrect(s)';
             store.dispatch(setErrorMessage(message));
           }
         });

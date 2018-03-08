@@ -105,7 +105,7 @@ export default store => next => (action) => {
         }, 10000);
       });
       socket.on('UserRoomNotAccepted', () => {
-        toast('La recherche a échouée', {
+        toast('La recherche a échoué', {
           autoClose: 5000,
           type: toast.TYPE.ERROR,
           bodyClassName: 'toast',
@@ -138,7 +138,7 @@ export default store => next => (action) => {
       store.dispatch(changeMatchingLoadingStatus());
       timerMaxMatching = setTimeout(() => {
         store.dispatch(matchRefuse());
-        toast('La recherche a échouée', {
+        toast('La recherche a échoué', {
           autoClose: 5000,
           type: toast.TYPE.ERROR,
           bodyClassName: 'toast',

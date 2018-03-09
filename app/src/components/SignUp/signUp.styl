@@ -23,20 +23,24 @@
 			&:focus
 				box-shadow: none
 				transform: translateX(2px) translateY(2px)
+.cancel
+		padding: 0
+		font-weight: 400
+		color: $yellow
 
 .error-message
 		font-size: 1em
 		width: 100%
 		line-height: 1.2
 		margin: .5em 0
+		padding: .5em
+		font-weight: 600
+		border: .2em solid #FF4C4C
+		border-radius: .2em
 		color: #FF4C4C
-		font-weight: bold
-		animation-name: bigEntrance
-		-webkit-animation-name: bigEntrance
-		animation-duration: 1.6s
-		-webkit-animation-duration: 1.6s
-		animation-timing-function: ease-out
-		-webkit-animation-timing-function: ease-out
+		animation-name: slideDown
+		animation-duration: 1s
+		animation-timing-function: ease
 		visibility: visible !important
 
 		&::before
@@ -47,53 +51,17 @@
 			width: 1.5em
 			margin-right: .6em
 
-@keyframes bigEntrance
-	0%
-		transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%)
-		opacity: 0.2
-	30%
-		transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%)
-		opacity: 1
-	45%
-		transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%)
-		opacity: 1
-	60%
-		transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%)
-		opacity: 1
-	75%
-		transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%)
-		opacity: 1
-	90%
-		transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%)
-		opacity: 1
-	100%
-		transform: scale(1) rotate(0deg) translateX(0%) translateY(0%)
-		opacity: 1
 
-@-webkit-keyframes bigEntrance
+@keyframes slideDown
 	0%
-		-webkit-transform: scale(0.3) rotate(6deg) translateX(-30%) translateY(30%)
-		opacity: 0.2
-	30%
-		-webkit-transform: scale(1.03) rotate(-2deg) translateX(2%) translateY(-2%)
-		opacity: 1
-	45%
-		-webkit-transform: scale(0.98) rotate(1deg) translateX(0%) translateY(0%)
-		opacity: 1
-	60%
-		-webkit-transform: scale(1.01) rotate(-1deg) translateX(0%) translateY(0%)
-		opacity: 1
-	75%
-		-webkit-transform: scale(0.99) rotate(1deg) translateX(0%) translateY(0%)
-		opacity: 1
-	90%
-		-webkit-transform: scale(1.01) rotate(0deg) translateX(0%) translateY(0%)
-		opacity: 1
+		transform: translateY(-100%)
+	50%
+		transform: translateY(8%)
+	65%
+		transform: translateY(-3%)
+	80%
+		transform: translateY(3%)
+	95%
+		transform: translateY(-1%)
 	100%
-		-webkit-transform: scale(1) rotate(0deg) translateX(0%) translateY(0%)
-		opacity: 1
-
-.cancel
-		padding: 0
-		font-weight: 400
-		color: $yellow
+		transform: translateY(0%)

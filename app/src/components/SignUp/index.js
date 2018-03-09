@@ -40,7 +40,7 @@ class SignUp extends React.Component {
     }
     // 2) password != passwordConfimation
     else if (signup.password !== signup.passwordConfirmation) {
-      const message = 'il faut que le mot de passe et la confirmation de mot de passe soient identiques.';
+      const message = 'il faut que le mot de passe et sa confirmation soient identiques.';
       this.props.setErrorMessage(message);
     }
     else {

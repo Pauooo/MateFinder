@@ -119,7 +119,7 @@ class Matching extends React.Component {
           <p className="label">Dans ce format</p>
           <div className="test">
             <select id="format" value={formatSelected} onChange={this.handleChange}>
-              {formats.map(format => <option key={format} value={format.value}>{format.name}</option>)}
+              {formats.map((format, index) => <option key={index} value={format.value}>{format.name}</option>)}
             </select>
           </div>
         </label>

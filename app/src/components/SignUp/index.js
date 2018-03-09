@@ -4,7 +4,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
+
 /**
  * Local import
  */
@@ -37,7 +37,6 @@ class SignUp extends React.Component {
     if (signup.username === '' || signup.email === '' || signup.password === '' || signup.passwordConfirmation === '') {
       const message = 'Pour commencer, c\'est bien de remplir tous les champs.';
       this.props.setErrorMessage(message);
-      console.log(message);
     }
     // 2) password != passwordConfimation
     else if (signup.password !== signup.passwordConfirmation) {

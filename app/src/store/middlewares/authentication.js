@@ -30,7 +30,6 @@ const createMiddleware = store => next => (action) => {
           email: state.auth.signup.email,
         })
         .then((resp) => {
-          console.log(resp.data);
           store.dispatch(changeuserAccountCreatedStatus());
           store.dispatch(changeUserLoggedInStatus());
           store.dispatch(startIO(resp.data.Newtoken));
@@ -39,7 +38,6 @@ const createMiddleware = store => next => (action) => {
         })
         .catch((err) => {
           const error = err.response;
-          console.log(error);
           if (error.data === 'WrongEmail') {
             const message = 'Cet email est déjà utilisé.';
             store.dispatch(setErrorMessage(message));
@@ -70,7 +68,6 @@ const createMiddleware = store => next => (action) => {
         })
         .catch((err) => {
           const error = err.response;
-          console.log(error);
           if ((error.status === 401 && error.data === 'WrongUser') || (error.status === 401 && error.data === 'WrongPassword')) {
             const message = 'Identifiant(s) incorrect(s)';
             store.dispatch(setErrorMessage(message));

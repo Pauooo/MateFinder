@@ -29,6 +29,7 @@ const mapStateToProps = state => ({
   teamCount: state.matching.teamCount,
   matchingLoading: state.matching.matchingLoading,
   loggedIn: state.auth.loggedIn,
+  inRoom: state.matching.inRoom,
 });
 
 // Actions

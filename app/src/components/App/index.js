@@ -19,6 +19,7 @@ import Footer from 'src/components/Footer';
 import Mentions from 'src/components/Mentions';
 import Contact from 'src/components/Contact';
 import Profil from 'src/containers/Profil';
+import Chatroom from 'src/containers/Chatroom';
 
 /**
  * Code
@@ -91,6 +92,11 @@ class App extends React.Component {
             path="/loading"
             exact
             component={MatchingSearch}
+          />
+          <Route
+            path="/chatroom"
+            exact
+            component={Chatroom}
           />
           <Route
             path="/mentions"

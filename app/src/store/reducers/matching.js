@@ -96,14 +96,36 @@ export const MATCH_START = 'MATCH_START';
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case SELECT_MATCHING_CHANGE:
+      if (action.select === 'game') {
+        return {
+          ...state,
+          selectsMatching: {
+            ...state.selectsMatching,
+            [action.select]: action.value,
+            format: (state.team) ? state.gameList.filter(game => game.name === action.value)[0].formats.filter(frm => parseInt(frm.value, 10) > state.teamCount)[0].value : state.gameList.filter(game => game.name === action.value)[0].formats[0].value,
+          },
+        };
+      }
       return {
         ...state,
         selectsMatching: {
           ...state.selectsMatching,
+          format: (state.team) ? state.gameList.filter(game => game.name === state.selectsMatching.game)[0].formats.filter(frm => parseInt(frm.value, 10) > state.teamCount)[0].value : state.gameList.filter(game => game.name === state.selectsMatching.game)[0].formats[0].value,
           [action.select]: action.value,
         },
       };
     case TEAM_STATUS_CHANGE:
+      if (!state.team) {
+        console.log('test');
+        return {
+          ...state,
+          team: !state.team,
+          selectsMatching: {
+            ...state.selectsMatching,
+            format: state.gameList.filter(game => game.name === state.selectsMatching.game)[0].formats.filter(frm => parseInt(frm.value, 10) > state.teamCount)[0].value,
+          },
+        };
+      }
       return {
         ...state,
         team: !state.team,

@@ -281,11 +281,11 @@ io.on('connection', (socket) => {
             comms.forEach((comm) => {
               if (found) return;
               if (data.team && (comm.max_users - comm.current_users) >= data.teamCount) {
-                matching.AddUserRoom(socket.id, comm.id, comm.current_users, io);
+                matching.AddUserRoom(socket.id, comm.id, comm.current_users, data.teamCount, io);
                 found = true;
               }
               else if (!data.team) {
-                matching.AddUserRoom(socket.id, comm.id, comm.current_users, io);
+                matching.AddUserRoom(socket.id, comm.id, comm.current_users, 1, io);
                 found = true;
               }
             });
@@ -324,8 +324,8 @@ io.on('connection', (socket) => {
                         RoomModel.update(
                           { _id: user.room_id },
                           {
-                            accepted_users: room.accepted_users + 1,
-                            inRoom: room.accepted_users + 1 === room.max_users,
+                            accepted_users: room.accepted_users + (user.inTeam) ? user.TeamCount : 1,
+                            inRoom: (room.accepted_users + (user.inTeam) ? user.TeamCount : 1) === room.max_users,
                           },
                           {},
                           callBackUpdate,
@@ -333,7 +333,7 @@ io.on('connection', (socket) => {
                       }
                     });
                   users2.forEach((user2) => {
-                    io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', { number: 1, users2 });
+                    io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', { number: (user.inTeam) ? user.TeamCount : 1, users2 });
                   });
                 }
               });
@@ -342,9 +342,9 @@ io.on('connection', (socket) => {
       });
   });
 
-  socket.on('refuse_match', () => {
+  socket.on('refuse_match', ({ team, teamCount }) => {
     if (!MinTimeBeforeMatch._called) clearTimeout(MinTimeBeforeMatch);
-    else matching.RemoveUserRoom(socket.id, io);
+    else matching.RemoveUserRoom(socket.id, team, teamCount, io);
   });
 
   socket.on('user_exit_chatroom', () => {
@@ -365,7 +365,7 @@ io.on('connection', (socket) => {
                     const newusers = users2.filter(usr => usr.userSocketId !== socket.id);
                     io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', { number: 0, newusers });
                   });
-                  matching.RemoveUserRoom(socket.id, io);
+                  matching.RemoveUserRoom(socket.id, user.team, user.TeamCount, io);
                 }
               });
           });
@@ -398,7 +398,12 @@ io.on('connection', (socket) => {
 
   // quand l'user quitte le site
   socket.on('disconnect', () => {
-    matching.RemoveUserRoom(socket.id, io);
+    UserModel.findOne({ userSocketId: socket.id }, (err, user) => {
+      if (err) throw err;
+      else {
+        matching.RemoveUserRoom(socket.id, user.inTeam, user.TeamCount, io);
+      }
+    });
   });
 });
 

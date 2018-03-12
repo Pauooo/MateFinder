@@ -2,7 +2,7 @@
 
 
 #chatroom
-	width: 80vh
+	width: 90vh
 	height: 60vh
 	display: flex
 	align-items: center
@@ -14,7 +14,6 @@
 	overflow: hidden
 
 	#chat
-		padding-right: 1em
 		height: 100%
 		width: 80%
 
@@ -66,9 +65,26 @@
 
 	#users
 		height: 100%
+		padding-left: .2em
+
+		h3
+			font-size: .8em
+			margin-top: .5em
+			margin-bottom: 1em
 
 		ul
 			text-align: left
+
+			li
+				display: flex
+				align-items: center
+				font-size: .8em
+				font-weight: 600
+
+				.icons
+					font-size: .8em
+					width: 2em
+					color: $yellow
 
 		.escape-link
 			font-size: .7em

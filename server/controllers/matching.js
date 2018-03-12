@@ -27,10 +27,14 @@ const Matching = {
       });
   },
 
-  AddUserRoom: (userSocket, roomId, usersInRoom, ioConnection) => {
+  AddUserRoom: (userSocket, roomId, usersInRoom, number, ioConnection) => {
     // on update room_id de l'user dans la Bdd
     const userConditions = { userSocketId: userSocket };
-    const userUpdate = { room_id: roomId };
+    const userUpdate = {
+      room_id: roomId,
+      inTeam: (number !== 1),
+      teamCount: number,
+    };
     const userOptions = { multi: true };
     const userCallBack = (err) => {
       if (err) {
@@ -41,7 +45,7 @@ const Matching = {
 
     // on update le nombre d'user dans la room
     const roomConditions = { _id: roomId };
-    const roomUpdate = { current_users: usersInRoom + 1 };
+    const roomUpdate = { current_users: usersInRoom + number };
     const roomOptions = { multi: true };
     const roomCallBack = (err) => {
       if (err) {
@@ -78,7 +82,7 @@ const Matching = {
     UserModel.update(conditions, update, options, callback);
   },
 
-  RemoveUserRoom: (userSocket, ioConnection) => {
+  RemoveUserRoom: (userSocket, team, teamCount, ioConnection) => {
     // On récupère l'user
     UserModel.findOne({ userSocketId: userSocket })
       .exec((err, user) => {
@@ -90,7 +94,7 @@ const Matching = {
           RoomModel.findOne({ _id: roomId })
             .exec((err2, room) => {
               if (err2) throw err2;
-              if (room.current_users - 1 === 0) {
+              if (room.current_users - (team) ? teamCount : 1 === 0) {
                 RoomModel.update({ _id: roomId }, { open: false }, { multi: true }, (err3) => {
                   if (err3) throw err3;
                   Matching.resetUserRoomId(userSocket);
@@ -99,7 +103,7 @@ const Matching = {
               else {
                 RoomModel.update(
                   { _id: roomId },
-                  { current_users: room.current_users - 1 },
+                  { current_users: room.current_users - (team) ? teamCount : 1 },
                   { multi: true },
                   (err3) => {
                     if (err3) throw err3;
@@ -136,7 +140,6 @@ const Matching = {
     const room = new RoomModel();
     // On défini ces propriétés
     room.max_users = data.format;
-    if (data.team) room.current_users = data.teamCount;
     room.game = data.game;
     room.lang = data.lang;
 
@@ -145,8 +148,7 @@ const Matching = {
       if (err) {
         throw err;
       }
-      console.log('room ajoutée avec succès !');
-      Matching.AddUserRoom(userSocket, roomData.id, roomData.current_users, ioConnection);
+      Matching.AddUserRoom(userSocket, roomData.id, roomData.current_users, (data.team) ? data.teamCount : 1, ioConnection);
     });
   },
 };

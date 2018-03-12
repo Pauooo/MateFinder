@@ -131,6 +131,7 @@ export default store => next => (action) => {
         }
       });
       socket.on('updateUserAccepted', (data) => {
+        console.log(data);
         if (store.getState().matching.inRoom) {
           store.dispatch(setUserChatroom(data.newusers));
           return;
@@ -187,8 +188,10 @@ export default store => next => (action) => {
       break;
     }
     case MATCH_REFUSE: {
-      const { matchingFound, matchingLoading } = store.getState().matching;
-      socket.emit('refuse_match', matchingFound);
+      const {
+        matchingFound, matchingLoading, team, teamCount,
+      } = store.getState().matching;
+      socket.emit('refuse_match', { team, teamCount });
       clearTimeout(timerMaxMatching);
       clearTimeout(timerMatchAccept);
       store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));

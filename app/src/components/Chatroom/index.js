@@ -103,7 +103,13 @@ class Chatroom extends React.Component {
             <FontAwesomeIcon onClick={exitChatRoom} className="escape" icon="times" />
           </div>
           <ul>
-            {users.map(user => <li key={user.username}>{user.username}</li>)}
+            <h3>Utilisateurs :</h3>
+            {users.map(user => (
+              <li key={user.username}>
+                <FontAwesomeIcon className="icons" icon={(user.inTeam) ? 'users' : 'user'} />
+                {user.username}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

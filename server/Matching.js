@@ -160,7 +160,6 @@ exports.CreateNewRoom = (userModel, RoomModel, data, userSocket) => {
     if (err) {
       throw err;
     }
-    console.log('room ajoutée avec succès !');
     this.AddUserRoom(userModel, RoomModel, userSocket, roomData.id, roomData.current_users);
   });
 };

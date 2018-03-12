@@ -39,7 +39,6 @@ class MatchingSearch extends React.Component {
       },
     })
       .then((resp) => {
-        console.log(resp.data.streams);
         this.setState({
           streams: [...resp.data.streams],
           contentLoading: true,

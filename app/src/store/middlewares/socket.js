@@ -43,7 +43,6 @@ export default store => next => (action) => {
   switch (action.type) {
     case WEBSOCKET_CONNECT: {
       socket.on('update_room_messages', (data) => {
-        console.log(data);
         store.dispatch(setChatroomMessages(data));
         const element = document.getElementById('messages');
         element.scrollTop = element.scrollHeight;
@@ -54,7 +53,7 @@ export default store => next => (action) => {
       socket.on('response_save_password', (data) => {
         if (data) {
           store.dispatch(changeSuccessEdit());
-          toast('Mot de passe modifié avec succès, reconnectes toi !', {
+          toast('Mot de passe modifié avec succès, reconnecte-toi !', {
             autoClose: 5000,
             type: toast.TYPE.ERROR,
             bodyClassName: 'toast',
@@ -74,7 +73,6 @@ export default store => next => (action) => {
       });
       socket.on('RoomFound', () => {
         if (!('Notification' in window)) {
-          console.log('This browser does not support desktop notification');
         }
 
         // Let's check whether notification permissions have already been granted

@@ -7,7 +7,7 @@ const initialState = {
   selectsMatching: {
     game: 'Counter-Strike: Global Offensive',
     lang: 'Fr',
-    format: 2,
+    format: '2',
   },
   gameList: [
     {
@@ -17,11 +17,11 @@ const initialState = {
       formats: [
         {
           name: '2 vs 2',
-          value: 2,
+          value: '2',
         },
         {
           name: '5 vs 5',
-          value: 5,
+          value: '5',
         },
       ],
     },
@@ -32,11 +32,11 @@ const initialState = {
       formats: [
         {
           name: '2 vs 2',
-          value: 2,
+          value: '2',
         },
         {
           name: '3 vs 3',
-          value: 3,
+          value: '3',
         },
       ],
     },
@@ -47,7 +47,7 @@ const initialState = {
       formats: [
         {
           name: '5 vs 5',
-          value: 5,
+          value: '5',
         },
       ],
     },
@@ -58,7 +58,7 @@ const initialState = {
       formats: [
         {
           name: '5 vs 5',
-          value: 5,
+          value: '5',
         },
       ],
     },
@@ -84,6 +84,7 @@ const MATCHING_ACCEPTED_STATUS_CHANGE = 'MATCHING_ACCEPTED_STATUS_CHANGE';
 const NUMBER_ACCEPTED_USER_UPDATE = 'NUMBER_ACCEPTED_USER_UPDATE';
 const FOUND_TOAST_SET = 'FOUND_TOAST_SET';
 const SET_NEWS = 'SET_NEWS';
+const SET_USER_IN_ROOM = 'SET_USER_IN_ROOM';
 
 // Socket
 export const MATCH_START = 'MATCH_START';
@@ -151,6 +152,12 @@ export default (state = initialState, action = {}) => {
         news: action.news,
       };
     }
+    case SET_USER_IN_ROOM: {
+      return {
+        ...state,
+        inRoom: !state.inRoom,
+      };
+    }
     default:
       return state;
   }
@@ -200,6 +207,10 @@ export const setFoundToast = foundToast => ({
 export const setNews = news => ({
   type: SET_NEWS,
   news,
+});
+
+export const setUserInRoom = () => ({
+  type: SET_USER_IN_ROOM,
 });
 
 // Action Creators Socket

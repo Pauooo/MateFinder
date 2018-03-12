@@ -19,7 +19,7 @@ class Matching extends React.Component {
     team: PropTypes.bool.isRequired,
     gameSelected: PropTypes.string.isRequired,
     langSelected: PropTypes.string.isRequired,
-    formatSelected: PropTypes.number.isRequired,
+    formatSelected: PropTypes.string.isRequired,
     gameList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     langList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     teamCount: PropTypes.number.isRequired,

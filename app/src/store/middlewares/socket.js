@@ -11,7 +11,7 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews } from 'src/store/reducers/matching';
+import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews, setUserInRoom } from 'src/store/reducers/matching';
 
 import { setUserProfil, setLoginInfo, changeSuccessEdit, setChatroomMessages, setUserChatroom, changeInput } from 'src/store/reducers/auth';
 
@@ -125,12 +125,15 @@ export default store => next => (action) => {
         }
       });
       socket.on('updateUserAccepted', (data) => {
-        if (store.getState().matching.numberOfAcceptedUsers + data.number === store.getState().matching.selectsMatching.format) {
+        if (store.getState().matching.numberOfAcceptedUsers + data.number === parseInt(store.getState().matching.selectsMatching.format, 10)) {
+          console.log('test1');
           store.dispatch(changeMatchingLoadingStatus());
           store.dispatch(changeMatchingFoundStatus());
           store.dispatch(changeMatchingAcceptedStatus());
+          store.dispatch(setUserInRoom());
           store.dispatch(setUserChatroom(data.users2));
         }
+        console.log('test2');
         store.dispatch(updateNumberOfAcceptedUsers(data.number));
       });
       break;

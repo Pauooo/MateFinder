@@ -8,6 +8,7 @@ const socket = require('socket.io');
 const bcrypt = require('bcrypt');
 const RoomModel = require('./models/Rooms');
 const UserModel = require('./models/Users');
+const MessageModel = require('./models/Messages');
 const matching = require('./controllers/matching');
 const jwtAuth = require('socketio-jwt-auth');
 const config = require('./config');
@@ -136,6 +137,7 @@ io.use(jwtAuth.authenticate({
   // succeedWithoutToken: true,
 }, (payload, done) => {
   // done is a callback, you can use it as follows
+  console.log(payload);
   UserModel.findOne({ username: payload.username }, (err, user) => {
     if (err) {
       // return error
@@ -170,6 +172,50 @@ io.on('connection', (socket) => {
   socket.emit('success', {
     message: 'success logged in!',
     user: socket.request.user,
+  });
+
+  socket.on('send_message', ({ inputMessage }) => {
+    UserModel.findOne({ userSocketId: socket.id })
+      .exec((err, user) => {
+        if (err) {
+          throw err;
+        }
+        // On crée une instance du Model Room
+        const message = new MessageModel();
+        // On défini ces propriétés
+        message.user_id = user.id;
+        message.room_id = user.room_id;
+        message.username = user.username;
+        message.message = inputMessage;
+
+        // On le sauvegarde dans MongoDB !
+        message.save((err3) => {
+          if (err3) {
+            throw err3;
+          }
+          MessageModel.find()
+            .where('room_id', user.room_id)
+            .exec((err4, messages) => {
+              if (err4) {
+                throw err4;
+              }
+              UserModel.find()
+                .where('room_id', user.room_id)
+                .exec((err2, users) => {
+                  if (err2) {
+                    throw err2;
+                  }
+                  else {
+                    users.forEach((user2) => {
+                      if (io.sockets.connected[user2.userSocketId]) {
+                        io.sockets.connected[user2.userSocketId].emit('update_room_messages', messages);
+                      }
+                    });
+                  }
+                });
+            });
+        });
+      });
   });
 
   socket.on('save_user_info', ({ username, email }) => {
@@ -271,7 +317,7 @@ io.on('connection', (socket) => {
                 if (err) throw err;
                 else {
                   users2.forEach((user2) => {
-                    io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', 1);
+                    io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', { number: 1, users2 });
                   });
                 }
               });

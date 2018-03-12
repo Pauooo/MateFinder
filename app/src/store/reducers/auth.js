@@ -22,6 +22,11 @@ const initialState = {
     password: '',
     successedit: false,
   },
+  chatroom: {
+    inputMessage: '',
+    Messages: [],
+    users: [],
+  },
   errorMessages: [],
 };
 
@@ -38,6 +43,9 @@ const EMPTY_FIELDS = 'EMPTY_FIELDS';
 const SET_USER_PROFIL = 'SET_USER_PROFIL';
 const SET_LOGIN_INFO = 'SET_LOGIN_INFO';
 const CHANGE_SUCCESS_EDIT = 'CHANGE_SUCCESS_EDIT';
+const SET_CHATROOM_MESSAGES = 'SET_CHATROOM_MESSAGES';
+const SET_USERS_CHATROOM = 'SET_USERS_CHATROOM';
+const ADD_EMOJI = 'ADD_EMOJI';
 
 /*
  * Reducer
@@ -138,6 +146,33 @@ export default (state = initialState, action = {}) => {
         },
       };
     }
+    case SET_CHATROOM_MESSAGES: {
+      return {
+        ...state,
+        chatroom: {
+          ...state.chatroom,
+          Messages: action.messages,
+        },
+      };
+    }
+    case SET_USERS_CHATROOM: {
+      return {
+        ...state,
+        chatroom: {
+          ...state.chatroom,
+          users: action.users,
+        },
+      };
+    }
+    case ADD_EMOJI: {
+      return {
+        ...state,
+        chatroom: {
+          ...state.chatroom,
+          inputMessage: `${state.chatroom.inputMessage} ${action.emoji} `,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -199,4 +234,19 @@ export const setLoginInfo = (username, email) => ({
 
 export const changeSuccessEdit = () => ({
   type: CHANGE_SUCCESS_EDIT,
+});
+
+export const setChatroomMessages = messages => ({
+  type: SET_CHATROOM_MESSAGES,
+  messages,
+});
+
+export const setUserChatroom = users => ({
+  type: SET_USERS_CHATROOM,
+  users,
+});
+
+export const addEmoji = emoji => ({
+  type: ADD_EMOJI,
+  emoji,
 });

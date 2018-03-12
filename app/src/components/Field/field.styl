@@ -9,7 +9,7 @@
 	 */
 	&-input
 		display: block
-		border: 1px solid #2F4F4F
+		border: 0.3em solid $grey
 		background-color: $grey
 		font-size: 1rem
 		height: 2.5em
@@ -25,14 +25,6 @@
 			font-style: italic
 			font-size: .8em
 
-	&-label
-		display: none
-		color: $purple-grey
-		position: absolute
-		top: .75em
-		left: 1.5em
-		text-transform: uppercase
-		font-size: .8em
 
 
 	/*
@@ -41,13 +33,10 @@
 
 	&--has-error &
 		&-input
-			border-color: #dc3545
-		&-label
-			color: #dc3545
+			border: 1px solid #dc3545
 
 	&--has-focus &
 		&-input
-			border-color: #528B8B
-
-		&-label
-			color: #528B8B
+			border-bottom-color: $yellow
+			border-right-color: $yellow
+			background-color: $grey

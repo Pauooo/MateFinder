@@ -60,7 +60,6 @@ export default store => next => (action) => {
         }
       });
       socket.on('success', (data) => {
-        console.log(data);
         store.dispatch(setUserProfil(data.user.username, data.user.email));
         store.dispatch(setLoginInfo(data.user.username, data.user.email));
       });
@@ -105,7 +104,7 @@ export default store => next => (action) => {
         }, 10000);
       });
       socket.on('UserRoomNotAccepted', () => {
-        toast('La recherche a échouée', {
+        toast('La recherche a échoué', {
           autoClose: 5000,
           type: toast.TYPE.ERROR,
           bodyClassName: 'toast',
@@ -138,7 +137,7 @@ export default store => next => (action) => {
       store.dispatch(changeMatchingLoadingStatus());
       timerMaxMatching = setTimeout(() => {
         store.dispatch(matchRefuse());
-        toast('La recherche a échouée', {
+        toast('La recherche a échoué', {
           autoClose: 5000,
           type: toast.TYPE.ERROR,
           bodyClassName: 'toast',
@@ -169,7 +168,6 @@ export default store => next => (action) => {
       break;
     }
     case IO_START: {
-      console.log(action.token);
       socket = io('http://localhost:3000', { query: `auth_token=${action.token}` });
       store.dispatch(wsConnect());
       break;

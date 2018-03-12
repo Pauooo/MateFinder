@@ -92,8 +92,7 @@ app.post('/login', (req, res) => {
     .where('username', username)
     .exec((err, user) => {
       if (err) {
-        console.log(err);
-        return;
+        throw err;
       }
       if (user === null) {
         res.status(401).send('WrongUser');
@@ -137,7 +136,6 @@ io.use(jwtAuth.authenticate({
   // succeedWithoutToken: true,
 }, (payload, done) => {
   // done is a callback, you can use it as follows
-  console.log(payload);
   UserModel.findOne({ username: payload.username }, (err, user) => {
     if (err) {
       // return error
@@ -283,12 +281,10 @@ io.on('connection', (socket) => {
             comms.forEach((comm) => {
               if (found) return;
               if (data.team && (comm.max_users - comm.current_users) >= data.teamCount) {
-                console.log(`Ajout a la room ${comm.id}`);
                 matching.AddUserRoom(socket.id, comm.id, comm.current_users, io);
                 found = true;
               }
               else if (!data.team) {
-                console.log(`Ajout a la room ${comm.id}`);
                 matching.AddUserRoom(socket.id, comm.id, comm.current_users, io);
                 found = true;
               }
@@ -316,6 +312,26 @@ io.on('connection', (socket) => {
               .exec((err2, users2) => {
                 if (err) throw err;
                 else {
+                  RoomModel.findOne({ _id: user.room_id })
+                    .exec((er, room) => {
+                      if (er) {
+                        throw er;
+                      }
+                      else {
+                        const callBackUpdate = (err3) => {
+                          if (err3) throw err;
+                        };
+                        RoomModel.update(
+                          { _id: user.room_id },
+                          {
+                            accepted_users: room.accepted_users + 1,
+                            inRoom: room.accepted_users + 1 === room.max_users,
+                          },
+                          {},
+                          callBackUpdate,
+                        );
+                      }
+                    });
                   users2.forEach((user2) => {
                     io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', { number: 1, users2 });
                   });
@@ -331,6 +347,54 @@ io.on('connection', (socket) => {
     else matching.RemoveUserRoom(socket.id, io);
   });
 
+  socket.on('user_exit_chatroom', () => {
+    UserModel.find()
+      .where('userSocketId', socket.id)
+      .exec((err, users) => {
+        if (err) {
+          throw err;
+        }
+        else {
+          users.forEach((user) => {
+            UserModel.find()
+              .where('room_id', user.room_id)
+              .exec((err2, users2) => {
+                if (err) throw err;
+                else {
+                  users2.forEach((user2) => {
+                    const newusers = users2.filter(usr => usr.userSocketId !== socket.id);
+                    io.sockets.connected[user2.userSocketId].emit('updateUserAccepted', { number: 0, newusers });
+                  });
+                  matching.RemoveUserRoom(socket.id, io);
+                }
+              });
+          });
+        }
+      });
+  });
+
+  socket.on('get_users_room_list', () => {
+    UserModel.find()
+      .where('userSocketId', socket.id)
+      .exec((err, users) => {
+        if (err) {
+          throw err;
+        }
+        else {
+          users.forEach((user) => {
+            UserModel.find()
+              .where('room_id', user.room_id)
+              .exec((err2, users2) => {
+                if (err) throw err;
+                else {
+                  const newusers = users2;
+                  socket.emit('updateUserAccepted', { number: 0, newusers });
+                }
+              });
+          });
+        }
+      });
+  });
 
   // quand l'user quitte le site
   socket.on('disconnect', () => {

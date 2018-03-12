@@ -104,7 +104,7 @@ const Matching = {
                   (err3) => {
                     if (err3) throw err3;
                     Matching.resetUserRoomId(userSocket);
-                    if (room.open === false) {
+                    if (!room.open && !room.inRoom) {
                       UserModel.find()
                         .where('room_id', room.id)
                         .exec((err4, users) => {
@@ -113,7 +113,7 @@ const Matching = {
                               Matching.SendNotificationToUser(usr.userSocketId, 'UserRoomNotAccepted', ioConnection);
                               RoomModel.update(
                                 { _id: roomId },
-                                { open: true },
+                                { open: true, accepted_users: 0 },
                                 { multi: true },
                                 (err5) => {
                                   if (err5) throw err5;

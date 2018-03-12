@@ -30,6 +30,7 @@ const SAVE_USER_PASSWORD = 'SAVE_USER_PASSWORD';
 
 // Chatroom
 const SEND_MESSAGE = 'SEND_MESSAGE';
+const EXIT_CHATROOM = 'EXIT_CHATROOM';
 
 /*
  * Middleware
@@ -43,7 +44,6 @@ export default store => next => (action) => {
   switch (action.type) {
     case WEBSOCKET_CONNECT: {
       socket.on('update_room_messages', (data) => {
-        console.log(data);
         store.dispatch(setChatroomMessages(data));
         const element = document.getElementById('messages');
         element.scrollTop = element.scrollHeight;
@@ -105,6 +105,7 @@ export default store => next => (action) => {
           closeButton: false,
           bodyClassName: 'toast',
         });
+        store.dispatch(updateNumberOfAcceptedUsers(0));
         store.dispatch(setFoundToast(foundToast));
         clearTimeout(timerMaxMatching);
         store.dispatch(changeMatchingFoundStatus());
@@ -113,27 +114,40 @@ export default store => next => (action) => {
         }, 10000);
       });
       socket.on('UserRoomNotAccepted', () => {
-        toast('La recherche a échoué', {
-          autoClose: 5000,
-          type: toast.TYPE.ERROR,
-          bodyClassName: 'toast',
-        });
-        store.dispatch(changeMatchingFoundStatus());
-        store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
-        if (store.getState().matching.matchingAccepted) {
-          store.dispatch(changeMatchingAcceptedStatus());
+        if (!store.getState().matching.inRoom) {
+          toast('La recherche a échoué', {
+            autoClose: 5000,
+            type: toast.TYPE.ERROR,
+            bodyClassName: 'toast',
+          });
+          store.dispatch(changeMatchingFoundStatus());
+          store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
+          if (store.getState().matching.matchingAccepted) {
+            store.dispatch(changeMatchingAcceptedStatus());
+          }
+        }
+        else {
+          socket.emit('get_users_room_list');
         }
       });
       socket.on('updateUserAccepted', (data) => {
-        if (store.getState().matching.numberOfAcceptedUsers + data.number === parseInt(store.getState().matching.selectsMatching.format, 10)) {
-          console.log('test1');
+        if (store.getState().matching.inRoom) {
+          store.dispatch(setUserChatroom(data.newusers));
+          return;
+        }
+        else if (
+          data.number !== 0 &&
+          store.getState().matching.numberOfAcceptedUsers + data.number
+          === parseInt(
+            store.getState().matching.selectsMatching.format,
+            10,
+          )) {
           store.dispatch(changeMatchingLoadingStatus());
           store.dispatch(changeMatchingFoundStatus());
           store.dispatch(changeMatchingAcceptedStatus());
           store.dispatch(setUserInRoom());
           store.dispatch(setUserChatroom(data.users2));
         }
-        console.log('test2');
         store.dispatch(updateNumberOfAcceptedUsers(data.number));
       });
       break;
@@ -205,6 +219,11 @@ export default store => next => (action) => {
       store.dispatch(changeInput({ name: 'inputMessage', value: '', context: 'chatroom' }));
       break;
     }
+    case EXIT_CHATROOM: {
+      socket.emit('user_exit_chatroom');
+      store.dispatch(setUserInRoom());
+      break;
+    }
     default:
   }
   // On passe au voisin
@@ -243,4 +262,8 @@ export const saveUserPassword = () => ({
 
 export const sendMessage = () => ({
   type: SEND_MESSAGE,
+});
+
+export const exitChatRoom = () => ({
+  type: EXIT_CHATROOM,
 });

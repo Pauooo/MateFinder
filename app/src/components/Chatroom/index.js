@@ -25,6 +25,8 @@ class Chatroom extends React.Component {
     username: PropTypes.string.isRequired,
     inputMessage: PropTypes.string.isRequired,
     addEmoji: PropTypes.func.isRequired,
+    exitChatRoom: PropTypes.func.isRequired,
+    inRoom: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -61,15 +63,22 @@ class Chatroom extends React.Component {
   }
 
   render() {
-    const { messages, users, username } = this.props;
+    const {
+      messages, users, username, exitChatRoom, inRoom,
+    } = this.props;
+    if (!inRoom) {
+      return (
+        <Redirect to="/" />
+      );
+    }
     return (
       <div id="chatroom">
         <div id="chat">
           <div id="messages">
             {messages.map(msg => (
-              <div className={classNames('message', { ownermsg: msg.username === username })}>
+              <div key={msg._id} className={classNames('message', { ownermsg: msg.username === username })}>
                 <p className="username" >{msg.username}</p>
-                <p key={msg._id} className="content"><Formatizer>{msg.message}</Formatizer></p>
+                <div className="content"><Formatizer>{msg.message}</Formatizer></div>
               </div>
             ))}
           </div>
@@ -90,8 +99,11 @@ class Chatroom extends React.Component {
           </form>
         </div>
         <div id="users">
+          <div className="escape-link">
+            <FontAwesomeIcon onClick={exitChatRoom} className="escape" icon="times" />
+          </div>
           <ul>
-            {users.map(user => <li>{user.username}</li>)}
+            {users.map(user => <li key={user.username}>{user.username}</li>)}
           </ul>
         </div>
       </div>

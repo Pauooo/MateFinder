@@ -29,6 +29,7 @@ class Matching extends React.Component {
     startMatch: PropTypes.func.isRequired,
     matchingLoading: PropTypes.bool.isRequired,
     loggedIn: PropTypes.bool.isRequired,
+    inRoom: PropTypes.bool.isRequired,
   }
 
   state = {}
@@ -59,6 +60,7 @@ class Matching extends React.Component {
       langList,
       matchingLoading,
       loggedIn,
+      inRoom,
     } = this.props;
     const { formats, playerMax } = gameList.filter(game => game.name === gameSelected)[0];
     const GameTeamCount = [];
@@ -73,6 +75,11 @@ class Matching extends React.Component {
     if (matchingLoading) {
       return (
         <Redirect to="/loading" />
+      );
+    }
+    if (inRoom) {
+      return (
+        <Redirect to="/chatroom" />
       );
     }
     return (

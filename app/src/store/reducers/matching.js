@@ -70,6 +70,7 @@ const initialState = {
   numberOfAcceptedUsers: 0,
   foundToast: null,
   news: [],
+  inRoom: false,
 };
 
 
@@ -126,11 +127,19 @@ export default (state = initialState, action = {}) => {
         ...state,
         matchingAccepted: !state.matchingAccepted,
       };
-    case NUMBER_ACCEPTED_USER_UPDATE:
+    case NUMBER_ACCEPTED_USER_UPDATE: {
+      if (state.numberOfAcceptedUsers + action.number === state.selectsMatching.format) {
+        return {
+          ...state,
+          inRoom: true,
+          numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
+        };
+      }
       return {
         ...state,
         numberOfAcceptedUsers: state.numberOfAcceptedUsers + action.number,
       };
+    }
     case FOUND_TOAST_SET:
       return {
         ...state,

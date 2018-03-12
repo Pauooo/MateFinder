@@ -13,7 +13,7 @@ import React from 'react';
 // Reducer
 import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews } from 'src/store/reducers/matching';
 
-import { setUserProfil, setLoginInfo, changeSuccessEdit } from 'src/store/reducers/auth';
+import { setUserProfil, setLoginInfo, changeSuccessEdit, setChatroomMessages, setUserChatroom, changeInput } from 'src/store/reducers/auth';
 
 
 // socket
@@ -28,6 +28,9 @@ const MATCH_REFUSE = 'MATCH_REFUSE';
 const SAVE_USER_INFO = 'SAVE_USER_INFO';
 const SAVE_USER_PASSWORD = 'SAVE_USER_PASSWORD';
 
+// Chatroom
+const SEND_MESSAGE = 'SEND_MESSAGE';
+
 /*
  * Middleware
  */
@@ -39,6 +42,12 @@ export default store => next => (action) => {
   // Code
   switch (action.type) {
     case WEBSOCKET_CONNECT: {
+      socket.on('update_room_messages', (data) => {
+        console.log(data);
+        store.dispatch(setChatroomMessages(data));
+        const element = document.getElementById('messages');
+        element.scrollTop = element.scrollHeight;
+      });
       socket.on('news-api', (data) => {
         store.dispatch(setNews(data.body));
       });
@@ -117,7 +126,13 @@ export default store => next => (action) => {
         }
       });
       socket.on('updateUserAccepted', (data) => {
-        store.dispatch(updateNumberOfAcceptedUsers(data));
+        if (store.getState().matching.numberOfAcceptedUsers + data.number === store.getState().matching.selectsMatching.format) {
+          store.dispatch(changeMatchingLoadingStatus());
+          store.dispatch(changeMatchingFoundStatus());
+          store.dispatch(changeMatchingAcceptedStatus());
+          store.dispatch(setUserChatroom(data.users2));
+        }
+        store.dispatch(updateNumberOfAcceptedUsers(data.number));
       });
       break;
     }
@@ -183,6 +198,12 @@ export default store => next => (action) => {
       socket.emit('save_user_password', { currentpassword, password });
       break;
     }
+    case SEND_MESSAGE: {
+      const { inputMessage } = store.getState().auth.chatroom;
+      socket.emit('send_message', { inputMessage });
+      store.dispatch(changeInput({ name: 'inputMessage', value: '', context: 'chatroom' }));
+      break;
+    }
     default:
   }
   // On passe au voisin
@@ -217,4 +238,8 @@ export const saveUserInfo = (username, email) => ({
 
 export const saveUserPassword = () => ({
   type: SAVE_USER_PASSWORD,
+});
+
+export const sendMessage = () => ({
+  type: SEND_MESSAGE,
 });

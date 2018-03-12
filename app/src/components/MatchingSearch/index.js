@@ -20,6 +20,7 @@ class MatchingSearch extends React.Component {
     matchingLoading: PropTypes.bool.isRequired,
     selectsMatching: PropTypes.object.isRequired,
     listnews: PropTypes.array.isRequired,
+    inRoom: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -51,10 +52,16 @@ class MatchingSearch extends React.Component {
       matchingLoading,
       selectsMatching,
       listnews,
+      inRoom,
     } = this.props;
-    if (!matchingLoading) {
+    if (!matchingLoading && !inRoom) {
       return (
         <Redirect to="/" />
+      );
+    }
+    if (inRoom) {
+      return (
+        <Redirect to="/chatroom" />
       );
     }
     else if (!this.state.contentLoading || listnews === []) {

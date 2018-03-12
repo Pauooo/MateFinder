@@ -158,8 +158,6 @@ io.use(jwtAuth.authenticate({
 io.on('connection', (socket) => {
   let MinTimeBeforeMatch = null;
 
-  console.log('Authentication passed!');
-
   UserModel.update(
     { username: socket.request.user.username },
     { userSocketId: socket.id },

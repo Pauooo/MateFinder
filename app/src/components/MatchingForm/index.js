@@ -37,7 +37,6 @@ class Matching extends React.Component {
   handleSubmit = (evt) => {
     evt.preventDefault();
     this.props.startMatch();
-    console.log('Submit du match');
   }
 
   handleChange = (evt) => {
@@ -124,7 +123,7 @@ class Matching extends React.Component {
         </label>
 
         <label htmlFor="format">
-          <p className="label">Dans ce format</p>
+          <p className="label">Au format</p>
           <div className="test">
             <select id="format" value={formatSelected} onChange={this.handleChange}>
               {formats.map((format, index) => <option key={index} value={format.value}>{format.name}</option>)}

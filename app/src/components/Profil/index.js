@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 /**
  * Local import
@@ -91,6 +92,12 @@ class Profil extends React.Component {
     }
     return (
       <div id="profil">
+        <Link
+          to="/"
+          className="escape-link"
+        >
+          <div><FontAwesomeIcon className="escape" icon="times" /></div>
+        </Link>
         <h1>Mon profil</h1>
         <div id="infos">
           <div className="editProfil">

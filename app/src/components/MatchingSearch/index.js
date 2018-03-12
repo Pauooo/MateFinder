@@ -90,8 +90,8 @@ class MatchingSearch extends React.Component {
             </div>
           </div>
           <p className="searchinprogress">Recherche en cours</p>
-          <p><span id="infoqueue">Tu es actuellement dans la file</span> pour jouer à <span id="game">{selectsMatching.game}</span></p>
-          <p>voici du contenu qui te plaira sans doute !</p>
+          <p><span id="infoqueue">Tu es actuellement dans la file</span> pour jouer à <span id="game">{selectsMatching.game}</span>.</p>
+          <p>Voici du contenu qui te plaira sans doute !</p>
         </div>
         <h1>Streaming</h1>
         <div id="streamspanel" >
@@ -111,8 +111,8 @@ class MatchingSearch extends React.Component {
               <img src={news.image} alt="" />
               <div className="content">
                 <h3>{news.title}</h3>
-                <p>{`${news.summary.substring(0, 250)}...`}</p>
-                <a target="_blank" href={news.url}>
+                <p className="extract">{`${news.summary.substring(0, 250)}...`}</p>
+                <a target="_blank" className="text-yellow" href={news.url}>
                   En savoir plus
                 </a>
               </div>

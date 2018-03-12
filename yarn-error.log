@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js status:node
+  /usr/bin/node /usr/share/yarn/bin/yarn.js lint
 
 PATH: 
   /home/pauooo/bin:/home/pauooo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -46,13 +46,17 @@ npm manifest:
       "stylus-brunch": "*"
     },
     "dependencies": {
+      "@fortawesome/fontawesome": "^1.1.4",
+      "@fortawesome/react-fontawesome": "^0.0.17",
       "axios": "^0.18.0",
       "babel-polyfill": "*",
       "bcrypt": "^1.0.3",
       "body-parser": "^1.18.2",
       "classnames": "^2.2.5",
       "express": "^4.16.2",
+      "igdb-api-node": "^3.1.3",
       "jsonwebtoken": "^8.1.1",
+      "jwt-decode": "^2.2.0",
       "mongoose": "^5.0.6",
       "morgan": "^1.9.0",
       "node-gyp": "^3.6.2",
@@ -160,6 +164,22 @@ Lockfile:
       esutils "^2.0.2"
       lodash "^4.2.0"
       to-fast-properties "^2.0.0"
+  
+  "@fortawesome/fontawesome-common-types@^0.1.3":
+    version "0.1.3"
+    resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.3.tgz#8475e0f2d1ad1f858c4ec2e76ed9a2456a09ad83"
+  
+  "@fortawesome/fontawesome@^1.1.4":
+    version "1.1.4"
+    resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.4.tgz#03065638046206c2226e103b550196934c75be9b"
+    dependencies:
+      "@fortawesome/fontawesome-common-types" "^0.1.3"
+  
+  "@fortawesome/react-fontawesome@^0.0.17":
+    version "0.0.17"
+    resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.0.17.tgz#69abd135523187044f533cadc5458f829d43961f"
+    dependencies:
+      humps "^2.0.1"
   
   abab@^1.0.4:
     version "1.0.4"
@@ -1067,6 +1087,13 @@ Lockfile:
     dependencies:
       core-js "^2.4.0"
       regenerator-runtime "^0.11.0"
+  
+  babel-runtime@~6.23.0:
+    version "6.23.0"
+    resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
+    dependencies:
+      core-js "^2.4.0"
+      regenerator-runtime "^0.10.0"
   
   babel-template@^6.24.1, babel-template@^6.26.0:
     version "6.26.0"
@@ -3151,6 +3178,10 @@ Lockfile:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
   
+  humps@^2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/humps/-/humps-2.0.1.tgz#dd02ea6081bd0568dc5d073184463957ba9ef9aa"
+  
   hyphenate-style-name@^1.0.2:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
@@ -3166,6 +3197,13 @@ Lockfile:
   ieee754@^1.1.4:
     version "1.1.8"
     resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
+  
+  igdb-api-node@^3.1.3:
+    version "3.1.3"
+    resolved "https://registry.yarnpkg.com/igdb-api-node/-/igdb-api-node-3.1.3.tgz#fb31d8ab51ea659ac3b9141bb080f01b4e0b2b9e"
+    dependencies:
+      presage "^0.1.4"
+      request "^2.60.0"
   
   ignore-by-default@^1.0.1:
     version "1.0.1"
@@ -3668,6 +3706,10 @@ Lockfile:
       base64url "^2.0.0"
       jwa "^1.1.4"
       safe-buffer "^5.0.1"
+  
+  jwt-decode@^2.2.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
   
   jwt-simple@^0.5:
     version "0.5.1"
@@ -4698,6 +4740,12 @@ Lockfile:
     version "1.0.4"
     resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   
+  presage@^0.1.4:
+    version "0.1.4"
+    resolved "https://registry.yarnpkg.com/presage/-/presage-0.1.4.tgz#4895dbce03788cf6cecedfc0cf86d1e3eb917238"
+    dependencies:
+      babel-runtime "~6.23.0"
+  
   preserve@^0.2.0:
     version "0.2.0"
     resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
@@ -5009,7 +5057,7 @@ Lockfile:
     version "1.3.3"
     resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.3.3.tgz#0c336d3980553d755c39b586ae3b20aa49c82b7f"
   
-  regenerator-runtime@^0.10.5:
+  regenerator-runtime@^0.10.0, regenerator-runtime@^0.10.5:
     version "0.10.5"
     resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
   
@@ -5113,7 +5161,7 @@ Lockfile:
       stealthy-require "^1.1.0"
       tough-cookie ">=2.3.3"
   
-  request@2, request@^2.81.0, request@^2.83.0:
+  request@2, request@^2.60.0, request@^2.81.0, request@^2.83.0:
     version "2.83.0"
     resolved "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
     dependencies:
@@ -6233,14 +6281,17 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yeast/-/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 Trace: 
-  Error: Command "status:node" not found.
-      at new MessageError (/usr/share/yarn/lib/cli.js:186:110)
-      at /usr/share/yarn/lib/cli.js:87307:17
-      at Generator.next (<anonymous>)
-      at step (/usr/share/yarn/lib/cli.js:98:30)
-      at /usr/share/yarn/lib/cli.js:116:14
-      at new Promise (<anonymous>)
-      at new F (/usr/share/yarn/lib/cli.js:23451:28)
-      at /usr/share/yarn/lib/cli.js:95:12
-      at runCommand (/usr/share/yarn/lib/cli.js:87312:22)
-      at Object.<anonymous> (/usr/share/yarn/lib/cli.js:87412:14)
+  Error: Command failed.
+  Exit code: 1
+  Command: sh
+  Arguments: -c eslint .
+  Directory: /var/www/html/MateFinder
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/share/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/share/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/share/yarn/lib/cli.js:30281:17)
+      at emitTwo (events.js:126:13)
+      at ChildProcess.emit (events.js:214:7)
+      at maybeClose (internal/child_process.js:925:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)

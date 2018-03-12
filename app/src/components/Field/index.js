@@ -30,7 +30,7 @@ static propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
   context: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
+  type: PropTypes.oneOf(['text', 'password', 'email']),
 }
 
 static defaultProps = {
@@ -40,6 +40,7 @@ static defaultProps = {
 
 state = {
   error: false,
+  focus: false,
 }
 
 /**
@@ -58,39 +59,59 @@ handleChange = (evt) => {
   }
 }
 
+/**
+  * Handle focus event
+  */
+ handleFocus = () => {
+   this.setState({
+     error: false,
+     focus: true,
+   });
+ }
 
-/*
+
+ /**
+  * Handle blur event
+  */
+ handleBlur = () => {
+   this.setState({ focus: false });
+ }
+
+
+  /*
  * Render
  */
-render() {
-  const { error } = this.state;
+ render() {
+   const { error, focus } = this.state;
 
-  const {
-    name, context, placeholder, value, type,
-  } = this.props;
-  const id = `field-${name}`;
-  return (
-    <div
-      className={classNames(
+   const {
+     name, context, placeholder, value, type,
+   } = this.props;
+   const id = `field-${name}`;
+   return (
+     <div
+       className={classNames(
         'field',
-        { 'field--has-value': value !== '' },
         { 'field--has-error': error },
+        { 'field--has-focus': focus },
       )}
-    >
-      <input
+     >
+       <input
         /* HTML */
-        type={type}
-        className="field-input"
-        id={id}
-        name={name}
-        placeholder={placeholder}
+         type={type}
+         className="field-input"
+         id={id}
+         name={name}
+         placeholder={placeholder}
 
         /* React */
-        context={context}
-        value={value}
-        onChange={this.handleChange}
-      />
-    </div>
-  );
-}
+         context={context}
+         value={value}
+         onChange={this.handleChange}
+         onFocus={this.handleFocus}
+         onBlur={this.handleBlur}
+       />
+     </div>
+   );
+ }
 }

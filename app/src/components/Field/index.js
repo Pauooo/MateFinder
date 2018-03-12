@@ -63,10 +63,12 @@ handleChange = (evt) => {
   * Handle focus event
   */
  handleFocus = () => {
-   this.setState({
-     error: false,
-     focus: true,
-   });
+   if (this.props.name !== 'inputMessage') {
+     this.setState({
+       error: false,
+       focus: true,
+     });
+   }
  }
 
 
@@ -103,6 +105,7 @@ handleChange = (evt) => {
          id={id}
          name={name}
          placeholder={placeholder}
+         autoComplete={(name === 'inputMessage') ? 'off' : 'on'}
 
         /* React */
          context={context}

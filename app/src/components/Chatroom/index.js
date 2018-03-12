@@ -74,18 +74,18 @@ class Chatroom extends React.Component {
             ))}
           </div>
           <form id="sendmessage" onSubmit={this.handleSubmit}>
+            <Field context="chatroom" key="inputMessage" name="inputMessage" placeholder="Ecrire un message..." />
             <Manager>
               <Target>
                 <FontAwesomeIcon onClick={this.handlePicker} className="icons" icon="smile" />
               </Target>
               {this.state.pickerIsActive && (
-                <Popper placement="top" className="popper" style={{ width: '10em', height: '10em', marginBottom: '.5em' }}>
+                <Popper placement="top" className="popper" style={{ width: '10em', height: '15em', marginBottom: '.5em' }}>
                   <Picker onChange={data => this.choiceEmoji(data)} />
                   <Arrow className="popper__arrow" />
                 </Popper>
               )}
             </Manager>
-            <Field context="chatroom" key="inputMessage" name="inputMessage" placeholder="Ecrire un message..." />
             <FontAwesomeIcon onClick={this.handleSubmit} className="icons" icon="space-shuttle" />
           </form>
         </div>

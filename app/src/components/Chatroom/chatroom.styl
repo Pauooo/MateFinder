@@ -11,13 +11,12 @@
 	color: white
 	font-size: 1.8em
 	padding: 1em
+	overflow: hidden
 
 	#chat
 		padding-right: 1em
-		border-right: 1px solid $yellow
 		height: 100%
 		width: 80%
-		overflow: hidden
 
 		#messages
 			height: 90%
@@ -25,6 +24,7 @@
 			overflow: auto
 			font-size: .8em
 			padding-right: .5em
+			border-right: 1px solid $yellow
 			/* width */
 			&::-webkit-scrollbar
 					width: .4em
@@ -78,19 +78,18 @@
 		justify-content: center
 
 		input
-			width: 95%
-			margin-right: 1em
+			width: 98%
 
 			&::placeholder
 				text-align: left
 
 		.fa-space-shuttle
 			color: $yellow
-			cursor: crosshair
+			cursor: pointer
 
 		.fa-smile
 			color: $yellow
-			cursor: crosshair
+			cursor: pointer
 			margin-right: .5em
 
 		.animfusee
@@ -98,14 +97,14 @@
 
 @keyframes fusee
 	10% { transform: translateX(-.5em) }
-	11% { transform: translateX(-.5em) rotateZ(5deg) }
-	12% { transform: translateX(-.5em) rotateZ(-5deg) }
-	13% { transform: translateX(-.5em) rotateZ(5deg) }
-	14% { transform: translateX(-.5em) rotateZ(-5deg) }
-	15% { transform: translateX(-.5em) rotateZ(5deg) }
-	16% { transform: translateX(-.5em) rotateZ(-5deg) }
-	17% { transform: translateX(-.5em) rotateZ(5deg) }
-	18% { transform: translateX(-.5em) rotateZ(-5deg) }
-	19% { transform: translateX(-.5em) rotateZ(5deg) }
+	11% { transform: translateX(-.5em) rotateZ(10deg) }
+	12% { transform: translateX(-.5em) rotateZ(-10deg) }
+	13% { transform: translateX(-.5em) rotateZ(10deg) }
+	14% { transform: translateX(-.5em) rotateZ(-10deg) }
+	15% { transform: translateX(-.5em) rotateZ(10deg) }
+	16% { transform: translateX(-.5em) rotateZ(-10deg) }
+	17% { transform: translateX(-.5em) rotateZ(10deg) }
+	18% { transform: translateX(-.5em) rotateZ(-10deg) }
+	19% { transform: translateX(-.5em) rotateZ(10deg) }
 	20% { transform: translateX(-.5em) rotateZ(0deg) }
-	to { transform: translateX(5em) }
+	to { transform: translateX(10em) }

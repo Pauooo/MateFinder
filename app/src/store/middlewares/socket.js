@@ -19,6 +19,7 @@ import { setUserProfil, setLoginInfo, changeSuccessEdit, setChatroomMessages, se
 // socket
 const WEBSOCKET_CONNECT = 'WEBSOCKET_CONNECT';
 const IO_START = 'IO_START';
+const IO_KILL = 'IO_KILL';
 
 // Matching
 const MATCH_ACCEPTED = 'MATCH_ACCEPTED';
@@ -145,7 +146,7 @@ export default store => next => (action) => {
           store.dispatch(changeMatchingLoadingStatus());
           store.dispatch(changeMatchingFoundStatus());
           store.dispatch(changeMatchingAcceptedStatus());
-          store.dispatch(setUserInRoom());
+          store.dispatch(setUserInRoom(true));
           store.dispatch(setUserChatroom(data.users2));
         }
         store.dispatch(updateNumberOfAcceptedUsers(data.number));
@@ -223,8 +224,12 @@ export default store => next => (action) => {
     }
     case EXIT_CHATROOM: {
       socket.emit('user_exit_chatroom');
-      store.dispatch(setUserInRoom());
+      store.dispatch(setUserInRoom(false));
       store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
+      break;
+    }
+    case IO_KILL: {
+      socket.disconnect();
       break;
     }
     default:
@@ -269,4 +274,8 @@ export const sendMessage = () => ({
 
 export const exitChatRoom = () => ({
   type: EXIT_CHATROOM,
+});
+
+export const killIO = () => ({
+  type: IO_KILL,
 });

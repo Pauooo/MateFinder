@@ -92,17 +92,19 @@ class MatchingSearch extends React.Component {
           <p><span id="infoqueue">Tu es actuellement dans la file</span> pour jouer à <span id="game">{selectsMatching.game}</span>.</p>
           <p>Voici du contenu qui te plaira sans doute !</p>
         </div>
-        <h1>Streaming</h1>
-        <div id="streamspanel" >
-          {this.state.streams.map(stream => (
-            <div key={stream.channel.display_name} className="stream">
-              <h3>TWITCH - {stream.channel.display_name}</h3>
-              <a target="_blank" href={stream.channel.url}>
-                <img src={stream.preview.medium} alt="" />
-              </a>
-            </div>
-          ))}
-        </div>
+        {this.state.streams.length !== 0 && <h1>Streaming</h1>}
+        {this.state.streams.length !== 0 && (
+          <div id="streamspanel" >
+            {this.state.streams.map(stream => (
+              <div key={stream.channel.display_name} className="stream">
+                <h3>TWITCH - {stream.channel.display_name}</h3>
+                <a target="_blank" href={stream.channel.url}>
+                  <img src={stream.preview.medium} alt="" />
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
         <h1>Actu</h1>
         <div id="actupanel" >
           {listnews.map(news => (

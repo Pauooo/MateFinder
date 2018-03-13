@@ -11,7 +11,7 @@ import React from 'react';
  */
 
 // Reducer
-import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews } from 'src/store/reducers/matching';
+import { MATCH_START, changeMatchingLoadingStatus, changeMatchingFoundStatus, updateNumberOfAcceptedUsers, changeMatchingAcceptedStatus, setFoundToast, setNews, setUserInRoom } from 'src/store/reducers/matching';
 
 import { setUserProfil, setLoginInfo, changeSuccessEdit, setChatroomMessages, setUserChatroom, changeInput } from 'src/store/reducers/auth';
 
@@ -30,6 +30,7 @@ const SAVE_USER_PASSWORD = 'SAVE_USER_PASSWORD';
 
 // Chatroom
 const SEND_MESSAGE = 'SEND_MESSAGE';
+const EXIT_CHATROOM = 'EXIT_CHATROOM';
 
 /*
  * Middleware
@@ -103,6 +104,7 @@ export default store => next => (action) => {
           closeButton: false,
           bodyClassName: 'toast',
         });
+        store.dispatch(updateNumberOfAcceptedUsers(0));
         store.dispatch(setFoundToast(foundToast));
         clearTimeout(timerMaxMatching);
         store.dispatch(changeMatchingFoundStatus());
@@ -111,22 +113,39 @@ export default store => next => (action) => {
         }, 10000);
       });
       socket.on('UserRoomNotAccepted', () => {
-        toast('La recherche a échoué', {
-          autoClose: 5000,
-          type: toast.TYPE.ERROR,
-          bodyClassName: 'toast',
-        });
-        store.dispatch(changeMatchingFoundStatus());
-        store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
-        if (store.getState().matching.matchingAccepted) {
-          store.dispatch(changeMatchingAcceptedStatus());
+        if (!store.getState().matching.inRoom) {
+          toast('La recherche a échoué', {
+            autoClose: 5000,
+            type: toast.TYPE.ERROR,
+            bodyClassName: 'toast',
+          });
+          store.dispatch(changeMatchingFoundStatus());
+          store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
+          if (store.getState().matching.matchingAccepted) {
+            store.dispatch(changeMatchingAcceptedStatus());
+          }
+        }
+        else {
+          socket.emit('get_users_room_list');
         }
       });
       socket.on('updateUserAccepted', (data) => {
-        if (store.getState().matching.numberOfAcceptedUsers + data.number === store.getState().matching.selectsMatching.format) {
+        console.log(data);
+        if (store.getState().matching.inRoom) {
+          store.dispatch(setUserChatroom(data.newusers));
+          return;
+        }
+        else if (
+          data.number !== 0 &&
+          store.getState().matching.numberOfAcceptedUsers + data.number
+          === parseInt(
+            store.getState().matching.selectsMatching.format,
+            10,
+          )) {
           store.dispatch(changeMatchingLoadingStatus());
           store.dispatch(changeMatchingFoundStatus());
           store.dispatch(changeMatchingAcceptedStatus());
+          store.dispatch(setUserInRoom());
           store.dispatch(setUserChatroom(data.users2));
         }
         store.dispatch(updateNumberOfAcceptedUsers(data.number));
@@ -168,8 +187,10 @@ export default store => next => (action) => {
       break;
     }
     case MATCH_REFUSE: {
-      const { matchingFound, matchingLoading } = store.getState().matching;
-      socket.emit('refuse_match', matchingFound);
+      const {
+        matchingFound, matchingLoading, team, teamCount,
+      } = store.getState().matching;
+      socket.emit('refuse_match', { team, teamCount });
       clearTimeout(timerMaxMatching);
       clearTimeout(timerMatchAccept);
       store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
@@ -198,6 +219,12 @@ export default store => next => (action) => {
       const { inputMessage } = store.getState().auth.chatroom;
       socket.emit('send_message', { inputMessage });
       store.dispatch(changeInput({ name: 'inputMessage', value: '', context: 'chatroom' }));
+      break;
+    }
+    case EXIT_CHATROOM: {
+      socket.emit('user_exit_chatroom');
+      store.dispatch(setUserInRoom());
+      store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
       break;
     }
     default:
@@ -238,4 +265,8 @@ export const saveUserPassword = () => ({
 
 export const sendMessage = () => ({
   type: SEND_MESSAGE,
+});
+
+export const exitChatRoom = () => ({
+  type: EXIT_CHATROOM,
 });

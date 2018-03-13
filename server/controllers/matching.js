@@ -27,43 +27,45 @@ const Matching = {
       });
   },
 
-  AddUserRoom: (userSocket, roomId, usersInRoom, ioConnection) => {
+  AddUserRoom: (userSocket, roomId, usersInRoom, number, ioConnection) => {
     // on update room_id de l'user dans la Bdd
     const userConditions = { userSocketId: userSocket };
-    const userUpdate = { room_id: roomId };
+    const userUpdate = {
+      room_id: roomId,
+      inTeam: (number !== 1),
+      TeamCount: number,
+    };
     const userOptions = { multi: true };
-    const userCallBack = (err) => {
-      if (err) {
-        throw err;
-      }
-    };
-    UserModel.update(userConditions, userUpdate, userOptions, userCallBack);
-
-    // on update le nombre d'user dans la room
-    const roomConditions = { _id: roomId };
-    const roomUpdate = { current_users: usersInRoom + 1 };
-    const roomOptions = { multi: true };
-    const roomCallBack = (err) => {
-      if (err) {
-        throw err;
-      }
+    UserModel.update(userConditions, userUpdate, userOptions, (er) => {
+      if (er) throw er;
       else {
-        RoomModel.findOne({ _id: roomId })
-          .exec((err2, room) => {
-            if (err2) {
-              throw err2;
-            }
-            else if (room.current_users === room.max_users) {
-              const callBackUpdate = (err3) => {
-                if (err3) throw err;
-              };
-              RoomModel.update({ _id: roomId }, { open: false }, roomOptions, callBackUpdate);
-              Matching.SendNotificationToRoomUsers(roomId, 'RoomFound', ioConnection);
-            }
-          });
+        // on update le nombre d'user dans la room
+        const roomConditions = { _id: roomId };
+        const roomUpdate = { current_users: usersInRoom + number };
+        const roomOptions = { multi: true };
+        const roomCallBack = (err) => {
+          if (err) {
+            throw err;
+          }
+          else {
+            RoomModel.findOne({ _id: roomId })
+              .exec((err2, room) => {
+                if (err2) {
+                  throw err2;
+                }
+                else if (room.current_users === room.max_users) {
+                  const callBackUpdate = (err3) => {
+                    if (err3) throw err;
+                  };
+                  RoomModel.update({ _id: roomId }, { open: false }, roomOptions, callBackUpdate);
+                  Matching.SendNotificationToRoomUsers(roomId, 'RoomFound', ioConnection);
+                }
+              });
+          }
+        };
+        RoomModel.update(roomConditions, roomUpdate, roomOptions, roomCallBack);
       }
-    };
-    RoomModel.update(roomConditions, roomUpdate, roomOptions, roomCallBack);
+    });
   },
 
   resetUserRoomId: (userSocket) => {
@@ -78,7 +80,7 @@ const Matching = {
     UserModel.update(conditions, update, options, callback);
   },
 
-  RemoveUserRoom: (userSocket, ioConnection) => {
+  RemoveUserRoom: (userSocket, team, teamCount, ioConnection) => {
     // On récupère l'user
     UserModel.findOne({ userSocketId: userSocket })
       .exec((err, user) => {
@@ -90,7 +92,7 @@ const Matching = {
           RoomModel.findOne({ _id: roomId })
             .exec((err2, room) => {
               if (err2) throw err2;
-              if (room.current_users - 1 === 0) {
+              if (room.current_users - (team) ? teamCount : 1 === 0) {
                 RoomModel.update({ _id: roomId }, { open: false }, { multi: true }, (err3) => {
                   if (err3) throw err3;
                   Matching.resetUserRoomId(userSocket);
@@ -99,12 +101,12 @@ const Matching = {
               else {
                 RoomModel.update(
                   { _id: roomId },
-                  { current_users: room.current_users - 1 },
+                  { current_users: room.current_users - (team) ? teamCount : 1 },
                   { multi: true },
                   (err3) => {
                     if (err3) throw err3;
                     Matching.resetUserRoomId(userSocket);
-                    if (room.open === false) {
+                    if (!room.open && !room.inRoom) {
                       UserModel.find()
                         .where('room_id', room.id)
                         .exec((err4, users) => {
@@ -113,7 +115,7 @@ const Matching = {
                               Matching.SendNotificationToUser(usr.userSocketId, 'UserRoomNotAccepted', ioConnection);
                               RoomModel.update(
                                 { _id: roomId },
-                                { open: true },
+                                { open: true, accepted_users: 0 },
                                 { multi: true },
                                 (err5) => {
                                   if (err5) throw err5;
@@ -136,7 +138,6 @@ const Matching = {
     const room = new RoomModel();
     // On défini ces propriétés
     room.max_users = data.format;
-    if (data.team) room.current_users = data.teamCount;
     room.game = data.game;
     room.lang = data.lang;
 
@@ -145,8 +146,7 @@ const Matching = {
       if (err) {
         throw err;
       }
-      console.log('room ajoutée avec succès !');
-      Matching.AddUserRoom(userSocket, roomData.id, roomData.current_users, ioConnection);
+      Matching.AddUserRoom(userSocket, roomData.id, roomData.current_users, (data.team) ? data.teamCount : 1, ioConnection);
     });
   },
 };

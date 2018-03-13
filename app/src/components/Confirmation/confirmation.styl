@@ -4,7 +4,31 @@
 	padding: 6em
 
 #text-confirmation
-	margin-bottom: 3em
+	margin-bottom: 2em
 
 #underline
 	text-decoration: underline
+
+
+.fly
+	color: $yellow
+	margin-bottom: 1em
+
+	&:hover
+		animation-name: popUp
+		animation-duration: 1s
+		animation-fill-mode: both
+		animation-iteration-count: 1
+
+
+@keyframes popUp
+	0%
+		transform: translate(0, 0) scale(1)
+	10%
+		transform: translate(-10px, 10px) scale(1)
+	50%
+		transform: translate(-15px, 15px) scale(1)
+		opacity: 1
+	100%
+		transform: translate(400px, -400px) scale(0)
+		opacity: 0

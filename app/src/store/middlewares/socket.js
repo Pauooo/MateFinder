@@ -202,7 +202,7 @@ export default store => next => (action) => {
       break;
     }
     case IO_START: {
-      socket = io('http://localhost:3000', { query: `auth_token=${action.token}` });
+      socket = io('http://217.70.188.209:3000', { query: `auth_token=${action.token}` });
       store.dispatch(wsConnect());
       break;
     }

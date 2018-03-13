@@ -14,8 +14,8 @@ import { startIO, exitChatRoom, killIO } from 'src/store/middlewares/socket';
 const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
 const SEND_CREDENTIAL = 'SEND_CREDENTIAL';
 const LOGOUT = 'LOGOUT';
-const urlSignUp = 'http://localhost:3000/signup';
-const urlLogIn = 'http://localhost:3000/login';
+const urlSignUp = 'http://217.70.188.209:3000/signup';
+const urlLogIn = 'http://217.70.188.209:3000/login';
 
 
 const createMiddleware = store => next => (action) => {

@@ -39,6 +39,22 @@ style({
   },
 });
 
+document.body.onmousemove = (event) => {
+  const svgstar = document.getElementById('svgstar');
+  const star = document.getElementById('star');
+  const x = (svgstar.offsetLeft) + (svgstar.offsetWidth / 2);
+  const y = (svgstar.offsetTop) + (svgstar.offsetHeight / 2);
+  const rad = Math.atan2(event.pageX - x, event.pageY - y);
+  const rot = (rad * (180 / Math.PI) * -1) + 180;
+  star.style.transform = `rotateZ(${rot}deg)`;
+  // star.css({
+  //   '-webkit-transform': `rotate(${rot}deg)`,
+  //   '-moz-transform': `rotate(${rot}deg)`,
+  //   '-ms-transform': `rotate(${rot}deg)`,
+  //   transform: `rotate(${rot}deg)`,
+  // });
+};
+
 class App extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired,
@@ -50,7 +66,9 @@ class App extends React.Component {
       <div id="app">
         <NavBar />
         <div id="mate-finder-div">
-          <FontAwesomeIcon className="fa-star" size="3x" icon="star" />
+          <div id="svgstar">
+            <FontAwesomeIcon id="star" className="fa-star" size="3x" icon="star" />
+          </div>
           <h1 id="mate-finder-title">Mate Finder</h1>
           <p id="mate-finder-desc">we find, <span>you</span> play.</p>
         </div>

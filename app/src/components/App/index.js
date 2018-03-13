@@ -5,13 +5,12 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { ToastContainer, style } from 'react-toastify';
 import PropTypes from 'prop-types';
-
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 /**
  * Local import
  */
 import Login from 'src/containers/Login';
 import SignUp from 'src/containers/SignUp';
-import Password from 'src/components/Password';
 import MatchingForm from 'src/containers/MatchingForm';
 import MatchingSearch from 'src/containers/MatchingSearch';
 import NavBar from 'src/containers/NavBar';
@@ -50,7 +49,11 @@ class App extends React.Component {
     return (
       <div id="app">
         <NavBar />
-        <img src="/img/title.png" alt="title" id="mate-finder-img" />
+        <div id="mate-finder-div">
+          <FontAwesomeIcon className="fa-star" size="3x" icon="star" />
+          <h1 id="mate-finder-title">Mate Finder</h1>
+          <p id="mate-finder-desc">we find, <span>you</span> play.</p>
+        </div>
         <ToastContainer pauseOnHover={false} />
         <main>
           {!loggedIn && <Route
@@ -72,11 +75,6 @@ class App extends React.Component {
             path="/login"
             exact
             component={Login}
-          />
-          <Route
-            path="/password"
-            exact
-            component={Password}
           />
           <Route
             path="/profil"

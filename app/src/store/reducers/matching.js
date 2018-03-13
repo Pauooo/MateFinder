@@ -177,7 +177,7 @@ export default (state = initialState, action = {}) => {
     case SET_USER_IN_ROOM: {
       return {
         ...state,
-        inRoom: !state.inRoom,
+        inRoom: action.status,
       };
     }
     default:
@@ -231,8 +231,9 @@ export const setNews = news => ({
   news,
 });
 
-export const setUserInRoom = () => ({
+export const setUserInRoom = status => ({
   type: SET_USER_IN_ROOM,
+  status,
 });
 
 // Action Creators Socket

@@ -3,7 +3,7 @@
 @font-face
 	 font-family: Maiden
 	 font-style: normal
-	 src: url(/font/maiden_crimes-webfont.otf)
+	 src: url(../font/maiden_crimes-webfont.otf)
 
 
 #app
@@ -20,11 +20,6 @@
 	flex-direction: column
 	margin: 5em auto
 
-	.fa-star
-		color: $yellow
-		align-self: center
-
-
 	#mate-finder-title
 		font-family: Maiden
 		color: $purple-grey
@@ -32,6 +27,7 @@
 		text-shadow: 0 3px 5px rgba(0, 0, 0, 0.50)
 		align-items: center
 		padding-top: 0
+		z-index: 2
 
 	#mate-finder-desc
 		color: $purple-grey
@@ -40,9 +36,73 @@
 		text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
 		font-style: italic
 		text-align: center
+		animation-name: descentrance
+		animation-duration: 2s
+		height: 2em
 
 		span
 			font-weight: 600
+
+	.fa-star
+		width: 1em
+		height: 1em
+		z-index: 3
+		color: $yellow
+		align-self: center
+		animation-name: EntranceStar
+		animation-duration: 3s
+		transform: translateX(-0.1em)
+
+@keyframes descentrance
+	0%
+		opacity: 0
+		font-size: 0
+	40%
+		opacity: 1
+		font-size: 2em
+	50%
+		font-size: 1.5em
+	60%
+		font-size: 1.8em
+	70%
+		font-size: 1.5em
+	80%
+		font-size: 1.6em
+	100%
+		font-size: 1.5em
+
+@keyframes EntranceStar
+	0%
+		opacity: 0
+		z-index: 1
+		transform: translateX(-0.08em) translateY(100%) scaleY(0.6)
+	30%
+		opacity: 1
+	40%
+		opacity: 1
+		transform: translateX(-0.08em) translateY(-100%) scaleY(1.1)
+	45%
+		transform: translateX(-0.08em) translateY(-100%) rotateZ(90deg)
+	50%
+		transform: translateX(-0.08em) translateY(-100%) rotateZ(180deg)
+	55%
+		transform: translateX(-0.08em) translateY(-100%) rotateZ(270deg)
+	60%
+		transform: translateX(-0.08em) translateY(-100%) rotateZ(360deg)
+	75%
+		transform: translateX(-0.08em) translateY(40%) scaleY(0.95) scaleX(1.05)
+	80%
+		transform: translateX(-0.08em) translateY(0%) scaleY(1.05) scaleX(1)
+	85%
+		transform: translateX(-0.08em) translateY(20%) scaleY(0.95) scaleX(1)
+	90%
+		transform: translateX(-0.08em) translateY(0%) scaleY(0.95) scaleX(1)
+	95%
+		transform: translateX(-0.08em) translateY(10%) scaleY(0.95) scaleX(1)
+	100%
+		z-index: 3
+		transform: translateX(-0.08em) translateY(0%) scaleY(1) scaleX(1)
+
 
 .toast
 	background-color: $purple-grey
@@ -79,6 +139,7 @@ main
 
 	#mate-finder-desc
 		text-align: right
+		margin-left: 44%
 
 	#mate-finder-div
 		max-width: 31.5em

@@ -14,7 +14,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 const Confirmation = () => (
   <div id="confirmation" className="box">
     <h3 className="text-description" id="text-confirmation">Ton <span className="text-yellow">compte</span> a bien été créé.</h3>
-    <FontAwesomeIcon className="fly" rotate="10" size="2x" icon="paper-plane" />
+    <FontAwesomeIcon id="fly" className="fly" rotate="10" size="2x" icon="paper-plane" />
     <Link
       to="/matching"
       className="text-description"

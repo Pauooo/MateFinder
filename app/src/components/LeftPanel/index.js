@@ -18,7 +18,7 @@ const LeftPanel = () => (
       <p>Tu es au bon endroit !</p>
     </div>
     <div className="landing-message">
-      <h3>Recherche par jeu et pas format</h3>
+      <h3>Recherche par jeu et par format</h3>
       <p>Yep, c'est ici.</p>
     </div>
   </div>

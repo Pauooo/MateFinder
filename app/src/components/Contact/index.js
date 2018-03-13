@@ -28,7 +28,7 @@ const Contact = () => (
     </p>
     <a id="contactmail" href="mailto:matefinder@gmail.com">Envoyer un email</a>
     <p>
-      Tu as rencontré des problèmes ou tu as des idées pour améliorer cette application ? N'hésite pas à nous laisser une issue sur <a className="yellow" href="https://github.com/Pauooo/MateFinder/issues">Github</a>.
+      Tu as rencontré des problèmes ou tu as des idées pour améliorer cette application ? N'hésite pas à nous laisser une issue sur <a target="_blank" className="yellow" href="https://github.com/Pauooo/MateFinder/issues">Github</a>.
     </p>
   </div>
 );

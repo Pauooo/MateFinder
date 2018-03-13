@@ -76,7 +76,9 @@ const createMiddleware = store => next => (action) => {
       break;
     }
     case LOGOUT: {
-      store.dispatch(exitChatRoom());
+      if (store.getState().matching.inRoom) {
+        store.dispatch(exitChatRoom());
+      }
       store.dispatch(changeUserLoggedInStatus());
       store.dispatch(emptyFields());
       sessionStorage.removeItem('mytoken');

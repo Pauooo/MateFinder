@@ -56,13 +56,13 @@ class Profil extends React.Component {
       [context]: !this.state[context],
     });
     if (context === 'editPseudo') {
-      this.props.logout();
       toast('Pseudo modifié avec succès, reconnectes toi !', {
         autoClose: 5000,
         type: toast.TYPE.ERROR,
         bodyClassName: 'toast',
       });
       this.props.saveUserInfo(this.props.username, this.props.email);
+      this.props.logout();
       return;
     }
     else if (context === 'editPassword') {

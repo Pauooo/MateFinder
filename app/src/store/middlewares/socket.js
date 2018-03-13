@@ -131,7 +131,6 @@ export default store => next => (action) => {
         }
       });
       socket.on('updateUserAccepted', (data) => {
-        console.log(data);
         if (store.getState().matching.inRoom) {
           store.dispatch(setUserChatroom(data.newusers));
           return;

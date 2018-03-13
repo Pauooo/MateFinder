@@ -15,6 +15,7 @@ const config = require('./config');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const igdb = require('igdb-api-node').default;
+const serveStatic = require('serve-static');
 
 
 /*
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(serveStatic('public/', { index: ['index.html'] }));
 
 // Création de compte et envoie du token
 app.post('/signup', (req, res) => {
@@ -112,6 +114,10 @@ app.post('/login', (req, res) => {
     });
 });
 
+const indexPath = `${__dirname}/public/index.html`;
+app.get('*', (req, res) => {
+  res.sendFile(indexPath);
+});
 
 /**
  * MongoDB

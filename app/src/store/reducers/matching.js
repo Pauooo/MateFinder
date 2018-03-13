@@ -116,7 +116,6 @@ export default (state = initialState, action = {}) => {
       };
     case TEAM_STATUS_CHANGE:
       if (!state.team) {
-        console.log('test');
         return {
           ...state,
           team: !state.team,

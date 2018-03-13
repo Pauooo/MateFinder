@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 class AcceptedNavBar extends React.Component {
   static propTypes = {
     numberOfAcceptedUsers: PropTypes.number.isRequired,
-    format: PropTypes.number.isRequired,
+    format: PropTypes.string.isRequired,
   }
 
   state = {}

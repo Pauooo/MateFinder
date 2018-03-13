@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Chatroom from 'src/components/Chatroom';
 
 // Action creators
-import { sendMessage } from 'src/store/middlewares/socket';
+import { sendMessage, exitChatRoom } from 'src/store/middlewares/socket';
 import { addEmoji } from 'src/store/reducers/auth';
 
 /**
@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   users: state.auth.chatroom.users,
   username: state.auth.login.username,
   inputMessage: state.auth.chatroom.inputMessage,
+  inRoom: state.matching.inRoom,
 });
 
 // Actions
@@ -33,6 +34,9 @@ const mapDispatchToProps = dispatch => ({
   },
   addEmoji: (emoji) => {
     dispatch(addEmoji(emoji));
+  },
+  exitChatRoom: () => {
+    dispatch(exitChatRoom());
   },
 });
 

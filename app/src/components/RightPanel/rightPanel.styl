@@ -2,17 +2,21 @@
 
 
 #right-panel
-	visibility: hidden
+	display: none
 
 @media screen and (min-width: 750px)
 	#right-panel
+		display: flex
+		flex-direction: column
+
 		.landing-message
 			text-align: left
+			max-width: 12em
+			margin: 2em 0.3em 6em 0
 			animation-name: slideLeft
 			animation-duration: 1s
 			animation-timing-function: ease-in-out
 			visibility: visible !important
-
 
 @keyframes slideLeft
 	0%
@@ -27,3 +31,13 @@
 		transform: translateX(2%)
 	100%
 		transform: translateX(0%)
+
+@media screen and (min-width: 1000px)
+	#right-panel
+		.landing-message
+			max-width: 18em
+			h3
+				font-size: 1.5em
+
+			p
+				font-size: 1em

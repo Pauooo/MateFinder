@@ -19,7 +19,7 @@ class Matching extends React.Component {
     team: PropTypes.bool.isRequired,
     gameSelected: PropTypes.string.isRequired,
     langSelected: PropTypes.string.isRequired,
-    formatSelected: PropTypes.number.isRequired,
+    formatSelected: PropTypes.string.isRequired,
     gameList: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     langList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     teamCount: PropTypes.number.isRequired,
@@ -126,7 +126,12 @@ class Matching extends React.Component {
           <p className="label">Au format</p>
           <div className="test">
             <select id="format" value={formatSelected} onChange={this.handleChange}>
-              {formats.map((format, index) => <option key={index} value={format.value}>{format.name}</option>)}
+              {
+                formats
+                  .filter(frm => !team || parseInt(frm.value, 10) > teamCount)
+                  .map((format, index) =>
+                    <option key={index} value={format.value}>{format.name}</option>)
+              }
             </select>
           </div>
         </label>

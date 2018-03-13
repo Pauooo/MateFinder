@@ -324,8 +324,8 @@ io.on('connection', (socket) => {
                         RoomModel.update(
                           { _id: user.room_id },
                           {
-                            accepted_users: room.accepted_users + (user.inTeam) ? user.TeamCount : 1,
-                            inRoom: (room.accepted_users + (user.inTeam) ? user.TeamCount : 1) === room.max_users,
+                            accepted_users: room.accepted_users + ((user.inTeam) ? user.TeamCount : 1),
+                            inRoom: (room.accepted_users + ((user.inTeam) ? user.TeamCount : 1)) === room.max_users,
                           },
                           {},
                           callBackUpdate,

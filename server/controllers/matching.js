@@ -33,41 +33,39 @@ const Matching = {
     const userUpdate = {
       room_id: roomId,
       inTeam: (number !== 1),
-      teamCount: number,
+      TeamCount: number,
     };
     const userOptions = { multi: true };
-    const userCallBack = (err) => {
-      if (err) {
-        throw err;
-      }
-    };
-    UserModel.update(userConditions, userUpdate, userOptions, userCallBack);
-
-    // on update le nombre d'user dans la room
-    const roomConditions = { _id: roomId };
-    const roomUpdate = { current_users: usersInRoom + number };
-    const roomOptions = { multi: true };
-    const roomCallBack = (err) => {
-      if (err) {
-        throw err;
-      }
+    UserModel.update(userConditions, userUpdate, userOptions, (er) => {
+      if (er) throw er;
       else {
-        RoomModel.findOne({ _id: roomId })
-          .exec((err2, room) => {
-            if (err2) {
-              throw err2;
-            }
-            else if (room.current_users === room.max_users) {
-              const callBackUpdate = (err3) => {
-                if (err3) throw err;
-              };
-              RoomModel.update({ _id: roomId }, { open: false }, roomOptions, callBackUpdate);
-              Matching.SendNotificationToRoomUsers(roomId, 'RoomFound', ioConnection);
-            }
-          });
+        // on update le nombre d'user dans la room
+        const roomConditions = { _id: roomId };
+        const roomUpdate = { current_users: usersInRoom + number };
+        const roomOptions = { multi: true };
+        const roomCallBack = (err) => {
+          if (err) {
+            throw err;
+          }
+          else {
+            RoomModel.findOne({ _id: roomId })
+              .exec((err2, room) => {
+                if (err2) {
+                  throw err2;
+                }
+                else if (room.current_users === room.max_users) {
+                  const callBackUpdate = (err3) => {
+                    if (err3) throw err;
+                  };
+                  RoomModel.update({ _id: roomId }, { open: false }, roomOptions, callBackUpdate);
+                  Matching.SendNotificationToRoomUsers(roomId, 'RoomFound', ioConnection);
+                }
+              });
+          }
+        };
+        RoomModel.update(roomConditions, roomUpdate, roomOptions, roomCallBack);
       }
-    };
-    RoomModel.update(roomConditions, roomUpdate, roomOptions, roomCallBack);
+    });
   },
 
   resetUserRoomId: (userSocket) => {

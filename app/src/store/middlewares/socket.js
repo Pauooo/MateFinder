@@ -225,6 +225,7 @@ export default store => next => (action) => {
     case EXIT_CHATROOM: {
       socket.emit('user_exit_chatroom');
       store.dispatch(setUserInRoom());
+      store.dispatch(updateNumberOfAcceptedUsers(-store.getState().matching.numberOfAcceptedUsers));
       break;
     }
     default:

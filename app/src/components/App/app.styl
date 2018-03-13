@@ -22,9 +22,7 @@
 
 	.fa-star
 		color: $yellow
-		position: relative
-		left: 5.4em
-		top: .35em
+		align-self: center
 
 // .fa-star:hover
 // 	animation-name: bounce
@@ -51,7 +49,7 @@
 	#mate-finder-title
 		font-family: Maiden
 		color: $purple-grey
-		font-size: 3.5em
+		font-size: 3em
 		text-shadow: 0 3px 5px rgba(0, 0, 0, 0.50)
 		align-items: center
 		padding-top: 0
@@ -62,7 +60,7 @@
 		font-size: 1.5em
 		text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
 		font-style: italic
-		text-align: right
+		text-align: center
 
 		span
 			font-weight: 600
@@ -94,4 +92,23 @@ main
 	align-items: flex-start
 	min-height: 70vh
 
-// Beackpoints :
+// Beackpoints : mini supporté => tablette
+//
+@media screen and (min-width: 750px)
+	#mate-finder-title
+		font-size: 3.5em
+
+	#mate-finder-desc
+		text-align: right
+
+	#mate-finder-div
+		max-width: 31.5em
+		display: flex
+		justify-content: center
+		flex-direction: column
+		margin: 5em auto
+
+		.fa-star
+			position: relative
+			left: .67em
+			top: .35em

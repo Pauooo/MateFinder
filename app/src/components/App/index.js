@@ -11,7 +11,6 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
  */
 import Login from 'src/containers/Login';
 import SignUp from 'src/containers/SignUp';
-import Password from 'src/components/Password';
 import MatchingForm from 'src/containers/MatchingForm';
 import MatchingSearch from 'src/containers/MatchingSearch';
 import NavBar from 'src/containers/NavBar';
@@ -76,11 +75,6 @@ class App extends React.Component {
             path="/login"
             exact
             component={Login}
-          />
-          <Route
-            path="/password"
-            exact
-            component={Password}
           />
           <Route
             path="/profil"

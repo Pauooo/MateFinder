@@ -18,17 +18,21 @@
 	font-size: 2em
 
 #content
-	width: 40em
+	width: 30em
 	text-align: left
-	font-size: 1.2em
+	font-size: 1em
+	margin: 0.2em
+
+	.search-text
+		text-align: center
 
 	h1
 		background-color: $purple-grey
 		color: $yellow
 		padding: .5em
 		padding-left: 1em
-		margin: .5em 0 1em 0
-		font-size: 2em
+		margin: 1.5em 0
+		font-size: 1.2em
 		font-weight: 600
 		font-family: "Roboto Slab", serif
 		text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
@@ -103,3 +107,23 @@
 	color: $yellow !important
 	margin-bottom: 2em !important
 	font-weight: 600
+
+
+@media screen and (min-width: 750px)
+	#content
+		width: 40em
+		font-size: 1.2em
+
+		.search-text
+			text-align: left
+
+		h1
+			background-color: $purple-grey
+			color: $yellow
+			padding: .5em
+			padding-left: 1em
+			margin: 1em 0
+			font-size: 2em
+			font-weight: 600
+			font-family: "Roboto Slab", serif
+			text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)

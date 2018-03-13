@@ -70,7 +70,7 @@ class MatchingSearch extends React.Component {
     }
     return (
       <div id="content">
-        <div>
+        <div className="search-text">
           <div className="cssload-bell2">
             <div className="cssload-circle">
               <div className="cssload-inner" />

@@ -2,7 +2,7 @@
 
 
 .box
-		width: 35em
+		width: 70%
 		display: flex
 		flex-direction: column
 		align-items: center
@@ -24,7 +24,7 @@
 			margin: 1em 0 0 0
 
 	.text-description
-			font-size: 1.5em
+			font-size: 1em
 			text-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.50)
 
 #go-to-signup
@@ -54,3 +54,10 @@
 		color: #FFF
 		text-align: right
 		padding-bottom: 3em
+
+@media screen and (min-width: 1000px)
+	.box
+		max-width: 700px
+
+	.text-description
+			font-size: 1.5em
